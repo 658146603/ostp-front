@@ -22,6 +22,25 @@
     <!-- Favicon-->
     <link rel="shortcut icon" href="template/img/favicon.ico">
 </head>
+<script src="js/Url.js"></script>
+<script type="text/javascript">
+    function test() {
+        let formRequest = new Request(URL.SelectStudent, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            },
+            body: 'id=201806061108'
+        })
+        fetch(formRequest).then(response => {
+            let result = response.json()
+            result.then(res => {
+                console.log(res)
+            })
+        })
+
+    }
+</script>
 <body>
 <div class="page">
     <!-- Main Navbar-->
@@ -132,11 +151,13 @@
                                 src="template/img/flags/16/GB.png" alt="English"><span
                                 class="d-none d-sm-inline-block">English</span></a>
                             <ul aria-labelledby="languages" class="dropdown-menu">
-                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="template/img/flags/16/DE.png"
-                                                                                           alt="English" class="mr-2">German</a>
+                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img
+                                        src="template/img/flags/16/DE.png"
+                                        alt="English" class="mr-2">German</a>
                                 </li>
-                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="template/img/flags/16/FR.png"
-                                                                                           alt="English" class="mr-2">French
+                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img
+                                        src="template/img/flags/16/FR.png"
+                                        alt="English" class="mr-2">French
                                 </a></li>
                             </ul>
                         </li>
@@ -153,7 +174,8 @@
         <nav class="side-navbar">
             <!-- Sidebar Header-->
             <div class="sidebar-header d-flex align-items-center">
-                <div class="avatar"><img src="template/img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="avatar"><img src="template/img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle">
+                </div>
                 <div class="title">
                     <h1 class="h4">Mark Stephen</h1>
                     <p>Web Designer</p>

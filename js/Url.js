@@ -1,5 +1,5 @@
 class URL {
-    static protocol = document.location.protocol
+    static protocol = document.location.protocol + "//"
     static host = (document.location.host + ":").split(":")[0] //防止本身有端口时出现两次端口号
     static port = "8082"
     static path = ""
@@ -50,4 +50,5 @@ class URL {
     static ListTeacher = this.header + "/teacher/list"
     static SelectAllTeacher = this.header + "/teacher/selectAll"
     static DeleteTeacher = this.header + "/teacher/deleteById"
+    static Login = this.header + "/login"
 }
