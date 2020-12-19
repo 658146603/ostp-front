@@ -21,6 +21,66 @@
     <link rel="stylesheet" href="template/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="template/img/favicon.ico">
+    <style>
+        .zky-table{
+            width: 80%;
+            margin: 0 auto;
+        }
+
+    </style>
+    <!-- JavaScript files-->
+    <script src="template/vendor/jquery/jquery.min.js"></script>
+    <script src="template/vendor/popper.js/umd/popper.min.js"></script>
+    <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
+    <script src="template/vendor/chart.js/Chart.min.js"></script>
+    <script src="template/vendor/vue/vue.min.js"></script>
+    <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
+    <!-- Main File-->
+    <script src="template/js/front.js"></script>
+    <script type="text/javascript">
+        $().ready(function() {
+            // do something...
+
+                let formRequest = new Request('http://127.0.0.1:8082/book/list', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                    },
+                    body: 'id=201806061108'
+                })
+                fetch(formRequest).then(response => {
+                    let result = response.json()
+                    result.then(res => {
+                        window.data = res.data
+                        // console.log(res)
+                        $.each(window.data,function(j,res){
+                            // <tr>
+                            //     <th scope="row">1</th>
+                            //     <td>Mark</td>
+                            //     <td>Otto</td>
+                            //     <td>@mdo</td>
+                            // </tr>
+                            let temp = "<tr>"
+                            let t1 = "<th scope = 'row'>"+parseInt(j+1)+"</th>"
+                            let t5 = "<td>"+res.cover+"</td>"
+                            let t2 = "<td>"+res.isbn+"</td>"
+                            let t3 = "<td>"+res.name+"</td>"
+                            let t4 = "<td>"+res.price+"</td>"
+                            let temp_end = "</tr>"
+                            console.log(temp+t1+t2+t3+t4+temp_end)
+                            $(".table").append(temp+t1+t5+t2+t3+t4+temp_end)
+
+
+                            // alert(items+'------'+j);
+                        })
+                    })
+                })
+
+
+
+        })
+    </script>
 </head>
 <body>
 <div class="page">
@@ -200,60 +260,8 @@
             <section class="tables">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-close">
-                                    <div class="dropdown">
-                                        <button type="button" id="closeCard1" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i
-                                                class="fa fa-ellipsis-v"></i></button>
-                                        <div aria-labelledby="closeCard1"
-                                             class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
-                                                                                                     class="dropdown-item remove">
-                                            <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit">
-                                            <i class="fa fa-gear"></i>Edit</a></div>
-                                    </div>
-                                </div>
-                                <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">Basic Table</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
+
+                        <div class="col-lg-6 zky-table">
                             <div class="card">
                                 <div class="card-close">
                                     <div class="dropdown">
@@ -276,160 +284,23 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
+                                                <th>COVER</th>
+                                                <th>ISBN</th>
+                                                <th>书名</th>
+                                                <th>价格</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
+
+
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-close">
-                                    <div class="dropdown">
-                                        <button type="button" id="closeCard3" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i
-                                                class="fa fa-ellipsis-v"></i></button>
-                                        <div aria-labelledby="closeCard3"
-                                             class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
-                                                                                                     class="dropdown-item remove">
-                                            <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit">
-                                            <i class="fa fa-gear"></i>Edit</a></div>
-                                    </div>
-                                </div>
-                                <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">Striped table with hover effect</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-close">
-                                    <div class="dropdown">
-                                        <button type="button" id="closeCard4" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i
-                                                class="fa fa-ellipsis-v"></i></button>
-                                        <div aria-labelledby="closeCard4"
-                                             class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
-                                                                                                     class="dropdown-item remove">
-                                            <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit">
-                                            <i class="fa fa-gear"></i>Edit</a></div>
-                                    </div>
-                                </div>
-                                <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">Compact Table</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-sm">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">4</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">5</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">6</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+
                     </div>
                 </div>
             </section>
@@ -438,9 +309,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-                            <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank"
-                                                                                         href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
-                            </p>
+<!--                            <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank"-->
+<!--                                                                                         href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>-->
+<!--                            </p>-->
                         </div>
                         <div class="col-sm-6 text-right">
                             <p></p>
@@ -452,14 +323,6 @@
         </div>
     </div>
 </div>
-<!-- JavaScript files-->
-<script src="template/vendor/jquery/jquery.min.js"></script>
-<script src="template/vendor/popper.js/umd/popper.min.js"></script>
-<script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="template/vendor/chart.js/Chart.min.js"></script>
-<script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-<!-- Main File-->
-<script src="template/js/front.js"></script>
+
 </body>
 </html>
