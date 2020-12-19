@@ -22,7 +22,7 @@
     <!-- Favicon-->
     <link rel="shortcut icon" href="template/img/favicon.ico">
     <style>
-        .zky-table{
+        .zky-table {
             width: 80%;
             margin: 0 auto;
         }
@@ -38,48 +38,48 @@
     <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Main File-->
     <script src="template/js/front.js"></script>
+    <script src="js/Url.js"></script>
     <script type="text/javascript">
-        $().ready(function() {
+        window.onload = function () {
             // do something...
+            let formRequest = new Request(URL.SelectBook, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                },
+                body: 'id=201806061108'
+            })
+            fetch(formRequest).then(response => {
+                let result = response.json()
+                result.then(res => {
+                    window.data = res.data
+                    // console.log(res)
+                    $.each(window.data, function (j, res) {
+                        // <tr>
+                        //     <th scope="row">1</th>
+                        //     <td>Mark</td>
+                        //     <td>Otto</td>
+                        //     <td>@mdo</td>
+                        // </tr>
+                        let temp = "<tr>"
+                        let t1 = "<th scope = 'row'>" + parseInt(j + 1) + "</th>"
+                        let t5 = "<td>" + res.cover + "</td>"
+                        let t2 = "<td>" + res.isbn + "</td>"
+                        let t3 = "<td>" + res.name + "</td>"
+                        let t4 = "<td>" + res.price + "</td>"
+                        let temp_end = "</tr>"
+                        console.log(temp + t1 + t2 + t3 + t4 + temp_end)
+                        $(".table").append(temp + t1 + t5 + t2 + t3 + t4 + temp_end)
 
-                let formRequest = new Request('http://127.0.0.1:8082/book/list', {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-                    },
-                    body: 'id=201806061108'
-                })
-                fetch(formRequest).then(response => {
-                    let result = response.json()
-                    result.then(res => {
-                        window.data = res.data
-                        // console.log(res)
-                        $.each(window.data,function(j,res){
-                            // <tr>
-                            //     <th scope="row">1</th>
-                            //     <td>Mark</td>
-                            //     <td>Otto</td>
-                            //     <td>@mdo</td>
-                            // </tr>
-                            let temp = "<tr>"
-                            let t1 = "<th scope = 'row'>"+parseInt(j+1)+"</th>"
-                            let t5 = "<td>"+res.cover+"</td>"
-                            let t2 = "<td>"+res.isbn+"</td>"
-                            let t3 = "<td>"+res.name+"</td>"
-                            let t4 = "<td>"+res.price+"</td>"
-                            let temp_end = "</tr>"
-                            console.log(temp+t1+t2+t3+t4+temp_end)
-                            $(".table").append(temp+t1+t5+t2+t3+t4+temp_end)
 
-
-                            // alert(items+'------'+j);
-                        })
+                        // alert(items+'------'+j);
                     })
                 })
+            })
 
 
+        }
 
-        })
     </script>
 </head>
 <body>
@@ -192,11 +192,13 @@
                                 src="template/img/flags/16/GB.png" alt="English"><span
                                 class="d-none d-sm-inline-block">English</span></a>
                             <ul aria-labelledby="languages" class="dropdown-menu">
-                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="template/img/flags/16/DE.png"
-                                                                                           alt="English" class="mr-2">German</a>
+                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img
+                                        src="template/img/flags/16/DE.png"
+                                        alt="English" class="mr-2">German</a>
                                 </li>
-                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img src="template/img/flags/16/FR.png"
-                                                                                           alt="English" class="mr-2">French
+                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img
+                                        src="template/img/flags/16/FR.png"
+                                        alt="English" class="mr-2">French
                                 </a></li>
                             </ul>
                         </li>
@@ -213,7 +215,8 @@
         <nav class="side-navbar">
             <!-- Sidebar Header-->
             <div class="sidebar-header d-flex align-items-center">
-                <div class="avatar"><img src="template/img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle"></div>
+                <div class="avatar"><img src="template/img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle">
+                </div>
                 <div class="title">
                     <h1 class="h4">Mark Stephen</h1>
                     <p>Web Designer</p>
@@ -309,9 +312,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
-<!--                            <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank"-->
-<!--                                                                                         href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>-->
-<!--                            </p>-->
+                            <!--                            <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank"-->
+                            <!--                                                                                         href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>-->
+                            <!--                            </p>-->
                         </div>
                         <div class="col-sm-6 text-right">
                             <p></p>
