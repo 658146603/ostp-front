@@ -39,7 +39,7 @@
             let result = response.json()
             result.then(res => {
                 if (res.code === 200) {
-                    window.location.assign("")//TODO 跳转到主界面
+                    window.location.assign("index.html")//TODO 跳转到主界面
                 } else {
                     alert(res.message)
                 }
