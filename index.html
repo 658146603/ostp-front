@@ -27,6 +27,7 @@
     function test() {
         let formRequest = new Request(URL.SelectStudent, {
             method: 'post',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
             },
