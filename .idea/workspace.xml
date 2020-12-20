@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c46fc096-453f-4989-8796-57a815df5e23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/publishRequest" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/orderDeal.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/publishBook.html" beforeDir="false" afterPath="$PROJECT_DIR$/publishBook.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.html" beforeDir="false" afterPath="$PROJECT_DIR$/forms.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,11 +42,11 @@
       <recent name="D:\Tampermonkey\ostp-front\template\vendor\vue" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.forms.html">
+  <component name="RunManager" selected="JavaScript Debug.test.html">
     <configuration name="forms.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/ostp-front/forms.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
-    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ostp-front/index.html" useBuiltInWebServerPort="true">
+    <configuration name="orderDeal.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/ostp-front/orderDeal.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="publishBook.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/ostp-front/publishBook.html" useBuiltInWebServerPort="true">
@@ -54,12 +55,16 @@
     <configuration name="tables.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ostp-front/tables.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
+    <configuration name="test.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/ostp-front/test.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.test.html" />
+        <item itemvalue="JavaScript Debug.orderDeal.html" />
         <item itemvalue="JavaScript Debug.forms.html" />
         <item itemvalue="JavaScript Debug.publishBook.html" />
         <item itemvalue="JavaScript Debug.tables.html" />
-        <item itemvalue="JavaScript Debug.index.html" />
       </list>
     </recent_temporary>
   </component>
@@ -72,7 +77,7 @@
       <option name="presentableId" value="Default" />
       <updated>1608380538689</updated>
       <workItem from="1608380539751" duration="4840000" />
-      <workItem from="1608441728659" duration="10227000" />
+      <workItem from="1608441728659" duration="18400000" />
     </task>
     <servers />
   </component>
