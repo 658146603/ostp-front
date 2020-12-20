@@ -27,7 +27,7 @@
     <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
     <script src="template/vendor/chart.js/Chart.min.js"></script>
     <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src = "js/Url.js"></script>
+    <script src="js/Url.js"></script>
     <style>
         searchResult {
             position: absolute;
@@ -55,37 +55,80 @@
 
     </style>
     <script type="text/javascript">
+        function publishBook() {
+            let id = $('.display-username').attr('placeholder')
+            let book_name = $('.book-name').val()
+            let exchange = $("input[name='a']:checked").val()
+            let price = $('.price').val()
+            let isbn = $('.display-ISBN').attr('placeholder')
+            let formRequest = new Request(URL.InsertSecondHandPublish, {
+                method: 'post',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
+                },
+                body: `person=${id}&book=${isbn}&price=${price}&exchange=${exchange}&status=0`,
+                credentials: 'include',
+            })
+            fetch(formRequest).then(response => {
+                let result = response.json()
+                result.then(res => {
+                    if (res.code === 200) {
+                        console.log("ok")
+                        console.log(res)
+                        // console.log(res.message)
+                        // // let role = res.message.
+                        // $('.title .h4')[0].innerHTML = res.data.name
+                        // $('.title .auth')[0].innerHTML = res.data.clazz == null ? "老师" : "学生"
+                        // // window.username = username
+                        // $('.display-username')[0].innerHTML = res.data.name
+                        // window.role = role
+                        // window.location.assign("")//TODO 跳转到主界面
+                    } else {
+                        alert(res.message)
+                    }
+                    console.log(res)
+                })
+            })
 
-        let once = function() {
+        }
+
+        let once = function () {
 
             window.caller = true;
 
-                console.log(2333)
-                if(window.caller) {
-                    window.caller = false
-                    let formRequest = new Request(URL.getLoginUsername, {
-                        method: 'post',
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
-                        },
-                        // body: `id=${username}&password=${password}`,
-                        credentials: 'include',
+            console.log(2333)
+            if (window.caller) {
+                window.caller = false
+                let formRequest = new Request(URL.getLoginUsername, {
+                    method: 'post',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
+                    },
+                    // body: `id=${username}&password=${password}`,
+                    credentials: 'include',
+                })
+                fetch(formRequest).then(response => {
+                    let result = response.json()
+                    result.then(res => {
+                        if (res.code === 200) {
+                            console.log("ok")
+                            // console.log(res.message)
+                            // let role = res.message.
+                            $('.title .h4')[0].innerHTML = res.data.name
+                            $('.title .auth')[0].innerHTML = res.data.clazz == null ? "老师" : "学生"
+                            // window.username = username
+                            $('.display-username').attr('placeholder',res.data.id)
+                            // window.role = role
+                            // window.location.assign("")//TODO 跳转到主界面
+                        } else {
+                            alert(res.message)
+                        }
+                        console.log(res)
                     })
-                    fetch(formRequest).then(response => {
-                        let result = response.json()
-                        result.then(res => {
-                            if (res.code === 200) {
-                                console.log("ok")
-                                console.log(res.message)
-                                // window.location.assign("")//TODO 跳转到主界面
-                            } else {
-                                alert(res.message)
-                            }
-                            console.log(res)
-                        })
-                    })
-                }
+                })
+            }
 
 
         }
@@ -122,8 +165,10 @@
             $(document).on('click', '.searchResult li', function () {
                 var _v = $(this).text();
                 var _shopId = $(this).attr('shopId');
+                console.log(_shopId)
                 $('#inputName').val(_v)
                 $('#searchResult').hide();
+                $('.display-ISBN').attr('placeholder',_shopId)
                 // isHasnextPage = false;
                 // return false;
 
@@ -134,7 +179,7 @@
                 $.ajax({
                     url: URL.FuzzyBook,//请求数据的地址，
                     dataType: "json",
-                    method:'post',
+                    method: 'post',
                     data: {
                         name: keyWord,
                     },
@@ -146,7 +191,7 @@
                         var m = '';
                         $.each(liAry, function (i, v) {
 
-                            m += '<li shopId="' + v.id + '" title="' + v.name + '">' + v.name + '</li>';
+                            m += '<li shopId="' + v.isbn + '" title="' + v.name + '">' + v.name + '</li>';
                             console.log(m)
                         });
                         $('#searchResult').append(m);
@@ -287,11 +332,11 @@
         <nav class="side-navbar">
             <!-- Sidebar Header-->
             <div class="sidebar-header d-flex align-items-center">
-                <div class="avatar"><img src="template/img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle">
-                </div>
+                <!--                <div class="avatar"><img src="template/img/avatar-1.jpg" alt="..." class="img-fluid rounded-circle">-->
+                <!--                </div>-->
                 <div class="title">
                     <h1 class="h4">Mark Stephen</h1>
-                    <p>Web Designer</p>
+                    <p class="auth">Web Designer</p>
                 </div>
             </div>
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
@@ -357,31 +402,39 @@
                                     <h3 class="h4">求购书籍</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form class="form-horizontal">
+                                    <div class="form-horizontal">
 
                                         <div class="form-group row">
                                             <label class="col-sm-3 form-control-label">用户名</label>
                                             <div class="col-sm-9">
-                                                <input type="text" disabled="" placeholder="Disabled input here..."
-                                                       class="form-control">
+                                                <input type="text" disabled="" placeholder=""
+                                                       class="form-control display-username">
                                             </div>
                                         </div>
                                         <div class="line"></div>
                                         <div class="form-group row">
                                             <label class="col-sm-3 form-control-label">书名</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control " id="inputName">
+                                                <input type="text" class="form-control book-name" id="inputName">
                                                 <ul id="searchResult" class="searchResult"></ul>
                                             </div>
                                         </div>
                                         <div class="line"></div>
                                         <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">选择交换/出售</label>
+                                            <label class="col-sm-3 form-control-label">ISBN</label>
                                             <div class="col-sm-9">
-                                                <input id="radioCustom1" type="radio" value="option1" name="a"
+                                                <input type="text" disabled="" placeholder=""
+                                                       class="form-control display-ISBN">
+                                            </div>
+                                        </div>
+                                        <div class="line"></div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 form-control-label">选择交换/出售</label>
+                                            <div class="col-sm-9 exchange">
+                                                <input id="radioCustom1" type="radio" value="1" name="a"
                                                        class="radio-template">
                                                 <label for="radioCustom1">交换</label>
-                                                <input id="radioCustom2" type="radio" checked="" value="option2"
+                                                <input id="radioCustom2" type="radio" checked="" value="0"
                                                        name="a" class="radio-template">
                                                 <label for="radioCustom2">出售</label>
 
@@ -391,7 +444,7 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3 form-control-label">价格</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control price">
                                             </div>
                                         </div>
 
@@ -415,10 +468,12 @@
                                         <div class="form-group row">
                                             <div class="col-sm-4 offset-sm-3">
                                                 <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                                <button type="submit" class="btn btn-primary">提交</button>
+                                                <button  class="btn btn-primary" onclick="publishBook()">
+                                                    提交
+                                                </button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
