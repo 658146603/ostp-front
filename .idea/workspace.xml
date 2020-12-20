@@ -2,18 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c46fc096-453f-4989-8796-57a815df5e23" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/ostp-front.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/template/vendor/vue/vue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/template/vendor/vue/vue.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/publishBook.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/Url.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/Url.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tables.html" beforeDir="false" afterPath="$PROJECT_DIR$/tables.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,6 +29,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -37,8 +42,14 @@
       <recent name="D:\Tampermonkey\ostp-front\template\vendor\vue" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.tables.html">
+  <component name="RunManager" selected="JavaScript Debug.forms.html">
+    <configuration name="forms.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/ostp-front/forms.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
     <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ostp-front/index.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="publishBook.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63343/ostp-front/publishBook.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="tables.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/ostp-front/tables.html" useBuiltInWebServerPort="true">
@@ -46,6 +57,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.forms.html" />
+        <item itemvalue="JavaScript Debug.publishBook.html" />
         <item itemvalue="JavaScript Debug.tables.html" />
         <item itemvalue="JavaScript Debug.index.html" />
       </list>
@@ -60,6 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1608380538689</updated>
       <workItem from="1608380539751" duration="4840000" />
+      <workItem from="1608441728659" duration="9127000" />
     </task>
     <servers />
   </component>
@@ -67,6 +81,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="463" y="206" width="600" height="594" key="find.popup" timestamp="1608453552388">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="463" y="206" width="600" height="594" key="find.popup/0.0.1536.824/1920.-533.1080.1880@0.0.1536.824" timestamp="1608453552388" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1608383576554">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
