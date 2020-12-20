@@ -55,7 +55,42 @@
 
     </style>
     <script type="text/javascript">
+
+        let once = function() {
+
+            window.caller = true;
+
+                console.log(2333)
+                if(window.caller) {
+                    window.caller = false
+                    let formRequest = new Request(URL.getLoginUsername, {
+                        method: 'post',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
+                        },
+                        // body: `id=${username}&password=${password}`,
+                        credentials: 'include',
+                    })
+                    fetch(formRequest).then(response => {
+                        let result = response.json()
+                        result.then(res => {
+                            if (res.code === 200) {
+                                console.log("ok")
+                                console.log(res.message)
+                                // window.location.assign("")//TODO 跳转到主界面
+                            } else {
+                                alert(res.message)
+                            }
+                            console.log(res)
+                        })
+                    })
+                }
+
+
+        }
         window.onload = function () {
+            once()
             var isHasnextPage = false;//是否有下一页数据
             var searchItem = '';//搜索框内容
             var pageNum = 1;//默认page
