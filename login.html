@@ -39,7 +39,7 @@
             let result = response.json()
             result.then(res => {
                 if (res.code === 200) {
-                    window.location.assign("")//TODO 跳转到主界面
+                    window.location.assign("index.html")//TODO 跳转到主界面
                 } else {
                     alert(res.message)
                 }
@@ -82,7 +82,7 @@
                                    onclick="login(document.getElementById('login-username').value,document.getElementById('login-password').value) ">登录</a>
                                 <!-- This should be submit button but I replaced it with <a> for demo purposes-->
                             </form>
-                            <a href="#" class="forgot-pass">忘记密码</a><br><small>
+                            <a href="#" class="forgot-pass">忘记密码</a><br>
                         </div>
                     </div>
                 </div>
