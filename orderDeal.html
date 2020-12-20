@@ -21,112 +21,86 @@
     <link rel="stylesheet" href="template/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="template/img/favicon.ico">
+    <style>
+        .zky-table {
+            max-width: 80%;
+            margin: 0 auto;
+            width: 80%;
+            flex: auto;
+        }
+
+        .has-shadow {
+            margin-right: 30px;
+        }
+
+    </style>
+    <!-- JavaScript files-->
     <script src="template/vendor/jquery/jquery.min.js"></script>
     <script src="template/vendor/popper.js/umd/popper.min.js"></script>
     <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
     <script src="template/vendor/chart.js/Chart.min.js"></script>
+    <script src="template/vendor/vue/vue.min.js"></script>
     <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-    <script src = "js/Url.js"></script>
-    <style>
-        searchResult {
-            position: absolute;
-            top: 47px;
-            /*right: 70px;*/
-            width: 180px;
-            border: 1px solid #e4e7ee;
-            border-top: 0;
-            border-bottom: 0;
-            background: #fff;
-            max-height: 279px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index: 2;
-        }
-
-        /*列表都是li组成css*/
-        .searchResult li {
-            border-bottom: 1px solid #e4e7ee;
-            line-height: 30px;
-            /*padding-left: 4px;*/
-            width: 100%;
-            list-style: none;
-        }
-
-    </style>
+    <!-- Main File-->
+    <script src="template/js/front.js"></script>
+    <script src="js/Url.js"></script>
     <script type="text/javascript">
         window.onload = function () {
-            var isHasnextPage = false;//是否有下一页数据
-            var searchItem = '';//搜索框内容
-            var pageNum = 1;//默认page
-            // console.log(1111)
-            //监听搜索框输入事件，有内容的话就进行查询
-
-            $('#inputName').on('input', function () {
-                // console.log(111)
-                var _v = $.trim($(this).val());
-                // console.log(_v)
-                $('#searchResult').empty();
-                $('#searchResult').show();
-                pageNum = 1;
-                if (_v !== '') {
-                    searchItem = _v;
-                    searchShopFn(_v);
-                }
-            });
-
-            /**
-             * 搜索结果的下拉加载更多，每页显示十条，如果搜索结果多余十条，下拉对应的列表，会自动把其他数据添加进来
-             * @method  nextLoad()
-
-             * @return {data}
-             */
-
-
-            //点击每条数据给搜索框赋值，同时需要重新设置对应的参数
-            $(document).on('click', '.searchResult li', function () {
-                var _v = $(this).text();
-                var _shopId = $(this).attr('shopId');
-                $('#inputName').val(_v)
-                $('#searchResult').hide();
-                // isHasnextPage = false;
-                // return false;
-
-            });
-
-            //模糊查询ajax请求数据  keyWord就是关键词，pageNum是对应的页码
-            function searchShopFn(keyWord) {
-                $.ajax({
-                    url: URL.FuzzyBook,//请求数据的地址，
-                    dataType: "json",
-                    method:'post',
-                    data: {
-                        name: keyWord,
-                    },
-                    success: function (res) {
-                        var liAry = res.data;
-                        console.log(liAry)
-                        var liAryTotal = res.data.total;
-                        // // isHasnextPage = (pageNum * 10 < liAryTotal) ? true : false;
-                        var m = '';
-                        $.each(liAry, function (i, v) {
-
-                            m += '<li shopId="' + v.id + '" title="' + v.name + '">' + v.name + '</li>';
-                            console.log(m)
-                        });
-                        $('#searchResult').append(m);
-
-                    }, error: function (res) {
-                        // console.log(error)
-                    }
-
+            // do something...
+            let formRequest = new Request(URL.ListSecondHandPublish, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+                },
+                // body: 'person=201806060231'
+            })
+            fetch(formRequest).then(response => {
+                let result = response.json()
+                result.then(res => {
+                    window.data = res.data
+                    console.log(res)
+                    $.each(window.data, function (j, res) {
+                        // <tr>
+                        //     <th scope="row">1</th>
+                        //     <td>Mark</td>
+                        //     <td>Otto</td>
+                        //     <td>@mdo</td>
+                        // </tr>
+                        let temp = "<tr class='tr1'>"
+                        let t1 = "<th scope = 'row'>" + parseInt(j + 1) + "</th>"
+                        let t5 = "<td>" + "<img width='50px' height='50px' src='" + URL.GetImage + "?id=" + res.book.cover + "'>" + "</td>"
+                        let t2 = "<td class='person_id'>" + res.person.id + "</td>"
+                        let t7 = "<td class='book_name'>" + res.book.name + "</td>"
+                        let t8 = "<td>" + res.book.isbn + "</td>"
+                        let t4 = "<td class='price'>" + res.price + "</td>"
+                        let t6 = "<td><button data-toggle=\"modal\" data-target=\"#myModal\" class=\"btn btn-primary\" onclick='dealOrder(this)'>购买</button></td>"
+                        let temp_end = "</tr>"
+                        // console.log(temp + t1 + t2 + t3 + t4 + temp_end)
+                        $(".table").append(temp + t1 + t5 + t2 + t7 + t8 + t4 + t6 + temp_end)
+                        // alert(items+'------'+j);
+                    })
                 })
-            }
+            })
+
+
         }
 
+        const dealOrder = function (which) {
+            // console.log($(".modal-body h4")[0].innerHTML)
+            let outTh = $(which).parent().parent(".tr1")
+            $(".modal-body h3")[0].innerHTML = '发货人学号为：' + outTh.children(".person_id")[0].innerHTML
+            // var imgurl=$(this).find('img').attr('src')
+
+            $(".modal-body  small")[0].innerHTML='书籍名称为：'+outTh.children('.book_name')[0].innerHTML
+            $(".modal-body").find('img').attr('src', outTh.find('img').attr('src'))
+            $('.h3').attr('placeholder','确认价格：'+outTh.children('.price')[0].innerHTML )
+
+            // console.log($(which).parent().parent(".tr1")[0].innerHTML)
+            // $(".modal-body h4")[0].innerHTML
+        };
 
     </script>
-
 </head>
 <body>
 <div class="page">
@@ -235,9 +209,18 @@
                                                          data-toggle="dropdown" aria-haspopup="true"
                                                          aria-expanded="false"
                                                          class="nav-link language dropdown-toggle"><img
-                                src="template/img/flags/16/CH.png" alt="中文"><span
-                                class="d-none d-sm-inline-block">中文</span></a>
-
+                                src="template/img/flags/16/GB.png" alt="English"><span
+                                class="d-none d-sm-inline-block">English</span></a>
+                            <ul aria-labelledby="languages" class="dropdown-menu">
+                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img
+                                        src="template/img/flags/16/DE.png"
+                                        alt="English" class="mr-2">German</a>
+                                </li>
+                                <li><a rel="nofollow" href="#" class="dropdown-item"> <img
+                                        src="template/img/flags/16/FR.png"
+                                        alt="English" class="mr-2">French
+                                </a></li>
+                            </ul>
                         </li>
                         <!-- Logout    -->
                         <li class="nav-item"><a href="login.html" class="nav-link logout"> <span
@@ -262,9 +245,9 @@
             <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
             <ul class="list-unstyled">
                 <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
-                <li><a href="tables.html"> <i class="icon-grid"></i>Tables </a></li>
+                <li class="active"><a href="tables.html"> <i class="icon-grid"></i>Tables </a></li>
                 <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
-                <li class="active"><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>
+                <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>
                 <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
                         class="icon-interface-windows"></i>Example dropdown </a>
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
@@ -287,106 +270,97 @@
             <!-- Page Header-->
             <header class="page-header">
                 <div class="container-fluid">
-                    <h2 class="no-margin-bottom">Forms</h2>
+                    <h2 class="no-margin-bottom">Tables</h2>
                 </div>
             </header>
             <!-- Breadcrumb-->
             <div class="breadcrumb-holder container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Forms</li>
+                    <li class="breadcrumb-item active">Tables</li>
                 </ul>
             </div>
-            <!-- Forms Section-->
-            <section class="forms">
+            <section class="tables">
                 <div class="container-fluid">
                     <div class="row">
-
-                        <!-- Form Elements -->
-                        <div class="col-lg-12">
+                        <div class="col-lg-6 zky-table">
                             <div class="card">
                                 <div class="card-close">
                                     <div class="dropdown">
-                                        <button type="button" id="closeCard5" data-toggle="dropdown"
+                                        <button type="button" id="closeCard2" data-toggle="dropdown"
                                                 aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i
                                                 class="fa fa-ellipsis-v"></i></button>
-                                        <div aria-labelledby="closeCard5"
+                                        <div aria-labelledby="closeCard2"
                                              class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
                                                                                                      class="dropdown-item remove">
                                             <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit">
-                                        </a>
-                                        </div>
+                                            <i class="fa fa-gear"></i>Edit</a></div>
                                     </div>
                                 </div>
                                 <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">求购书籍</h3>
+                                    <h3 class="h4">Striped Table</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form class="form-horizontal">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>COVER</th>
+                                                <th>出售人学号</th>
+                                                <th>书名</th>
+                                                <th>ISBN</th>
+                                                <th style="width: 4em">价格</th>
+                                                <th>是否购买</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                         aria-hidden="true" class="modal fade text-left">
+                                        <div role="document" class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 id="exampleModalLabel" class="modal-title">确认订单</h4>
+                                                    <button type="button" data-dismiss="modal" aria-label="Close"
+                                                            class="close"><span aria-hidden="true">×</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="project-title d-flex align-items-center" style="margin-bottom: 30px">
+                                                        <div class="image has-shadow"><img
+                                                                width='50px' height='50px'
+                                                                src="template/img/project-4.jpg" alt="..."
+                                                                class="img-fluid"></div>
+                                                        <div class="text">
+                                                            <h3 class="h4" style="line-height: 1.5">Project Title</h3><small>Lorem Ipsum
+                                                            Dolor</small>
+                                                        </div>
+                                                    </div>
+                                                    <form >
+                                                        <div class="form-group">
+                                                            <!--                                                            <label>Password</label>-->
+                                                            <input type="password" placeholder="请输入联系地址"
+                                                                   class="form-control">
 
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">用户名</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" disabled="" placeholder="Disabled input here..."
-                                                       class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">书名</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control " id="inputName">
-                                                <ul id="searchResult" class="searchResult"></ul>
-                                            </div>
-                                        </div>
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">选择交换/出售</label>
-                                            <div class="col-sm-9">
-                                                <input id="radioCustom1" type="radio" value="option1" name="a"
-                                                       class="radio-template">
-                                                <label for="radioCustom1">交换</label>
-                                                <input id="radioCustom2" type="radio" checked="" value="option2"
-                                                       name="a" class="radio-template">
-                                                <label for="radioCustom2">出售</label>
+                                                            <input type="text" disabled="" placeholder="" class="form-control h3" style="margin-top: 20px">
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
 
-                                            </div>
-                                        </div>
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">价格</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control">
-                                            </div>
-                                        </div>
 
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">选择状态信息</label>
-                                            <div class="col-sm-9">
-                                                <select name="account" class="form-control mb-3">
-                                                    <option>伊拉克成色</option>
-                                                    <option>六成新</option>
-                                                    <option>七成新</option>
-                                                    <option>八成新</option>
-                                                    <option>九成新</option>
-                                                    <option>九九成新</option>
-                                                    <option>全新</option>
-                                                </select>
+                                                    <button type="button" class="btn btn-primary">下单</button>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-4 offset-sm-3">
-                                                <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                                <button type="submit" class="btn btn-primary">提交</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             </section>
@@ -395,6 +369,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
+                            <!--                            <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank"-->
+                            <!--                                                                                         href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>-->
+                            <!--                            </p>-->
                         </div>
                         <div class="col-sm-6 text-right">
                             <p></p>
@@ -406,9 +383,6 @@
         </div>
     </div>
 </div>
-<!-- JavaScript files-->
 
-<!-- Main File-->
-<script src="template/js/front.js"></script>
 </body>
 </html>

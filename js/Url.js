@@ -52,6 +52,8 @@ class URL {
     static SelectAllTeacher = this.header + "/teacher/selectAll"
     static DeleteTeacher = this.header + "/teacher/deleteById"
     static Login = this.header + "/login"
+    static getLoginStatus = this.header+"/account/status"
+    static getLoginUsername = this.header+"/account/username"
     static Logout = this.header + "/logout"
     static Status = this.header + "/account/status"
 }
