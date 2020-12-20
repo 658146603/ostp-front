@@ -319,7 +319,7 @@
                                     </div>
                                 </div>
                                 <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">发布书籍</h3>
+                                    <h3 class="h4">求购书籍</h3>
                                 </div>
                                 <div class="card-body">
                                     <form class="form-horizontal">
@@ -362,16 +362,25 @@
 
                                         <div class="line"></div>
                                         <div class="form-group row">
-                                            <div class="col-sm-4 offset-sm-3">
-<!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                                <button type="submit" class="btn btn-primary">提交</button>
+                                            <label class="col-sm-3 form-control-label">选择状态信息</label>
+                                            <div class="col-sm-9">
+                                                <select name="account" class="form-control mb-3">
+                                                    <option>伊拉克成色</option>
+                                                    <option>六成新</option>
+                                                    <option>七成新</option>
+                                                    <option>八成新</option>
+                                                    <option>九成新</option>
+                                                    <option>九九成新</option>
+                                                    <option>全新</option>
+                                                </select>
                                             </div>
                                         </div>
+
                                         <div class="line"></div>
                                         <div class="form-group row">
-                                            <label for="fileInput" class="col-sm-3 form-control-label">上传图片</label>
-                                            <div class="col-sm-9">
-                                                <input id="fileInput" type="file" class="form-control-file">
+                                            <div class="col-sm-4 offset-sm-3">
+                                                <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
+                                                <button type="submit" class="btn btn-primary">提交</button>
                                             </div>
                                         </div>
                                     </form>
