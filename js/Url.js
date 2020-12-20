@@ -1,4 +1,5 @@
 class URL {
+
     static protocol = document.location.protocol + "//"
     static host = (document.location.host + ":").split(":")[0] //防止本身有端口时出现两次端口号
     static port = "8082"
@@ -52,8 +53,25 @@ class URL {
     static SelectAllTeacher = this.header + "/teacher/selectAll"
     static DeleteTeacher = this.header + "/teacher/deleteById"
     static Login = this.header + "/login"
-    static getLoginStatus = this.header+"/account/status"
-    static getLoginUsername = this.header+"/account/username"
+    static getLoginStatus = this.header + "/account/status"
+    static getLoginUsername = this.header + "/account/username"
     static Logout = this.header + "/logout"
     static Status = this.header + "/account/status"
+}
+
+function request(url, body, callback) {
+    let formRequest = new Request(url, {
+        method: 'post',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+        },
+        body: body
+    })
+    fetch(formRequest).then(response => {
+        let result = response.json()
+        result.then(res => {
+            callback(res)
+        })
+    })
 }
