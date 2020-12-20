@@ -32,6 +32,19 @@
         .has-shadow {
             margin-right: 30px;
         }
+        .dismiss{
+            /*position: absolute;*/
+            float: right;
+            top: 50%;
+            right: 20px;
+            -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #999;
+        }
 
     </style>
     <!-- JavaScript files-->
@@ -54,6 +67,7 @@
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                 },
                 // body: 'person=201806060231'
+                credentials: 'include',
 
             })
             fetch(formRequest).then(response => {
@@ -84,6 +98,76 @@
                 })
             })
 
+            var searchItem = '';//搜索框内容
+            var pageNum = 1;//默认page
+            // console.log(1111)
+            //监听搜索框输入事件，有内容的话就进行查询
+            console.log(111)
+            $('.inputName').on('input', function () {
+                console.log(111)
+                var _v = $.trim($(this).val());
+                // console.log(_v)
+                $('#searchResult').empty();
+                $('#searchResult').show();
+                pageNum = 1;
+                if (_v !== '') {
+                    searchItem = _v;
+                    searchShopFn(_v);
+                }
+            });
+
+            /**
+             * 搜索结果的下拉加载更多，每页显示十条，如果搜索结果多余十条，下拉对应的列表，会自动把其他数据添加进来
+             * @method  nextLoad()
+
+             * @return {data}
+             */
+
+
+            //点击每条数据给搜索框赋值，同时需要重新设置对应的参数
+            $(document).on('click', '.searchResult li', function () {
+                var _v = $(this).text();
+                var _shopId = $(this).attr('shopId');
+                console.log(_shopId)
+                $('#inputName').val(_v)
+                $('#searchResult').hide();
+                $('.display-ISBN').attr('placeholder',_shopId)
+                // isHasnextPage = false;
+                // return false;
+
+            });
+
+            //模糊查询ajax请求数据  keyWord就是关键词，pageNum是对应的页码
+            function searchShopFn(keyWord) {
+                $.ajax({
+                    url: URL.FuzzyBook,//请求数据的地址，
+                    dataType: "json",
+                    method: 'post',
+                    data: {
+                        name: keyWord,
+                    },xhrFields: {
+                        withCredentials: true // 携带跨域cookie
+                    },
+                    success: function (res) {
+                        var liAry = res.data;
+                        console.log(liAry)
+                        var liAryTotal = res.data.total;
+                        // // isHasnextPage = (pageNum * 10 < liAryTotal) ? true : false;
+                        var m = '';
+                        $.each(liAry, function (i, v) {
+
+                            m += '<li shopId="' + v.isbn + '" title="' + v.name + '">' + v.name + '</li>';
+                            console.log(m)
+                        });
+                        $('#searchResult').append(m);
+
+                    }, error: function (res) {
+                        // console.log(error)
+                    }
+
+                })
+            }
+
 
         }
 
@@ -109,12 +193,7 @@
     <header class="header">
         <nav class="navbar">
             <!-- Search Box-->
-            <div class="search-box">
-                <button class="dismiss"><i class="icon-close"></i></button>
-                <form id="searchForm" action="#" role="search">
-                    <input type="search" placeholder="What are you looking for..." class="form-control">
-                </form>
-            </div>
+
             <div class="container-fluid">
                 <div class="navbar-holder d-flex align-items-center justify-content-between">
                     <!-- Navbar Header-->
@@ -130,8 +209,8 @@
                     <!-- Navbar Menu -->
                     <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                         <!-- Search-->
-                        <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i
-                                class="icon-search"></i></a></li>
+<!--                        <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i-->
+<!--                                class="icon-search"></i></a></li>-->
                         <!-- Notifications-->
                         <li class="nav-item dropdown"><a id="notifications" rel="nofollow" data-target="#" href="#"
                                                          data-toggle="dropdown" aria-haspopup="true"
@@ -285,9 +364,21 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-6 zky-table">
+                            <div class="search-box" style="display: none">
+                                <button class="dismiss"><i class="icon-close"></i></button>
+                                <form id="searchForm" action="#" role="search">
+                                    <input type="text" placeholder="请输入查询书籍 " class="form-control  inputName" id="inputName ">
+                                    <ul id="searchResult" class="searchResult"></ul>
+                                </form>
+                            </div>
                             <div class="card">
+
                                 <div class="card-close">
-                                    <div class="dropdown">
+                                    <div class="dropdown" style="display: inline-block;padding-right:2rem">
+                                        <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i class="icon-search"></i></a></li>
+                                    </div>
+<!--                                    <li class="nav-item d-flex align-items-center"><a id="search1" href="#"><i class="icon-search"></i></a></li>-->
+                                    <div class="dropdown" style="float: right">
                                         <button type="button" id="closeCard2" data-toggle="dropdown"
                                                 aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i
                                                 class="fa fa-ellipsis-v"></i></button>
@@ -301,6 +392,7 @@
                                 <div class="card-header d-flex align-items-center">
                                     <h3 class="h4">Striped Table</h3>
                                 </div>
+<!--                                <li class="nav-item d-flex align-items-center"><a id="search1" href="#"><i class="icon-search"></i></a></li>-->
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-striped">
