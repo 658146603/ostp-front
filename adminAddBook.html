@@ -55,159 +55,45 @@
 
     </style>
     <script type="text/javascript">
-        function publishBook() {
-            let id = $('.display-username').attr('placeholder')
-            let book_name = $('.book-name').val()
-            let exchange = $("input[name='a']:checked").val()
-            let price = $('.price').val()
-            let isbn = $('.display-ISBN').attr('placeholder')
-            let formRequest = new Request(URL.InsertSecondHandPublish, {
-                method: 'post',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
-                },
-                body: `person=${id}&book=${isbn}&price=${price}&exchange=${exchange}&status=0`,
-                credentials: 'include',
-            })
-            fetch(formRequest).then(response => {
-                let result = response.json()
-                result.then(res => {
-                    if (res.code === 200) {
-                        console.log("ok")
-                        console.log(res)
-                        // console.log(res.message)
-                        // // let role = res.message.
-                        // $('.title .h4')[0].innerHTML = res.data.name
-                        // $('.title .auth')[0].innerHTML = res.data.clazz == null ? "老师" : "学生"
-                        // // window.username = username
-                        // $('.display-username')[0].innerHTML = res.data.name
-                        // window.role = role
-                        // window.location.assign("")//TODO 跳转到主界面
-                    } else {
-                        alert(res.message)
-                    }
+        $().ready(() => {
+            // console.log(112)
+            $('.uploadFile').change(() => {
+
+                let url = URL.PutImage
+                let formData = new FormData();
+                let files = $('.uploadFile').prop('files')[0]
+                formData.append('file', files)
+                let body = formData
+                const callBack = (res) => {
                     console.log(res)
-                })
-            })
-
-        }
-
-        let once = function () {
-
-            window.caller = true;
-
-            console.log(2333)
-            if (window.caller) {
-                window.caller = false
-                let formRequest = new Request(URL.getLoginUsername, {
+                }
+                let formRequest = new Request(url, {
                     method: 'post',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
-                    },
-                    // body: `id=${username}&password=${password}`,
                     credentials: 'include',
+                    body: body
                 })
                 fetch(formRequest).then(response => {
                     let result = response.json()
                     result.then(res => {
-                        if (res.code === 200) {
-                            console.log("ok")
-                            // console.log(res.message)
-                            // let role = res.message.
-                            $('.title .h4')[0].innerHTML = res.data.name
-                            $('.title .auth')[0].innerHTML = res.data.clazz == null ? "老师" : "学生"
-                            // window.username = username
-                            $('.display-username').attr('placeholder', res.data.id)
-                            // window.role = role
-                            // window.location.assign("")//TODO 跳转到主界面
-                        } else {
-                            alert(res.message)
-                        }
                         console.log(res)
+                        window.uuid = res.data
                     })
                 })
-            }
-
-
-        }
-        window.onload = function () {
-            once()
-            var isHasnextPage = false;//是否有下一页数据
-            var searchItem = '';//搜索框内容
-            var pageNum = 1;//默认page
-            // console.log(1111)
-            //监听搜索框输入事件，有内容的话就进行查询
-
-            $('#inputName').on('input', function () {
-                // console.log(111)
-                var _v = $.trim($(this).val());
-                // console.log(_v)
-                $('#searchResult').empty();
-                $('#searchResult').show();
-                pageNum = 1;
-                if (_v !== '') {
-                    searchItem = _v;
-                    searchShopFn(_v);
-                }
-            });
-
-            /**
-             * 搜索结果的下拉加载更多，每页显示十条，如果搜索结果多余十条，下拉对应的列表，会自动把其他数据添加进来
-             * @method  nextLoad()
-
-             * @return {data}
-             */
-
-
-            //点击每条数据给搜索框赋值，同时需要重新设置对应的参数
-            $(document).on('click', '.searchResult li', function () {
-                var _v = $(this).text();
-                var _shopId = $(this).attr('shopId');
-                console.log(_shopId)
-                $('#inputName').val(_v)
-                $('#searchResult').hide();
-                $('.display-ISBN').attr('placeholder', _shopId)
-                // isHasnextPage = false;
-                // return false;
-
-            });
-
-        }
-
-        //模糊查询ajax请求数据  keyWord就是关键词，pageNum是对应的页码
-        function searchShopFn(keyWord) {
-            $.ajax({
-                url: URL.FuzzyBook,//请求数据的地址，
-                dataType: "json",
-                method: 'post',
-                data: {
-                    name: keyWord,
-                },
-                xhrFields: {
-                    withCredentials: true // 携带跨域cookie
-                }, success: function (res) {
-                    var liAry = res.data;
-                    console.log(liAry)
-                    var liAryTotal = res.data.total;
-                    // // isHasnextPage = (pageNum * 10 < liAryTotal) ? true : false;
-                    var m = '';
-                    $.each(liAry, function (i, v) {
-
-                        m += '<li shopId="' + v.isbn + '" title="' + v.name + '">' + v.name + '</li>';
-                        console.log(m)
-                    });
-                    $('#searchResult').append(m);
-
-                }, error: function (res) {
-                    // console.log(error)
-                }
-
+                // request(url,body,callBack)
             })
+        })
+        uploadBook = () => {
+            let book_name = $('.book-name').val()
+            let isbn = $('.ISBN').val()
+            let price = $('.price').val()
+            let url = URL.InsertBook
+            let body = `isbn=${isbn}&price=${price}&name=${book_name}&cover=${uuid}`
+            const callBack = (res) => {
+                console.log(res)
+            }
+            request(url, body,callBack)
+
         }
-
-
     </script>
 
 </head>
@@ -417,7 +303,6 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-horizontal">
-
                                     <div class="line"></div>
                                     <div class="form-group row">
                                         <label class="col-sm-3 form-control-label">书名</label>
@@ -436,9 +321,9 @@
 
                                     <div class="line"></div>
                                     <div class="form-group row">
-                                        <label for="fileInput" class="col-sm-3 form-control-label">上传图片</label>
+                                        <label for="fileInput" class="col-sm-3 form-control-label ">上传图片</label>
                                         <div class="col-sm-9">
-                                            <input id="fileInput" type="file" class="form-control-file">
+                                            <input id="fileInput" type="file" class="form-control-file uploadFile">
                                         </div>
                                     </div>
                                     <div class="line"></div>
@@ -453,7 +338,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-4 offset-sm-3">
                                         <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                        <button class="btn btn-primary" onclick="publishBook()">
+                                        <button class="btn btn-primary" onclick="uploadBook()">
                                             提交
                                         </button>
                                     </div>
@@ -465,20 +350,20 @@
                 </div>
             </div>
         </section>
-    <!-- Page Footer-->
-    <footer class="main-footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                </div>
-                <div class="col-sm-6 text-right">
-                    <p></p>
-                    <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+        <!-- Page Footer-->
+        <footer class="main-footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <p></p>
+                        <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
-</div>
+        </footer>
+    </div>
 </div>
 </div>
 <!-- JavaScript files-->
