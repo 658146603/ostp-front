@@ -7,6 +7,7 @@
  */
 Vue.component('book', {
     props: ['book'],
+
     template: `
       <div class="container-fluid">
       <!-- Project -->
@@ -41,6 +42,15 @@ Vue.component('book', {
 
 Vue.component('app', {
     props: ['info', 'state'],
+    methods: {
+        logout: function() {
+            request_su(URL.Logout, "", (status, result) => {
+                if (status === 200) {
+                    window.location.assign("login.html")
+                }
+            })
+        }
+    },
     template: `<div class="page">
     <!-- Main Navbar-->
     <header class="header">
@@ -161,7 +171,7 @@ Vue.component('app', {
                             </ul>
                         </li>
                         <!-- Logout    -->
-                        <li class="nav-item"><a onclick="logout()" class="nav-link logout"> <span
+                        <li class="nav-item"><a v-on:click="logout" class="nav-link logout"> <span
                                 class="d-none d-sm-inline">Logout</span><i class="fa fa-sign-out"></i></a></li>
                     </ul>
                 </div>
