@@ -224,7 +224,7 @@ Vue.component('app', {
         <div class="content-inner" id="main-content">
             <header class="page-header">
                 <div class="container-fluid">
-                    <h2 class="no-margin-bottom">{{ state.tip === '' ? info.title : info.title + state.tip }}</h2>
+                    <h2 class="no-margin-bottom">{{ state.tip === '' ? info.title : info.title + " - " + state.tip }}</h2>
                 </div>
             </header>
             <slot></slot>
