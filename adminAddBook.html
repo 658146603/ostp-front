@@ -357,7 +357,7 @@
             <li><a href="tables.html"> <i class="icon-grid"></i>Tables </a></li>
             <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
             <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>
-            <li><a href="bookList.html"><i class="icon-grid"></i>订书列表</a> </li>
+            <li><a href="bookList.html"><i class="icon-grid"></i>订书列表</a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
                     class="icon-interface-windows"></i>买东西 </a>
                 <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
@@ -377,138 +377,109 @@
             <li><a href="#"> <i class="icon-picture"></i>Demo </a></li>
         </ul>
     </nav>
-        <div class="content-inner">
-            <!-- Page Header-->
-            <header class="page-header">
-                <div class="container-fluid">
-                    <h2 class="no-margin-bottom">Forms</h2>
-                </div>
-            </header>
-            <!-- Breadcrumb-->
-            <div class="breadcrumb-holder container-fluid">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Forms</li>
-                </ul>
+    <div class="content-inner">
+        <!-- Page Header-->
+        <header class="page-header">
+            <div class="container-fluid">
+                <h2 class="no-margin-bottom">Forms</h2>
             </div>
-            <!-- Forms Section-->
-            <section class="forms">
-                <div class="container-fluid">
-                    <div class="row">
+        </header>
+        <!-- Breadcrumb-->
+        <div class="breadcrumb-holder container-fluid">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Forms</li>
+            </ul>
+        </div>
+        <!-- Forms Section-->
+        <section class="forms">
+            <div class="container-fluid">
+                <div class="row">
 
-                        <!-- Form Elements -->
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-close">
-                                    <div class="dropdown">
-                                        <button type="button" id="closeCard5" data-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i
-                                                class="fa fa-ellipsis-v"></i></button>
-                                        <div aria-labelledby="closeCard5"
-                                             class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
-                                                                                                     class="dropdown-item remove">
-                                            <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit">
-                                        </a>
+                    <!-- Form Elements -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-close">
+                                <div class="dropdown">
+                                    <button type="button" id="closeCard5" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i
+                                            class="fa fa-ellipsis-v"></i></button>
+                                    <div aria-labelledby="closeCard5"
+                                         class="dropdown-menu dropdown-menu-right has-shadow"><a href="#"
+                                                                                                 class="dropdown-item remove">
+                                        <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit">
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-header d-flex align-items-center">
+                                <h3 class="h4">发布书籍</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-horizontal">
+
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 form-control-label">书名</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control book-name" id="inputName">
+                                            <ul id="searchResult" class="searchResult"></ul>
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 form-control-label">ISBN</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control ISBN">
+                                        </div>
+                                    </div>
+
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label for="fileInput" class="col-sm-3 form-control-label">上传图片</label>
+                                        <div class="col-sm-9">
+                                            <input id="fileInput" type="file" class="form-control-file">
+                                        </div>
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 form-control-label">价格</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control price">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-header d-flex align-items-center">
-                                    <h3 class="h4">发布二手书</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-horizontal">
-
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">用户名</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" disabled="" placeholder=""
-                                                       class="form-control display-username">
-                                            </div>
-                                        </div>
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">书名</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control book-name" id="inputName">
-                                                <ul id="searchResult" class="searchResult"></ul>
-                                            </div>
-                                        </div>
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">ISBN</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" disabled="" placeholder=""
-                                                       class="form-control display-ISBN">
-                                            </div>
-                                        </div>
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">选择交换/出售</label>
-                                            <div class="col-sm-9 exchange">
-                                                <input id="radioCustom1" type="radio" value="1" name="a"
-                                                       class="radio-template">
-                                                <label for="radioCustom1">交换</label>
-                                                <input id="radioCustom2" type="radio" checked="" value="0"
-                                                       name="a" class="radio-template">
-                                                <label for="radioCustom2">出售</label>
-
-                                            </div>
-                                        </div>
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">价格</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control price">
-                                            </div>
-                                        </div>
-
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-3 form-control-label">选择状态信息</label>
-                                            <div class="col-sm-9">
-                                                <select name="account" class="form-control mb-3">
-                                                    <option>伊拉克成色</option>
-                                                    <option>六成新</option>
-                                                    <option>七成新</option>
-                                                    <option>八成新</option>
-                                                    <option>九成新</option>
-                                                    <option>九九成新</option>
-                                                    <option>全新</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="line"></div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-4 offset-sm-3">
-                                                <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                                <button class="btn btn-primary" onclick="publishBook()">
-                                                    提交
-                                                </button>
-                                            </div>
-                                        </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 offset-sm-3">
+                                        <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
+                                        <button class="btn btn-primary" onclick="publishBook()">
+                                            提交
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
-            </section>
-            <!-- Page Footer-->
-            <footer class="main-footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <p></p>
-                            <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-                        </div>
-                    </div>
+            </div>
+        </section>
+    <!-- Page Footer-->
+    <footer class="main-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
                 </div>
-            </footer>
+                <div class="col-sm-6 text-right">
+                    <p></p>
+                    <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
+</div>
+</div>
 </div>
 <!-- JavaScript files-->
 
