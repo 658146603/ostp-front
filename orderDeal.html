@@ -76,12 +76,6 @@
                     window.data = res.data
                     console.log(res)
                     $.each(window.data, function (j, res) {
-                        // <tr>
-                        //     <th scope="row">1</th>
-                        //     <td>Mark</td>
-                        //     <td>Otto</td>
-                        //     <td>@mdo</td>
-                        // </tr>
                         let temp = "<tr class='tr1'>"
                         let t1 = "<th scope = 'row'>" + parseInt(j + 1) + "</th>"
                         let t5 = "<td>" + "<img width='50px' height='50px' src='" + URL.GetImage + "?id=" + res.book.cover + "'>" + "</td>"
@@ -128,10 +122,20 @@
             $(document).on('click', '.searchResult li', function () {
                 var _v = $(this).text();
                 var _shopId = $(this).attr('shopId');
-                console.log(_shopId)
-                $('#inputName').val(_v)
+                // console.log("I WANT TO SHOW ISBN"+_shopId)
+                $('.inputName').val(_v)
                 $('#searchResult').hide();
-                $('.display-ISBN').attr('placeholder',_shopId)
+                // $('.display-ISBN').attr('placeholder',_shopId)
+                let url = URL.SelectSecondHandPublishByIsbn
+                let body="isbn="+_shopId
+                const refreshFuzzy =(res)=>{
+                    // window.resd = res.data
+                    console.log("here is a callback")
+                    console.log(res)
+                    fuzzySearch(res.data[0].book.name)
+                }
+                request(url,body,refreshFuzzy)
+
                 // isHasnextPage = false;
                 // return false;
 
@@ -181,9 +185,17 @@
             $(".modal-body").find('img').attr('src', outTh.find('img').attr('src'))
             $('.h3').attr('placeholder','确认价格：'+outTh.children('.price')[0].innerHTML )
 
-            // console.log($(which).parent().parent(".tr1")[0].innerHTML)
-            // $(".modal-body h4")[0].innerHTML
+
         };
+        const fuzzySearch = function (data){
+
+            $.each($('.tr1'),function (k,v){
+                // console.log($(this).children('.book_name')[0].innerHTML)
+                if($(this).children('.book_name')[0].innerHTML  !== data){
+                    $(this).remove()
+                }
+            })
+        }
 
     </script>
 </head>
@@ -193,7 +205,6 @@
     <header class="header">
         <nav class="navbar">
             <!-- Search Box-->
-
             <div class="container-fluid">
                 <div class="navbar-holder d-flex align-items-center justify-content-between">
                     <!-- Navbar Header-->

@@ -38,7 +38,7 @@ class URL {
     static DeleteSecondHandPublish = this.header + "/second/publish/delete"
     static UpdateSecondHandPublish = this.header + "/second/publish/update"
     static ListSecondHandPublish = this.header + "/second/publish/select/all"
-    static SelectSecondHandPublishByIsbn = this.header + "/second/publish/select"
+    static SelectSecondHandPublishByIsbn = this.header + "/second/publish/selectByISBN"
     static SelectSecondHandPublishByStudent = this.header + "/second/publish/selectByStudent"
     static InsertStudent = this.header + "/student/insert"
     static DeleteStudent = this.header + "/student/delete"
