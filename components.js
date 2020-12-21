@@ -188,6 +188,7 @@ Vue.component('app', {
             <ul class="list-unstyled">
                 <li :class="info.menu === 'index' ? 'active': ''"><a href="index.html"> <i class="icon-home"></i>主页</a></li>
                 <li :class="info.menu === 'book_list' ? 'active' : ''"><a href="bookList.html"><i class="icon-flask"></i>订阅列表</a> </li>
+                <li :class="info.menu === 'template' ? 'active' : ''"><a href="template.html"><i class="icon-screen"></i>模板代码</a></li>
                 <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i
                     class="icon-interface-windows"></i>买东西 </a>
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
