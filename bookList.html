@@ -284,36 +284,7 @@
             </header>
             <!-- Content -->
             <section class="projects">
-                <div class="container-fluid">
-                    <!-- Project -->
-                    <div class="project">
-                        <div class="row bg-white has-shadow">
-                            <div class="left-col col-lg-8 d-flex align-items-center justify-content-between">
-                                <div class="project-title d-flex align-items-center">
-                                    <div class="image has-shadow">
-                                        <img src="template/img/project-1.jpg" alt="..."
-                                             class="img-fluid">
-                                    </div>
-                                    <div class="text">
-                                        <h3 class="h4">{{ book.title }}</h3>
-                                        <small>{{ book.description }}</small>
-                                        <small>{{ book.others }}</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
-                                <div class="text">
-                                    <h3 class="h4">${{ book.cost }}</h3>
-                                </div>
-                            </div>
-                            <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
-                                <div class="btn btn-primary btn-block">
-                                    {{ book.btnState }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <book v-for="book in books" v-bind:book="book"></book>
             </section>
             <!-- Page Footer-->
             <footer class="main-footer">
@@ -349,21 +320,36 @@
 <script type="text/javascript" src="lib/kotlin.js"></script>
 <script type="text/javascript" src="ostp-front.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="js/components.js"></script>
+<script src="js/convert.js"></script>
 <script>
     <!-- Create a Vue app -->
     let app = new Vue({
         el: '#main-content',
         data: {
             title: '订阅列表',
-            book: {
-                title: 'JaveEE',
-                description: 'JavaEE description',
-                others: 'JavaEE others',
-                cost: '19.95',
-                btnState: '订阅'
+            books: [{
+                cover: 'cover',
+                isbn: 'isbn',
+                price: 'price',
+                name: 'name'
+            }]
+        },
+        methods: {
+            init: function () {
+                request(URL.ListBook, '',  (res) => {
+                    console.log(res)
+                    app.books = res.data;
+                    convert.books(app.books)
+                })
             }
         }
     })
+
+    window.addEventListener('load', () => {
+        console.log(`fetch the ${URL.ListBook}`)
+        app.init();
+    });
 </script>
 </body>
 </html>

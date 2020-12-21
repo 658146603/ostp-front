@@ -57,7 +57,11 @@ class URL {
     static getLoginUsername = this.header + "/account/username"
     static Logout = this.header + "/logout"
     static Status = this.header + "/account/status"
+    static getImage(url) {
+        return URL.GetImage + "/" + url
+    }
 }
+
 
 function request(url, body, callback) {
     let formRequest = new Request(url, {
