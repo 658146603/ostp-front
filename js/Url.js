@@ -57,6 +57,7 @@ class URL {
     static getLoginUsername = this.header + "/account/username"
     static Logout = this.header + "/logout"
     static Status = this.header + "/account/status"
+
     static getImage(url) {
         return URL.GetImage + "/" + url
     }
@@ -76,6 +77,31 @@ function request(url, body, callback) {
         let result = response.json()
         result.then(res => {
             callback(res)
+        })
+    })
+}
+
+
+let default_headers = {
+    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+}
+
+let json_headers = {
+    'Content-Type': 'application/json;charset=utf-8;'
+}
+
+
+function request_su(url, body, callback, headers = default_headers) {
+    let form = new Request(url, {
+        method: 'post',
+        credentials: 'include',
+        headers: headers,
+        body: body
+    })
+    fetch(form).then(response => {
+        response.json().then(result => {
+            let status = response.status
+            callback(status, result)
         })
     })
 }
