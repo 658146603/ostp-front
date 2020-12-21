@@ -40,6 +40,9 @@ Vue.component('book', {
       </div>`
 })
 
+/**
+ * 整个app框架
+ */
 Vue.component('app', {
     props: ['info', 'state'],
     methods: {
@@ -203,6 +206,7 @@ Vue.component('app', {
                     class="icon-interface-windows"></i>买东西 </a>
                     <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                         <li :class="info.menu === 'publish_book'? 'active': ''"><a href="publishBook.html">发布二手书</a></li>
+                        <li :class="info.menu === 'publish_book2' ? 'active': ''"><a href="publishBook2.html">发布二手书(2)</a></li>
                         <li :class="info.menu === 'publish_request' ? 'active' : ''"><a href="publishRequest.html">查询二手书</a></li>
                         <!--                        <li><a href="#">Page</a></li>-->
                     </ul>
@@ -246,5 +250,37 @@ Vue.component('app', {
             </footer>
         </div>
     </div>
+</div>`
+})
+
+/**
+ * Form表单，有属性title
+ */
+Vue.component('form-card', {
+    props: ['title'],
+    template: `
+<div class="card">
+    <div class="card-header d-flex align-items-center">
+        <h3 class="h4">{{ title }}</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-horizontal">
+            <slot></slot>
+        </div>
+    </div>
+</div>`
+});
+
+/**
+ * Form表单空间组，有属性label
+ */
+Vue.component('form-group', {
+    props: ['label'],
+    template: `
+<div class="form-group row">
+<label class="col-sm-3 form-control-label">{{ label }}</label>
+<div class="col-sm-9">
+    <slot></slot>
+</div>
 </div>`
 })

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="template/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="template/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="template/css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="template/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="template/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="template/img/favicon.ico">
+</head>
+<script src="js/Url.js"></script>
+<body>
+<app id="app" :info="info" :state="state">
+    <!-- Content -->
+    <!-- 填写内容 -->
+    <!-- Forms Section-->
+    <section class="forms">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Form Elements -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h3 class="h4">发布二手书</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 form-control-label">用户名</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" disabled="" placeholder=""
+                                               class="form-control display-username" :value="state.user.id">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 form-control-label">书名</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control book-name" id="inputName" v-model="bookSearch.name" v-on:input="fuzzyBook">
+                                        <select v-if="bookSearch.book_list !== null && bookSearch.open === true" multiple class="form-control">
+                                            <option v-on:click="bookSelect(index)"  v-for="(book,index) in bookSearch.book_list">{{ book.name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 form-control-label">ISBN</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" disabled="" placeholder=""
+                                               class="form-control display-ISBN" :value="bookSearch.isbn">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 form-control-label">选择交换/出售</label>
+                                    <div class="col-sm-9 exchange">
+                                        <input id="radioCustom1" type="radio" :checked="bookSearch.exchange === 0? 'checked': ''"
+                                               name="a" class="radio-template" v-on:input="bookSearch.exchange = 0">
+                                        <label for="radioCustom1">交换</label>
+                                        <input id="radioCustom2" type="radio" :checked="bookSearch.exchange === 1? 'checked': ''"
+                                               name="a" class="radio-template" v-on:input="bookSearch.exchange = 1">
+                                        <label for="radioCustom2">出售</label>
+
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 form-control-label">价格</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control price" v-model="bookSearch.price">
+                                    </div>
+                                </div>
+
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 form-control-label">选择状态信息</label>
+                                    <div class="col-sm-9">
+
+                                        <select name="account" class="form-control mb-3">
+                                            <option>伊拉克成色</option>
+                                            <option>六成新</option>
+                                            <option>七成新</option>
+                                            <option>八成新</option>
+                                            <option>九成新</option>
+                                            <option>九九成新</option>
+                                            <option>全新</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 offset-sm-3">
+                                        <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
+                                        <button class="btn btn-primary" v-on:click="publishBook">
+                                            提交
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</app>
+<!-- JavaScript files-->
+<script src="template/vendor/jquery/jquery.min.js"></script>
+<script src="template/vendor/popper.js/umd/popper.min.js"></script>
+<script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="template/vendor/chart.js/Chart.min.js"></script>
+<script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="template/js/charts-home.js"></script>
+<!-- Main File-->
+<script src="template/js/front.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="components.js"></script>
+<script src="js/convert.js"></script>
+<script src="js/common.js"></script>
+<script>
+	<!-- Create a Vue app -->
+	let app = new Vue({
+		el: '#app',
+		data: {
+			// 用于存储用户的状态
+			state: {
+				user: null,
+				status: false,
+				tip: '正在加载中...'
+			},
+			// 用于存储app的信息
+			info: {
+				title: '发布二手书(2)',
+				menu: common.publish_book2
+			},
+            bookSearch: {
+                name: '',
+                book_list: null,
+                open: false,
+                isbn: '',
+                exchange: 0,
+                price: ''
+            }
+			// 添加其他需要存储的数据
+		},
+		methods: {
+			init: function () {
+				common.getAppState((state) => app.state = state)
+				// 添加初始化代码
+			},
+            // 执行模糊查询
+            fuzzyBook: function() {
+				app.bookSearch.isbn = ''
+				request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
+					// 成功且有数据
+					if (res.code === 200 && res.data.length > 0) {
+						// 截取前10项
+                        app.bookSearch.open = true
+						app.bookSearch.book_list = res.data.slice(0, 10)
+                    } else {
+						app.bookSearch.open = false
+						app.bookSearch.book_list = null
+                    }
+                })
+            },
+            // 选择了某个数据
+            bookSelect: function (index) {
+                console.log(`你选择了第${index}项`)
+                app.bookSearch.open = false
+                app.bookSearch.name = app.bookSearch.book_list[index].name
+                app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
+            },
+            publishBook: function () {
+
+            }
+		}
+	})
+
+	window.addEventListener('load', () => {
+		console.log(`fetch the ${URL.ListBook}`)
+		app.init();
+	});
+</script>
+</body>
+</html>
