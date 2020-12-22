@@ -107,7 +107,7 @@
                                 <div class="form-group row">
                                     <div class="col-sm-4 offset-sm-3">
                                         <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                        <button class="btn btn-primary" v-on:click="publishBook">
+                                        <button class="btn btn-primary" v-on:click="publishRequest">
                                             提交
                                         </button>
                                     </div>
@@ -143,17 +143,17 @@
 			state: common.defaultAppState(),
 			// 用于存储app的信息
 			info: {
-				title: '发布二手书',
-				menu: common.publish_book
+				title: '想要二手书',
+				menu: common.publish_request
 			},
-            bookSearch: {
-                name: '',
-                book_list: null,
-                open: false,
-                isbn: '',
-                exchange: 0,
-                price: ''
-            }
+			bookSearch: {
+				name: '',
+				book_list: null,
+				open: false,
+				isbn: '',
+				exchange: 0,
+				price: ''
+			}
 			// 添加其他需要存储的数据
 		},
 		methods: {
@@ -161,11 +161,11 @@
 				common.getAppState((state) => app.state = state)
 				// 添加初始化代码
 			},
-            // 执行模糊查询
-            fuzzyBook: function() {
+			// 执行模糊查询
+			fuzzyBook: function() {
 				app.bookSearch.isbn = ''
-                // 处于登录状态
-                if (app.state.status === true) {
+				// 处于登录状态
+				if (app.state.status === true) {
 					request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
 						// 成功且有数据
 						if (res.code === 200 && res.data.length > 0) {
@@ -177,18 +177,18 @@
 							app.bookSearch.book_list = null
 						}
 					})
-                }
-            },
-            // 选择了某个数据
-            bookSelect: function (index) {
-                console.log(`你选择了第${index}项`)
-                app.bookSearch.open = false
-                app.bookSearch.name = app.bookSearch.book_list[index].name
-                app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
-            },
-            publishBook: function () {
+				}
+			},
+			// 选择了某个数据
+			bookSelect: function (index) {
+				console.log(`你选择了第${index}项`)
+				app.bookSearch.open = false
+				app.bookSearch.name = app.bookSearch.book_list[index].name
+				app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
+			},
+			publishRequest: function () {
 
-            }
+			}
 		}
 	})
 

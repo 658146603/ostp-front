@@ -26,9 +26,8 @@
 <body>
 <app id="app" :info="info" :state="state">
     <!-- Content -->
-    <section class="projects">
-        <book v-for="book in books" :book="book"></book>
-    </section>
+    <!-- 填写内容 -->
+    请填写内容
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -45,44 +44,31 @@
 <script src="js/convert.js"></script>
 <script src="js/common.js"></script>
 <script>
-    <!-- Create a Vue app -->
-    let app = new Vue({
-        el: '#app',
-        data: {
-            // 用于存储用户的状态
-            state: {
-                user: null,
-                status: false,
-                tip: '正在加载中...'
-            },
-            // 用于存储app的信息
-            info: {
-                title: '订阅列表',
-                menu: common.book_list
-            },
-            books: [{
-                cover: 'cover',
-                isbn: 'isbn',
-                price: 'price',
-                name: 'name'
-            }]
-        },
-        methods: {
-            init: function () {
-                common.getAppState((state) => app.state = state)
-                request(URL.ListBook, '',  (res) => {
-                    console.log(res)
-                    app.books = res.data;
-                    convert.books(app.books)
-                })
-            }
-        }
-    })
+	<!-- Create a Vue app -->
+	let app = new Vue({
+		el: '#app',
+		data: {
+			// 用于存储用户的状态
+			state: common.defaultAppState(),
+			// 用于存储app的信息
+			info: {
+				title: '开课管理',
+				menu: common.open_course
+			},
+			// 添加其他需要存储的数据
+		},
+		methods: {
+			init: function () {
+				common.getAppState((state) => app.state = state)
+				// 添加初始化代码
+			}
+		}
+	})
 
-    window.addEventListener('load', () => {
-        console.log(`fetch the ${URL.ListBook}`)
-        app.init();
-    });
+	window.addEventListener('load', () => {
+		console.log(`fetch the ${URL.ListBook}`)
+		app.init();
+	});
 </script>
 </body>
 </html>
