@@ -1,3 +1,6 @@
+/**
+ * 常用功能的聚合
+ */
 class common {
     static index = 'index'
     static book_list = 'book_list'
@@ -82,3 +85,4 @@ class common {
         })
     }
 }
+

@@ -59,6 +59,8 @@ class URL {
     static Status = this.header + "/account/status"
     static FuzzyTeacher = this.header+"/teacher/fuzzy"
     static FuzzyCourse = this.header+'/course/fuzzy'
+    static FuzzyCollege = this.header + "/college/fuzzy"
+    static IdDuplicate = this.header + "/account/duplicate"
 
     static getImage(url) {
         return URL.GetImage + "/" + url
