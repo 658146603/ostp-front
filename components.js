@@ -193,7 +193,7 @@ Vue.component('app', {
                     <!--                </div>-->
                     <!--如果-->
                     <div v-if="state.status" class="title">
-                        <h1 class="h4">{{ state.user.name }}</h1>
+                        <h1 class="h4">{{ state.type.display }}</h1>
                         <p>{{ state.type.role_display }}</p>
                     </div>
                     <div v-else class="title">
@@ -215,11 +215,9 @@ Vue.component('app', {
                     <li v-else :class="info.menu === 'book_list' ? 'active' : ''">
                         <a href="searchBook.html"><i class="icon-flask"></i>查找书籍</a>
                     </li>
-                    
-                    
-                    <li><a href="#dropDown" aria-expanded="false" data-toggle="collapse">
+                    <li><a href="#dropDown1" aria-expanded="false" data-toggle="collapse">
                         <i class="icon-interface-windows"></i>买东西</a>
-                        <ul id="dropDown" class="collapse list-unstyled show">
+                        <ul id="dropDown1" class="collapse list-unstyled show">
                             <li :class="info.menu === 'book_market' ? 'active': ''"><a href="bookMarket.html">二手市场</a>
                             </li>
                             <li :class="info.menu === 'publish_book' ? 'active': ''"><a href="publishBook2.html">发布二手书</a>
@@ -228,9 +226,39 @@ Vue.component('app', {
                             </li>
                         </ul>
                     </li>
-                    <li><a href="login.html"> <i class="icon-interface-windows"></i>Login page </a></li>
-
-
+                    <!-- 管理员的相关界面 -->
+                    <li v-if="state.type.role === 'admin'"><a href="#dropDown2" aria-expanded="false" data-toggle="collapse">
+                        <i class="icon-interface-windows"></i>学院管理</a>
+                        <ul id="dropDown2" class="collapse list-unstyled">
+                            <li :class="info.menu === 'add_book' ? 'active': ''"><a href="adminAddBook.html">添加书籍</a>
+                            </li>
+                            <li :class="info.menu === 'add_course' ? 'active': ''"><a href="addCourse.html">添加课程</a>
+                            </li>
+                            <li :class="info.menu === 'open_course' ? 'active' : ''"><a href="openCourse.html">开设课程</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li v-if="state.type.role === 'su'"><a href="#dropDown3" aria-expanded="false" data-toggle="collapse">
+                        <i class="icon-interface-windows"></i>超级管理</a>
+                        <ul id="dropDown3" class="collapse list-unstyled">
+                            <!-- 管理专业和班级由管理学院进入 -->
+                            <li :class="info.menu === 'admin_college' ? 'active': ''"><a href="adminCollege.html">管理学院</a>
+                            </li>
+                            <li :class="info.menu === 'admin_teacher' ? 'active': ''"><a href="adminTeacher.html">管理教师</a>
+                            </li>
+                            <li :class="info.menu === 'admin_student' ? 'active' : ''"><a href="adminStudent.html">管理学生</a>
+                            </li>
+                            <li :class="info.menu === 'add_book' ? 'active': ''"><a href="adminAddBook.html">添加书籍</a>
+                            </li>
+                            <li :class="info.menu === 'add_course' ? 'active': ''"><a href="addCourse.html">添加课程</a>
+                            </li>
+                            <li :class="info.menu === 'open_course' ? 'active' : ''"><a href="openCourse.html">开设课程</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li><a href="login.html"> <i class="icon-interface-windows"></i>登录</a></li>
+                    <li :class="info.menu === 'user' ? 'active': ''"><a href="user.html"><i class="icon-user"></i>个人信息</a></li>
                 </ul>
                 <span class="heading">Extras</span>
                 <ul class="list-unstyled">
