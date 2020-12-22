@@ -25,9 +25,23 @@
 <script src="js/Url.js"></script>
 <body>
 <app id="app" :info="info" :state="state">
+    <section>
+        <div class="form-inline container-fluid">
+            <div class="form-group">
+                <label><input type="text" placeholder="书名" class="form-control"/></label>
+            </div>
+            <div class="form-group">
+                <label><input type="text" placeholder="课程" class="form-control"/></label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </div>
+        </div>
+    </section>
     <!-- Content -->
-    <!-- 填写内容 -->
-    请填写内容
+    <section class="projects no-padding-top">
+        <book v-for="book in books" :book="book"></book>
+    </section>
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -55,12 +69,21 @@
 				title: '查找书籍',
 				menu: common.book_list
 			},
-			// 添加其他需要存储的数据
+			books: [{
+				cover: 'cover',
+				isbn: 'isbn',
+				price: 'price',
+				name: 'name'
+			}]
 		},
 		methods: {
 			init: function () {
 				common.getAppState((state) => app.state = state)
-				// 添加初始化代码
+				request(URL.ListBook, '',  (res) => {
+					console.log(res)
+					app.books = res.data;
+					convert.books(app.books)
+				})
 			}
 		}
 	})

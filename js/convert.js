@@ -4,5 +4,6 @@ class convert {
             book.cover = URL.getImage(book.cover)
             book.price = book.price / 100
         })
+        return books
     }
 }
