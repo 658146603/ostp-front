@@ -532,6 +532,69 @@
         </div>
     </div>
 </div>
+<script>
+    <!-- Create a Vue app -->
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: {
+                user: null,
+                status: false,
+                tip: '正在加载中...'
+            },
+            // 用于存储app的信息
+            info: {
+                title: '发布二手书(2)',
+                menu: common.publish_book2
+            },
+            bookSearch: {
+                name: '',
+                book_list: null,
+                open: false,
+                isbn: '',
+                exchange: 0,
+                price: ''
+            }
+            // 添加其他需要存储的数据
+        },
+        methods: {
+            init: function () {
+                common.getAppState((state) => app.state = state)
+                // 添加初始化代码
+            },
+            // 执行模糊查询
+            fuzzyBook: function() {
+                app.bookSearch.isbn = ''
+                request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
+                    // 成功且有数据
+                    if (res.code === 200 && res.data.length > 0) {
+                        // 截取前10项
+                        app.bookSearch.open = true
+                        app.bookSearch.book_list = res.data.slice(0, 10)
+                    } else {
+                        app.bookSearch.open = false
+                        app.bookSearch.book_list = null
+                    }
+                })
+            },
+            // 选择了某个数据
+            bookSelect: function (index) {
+                console.log(`你选择了第${index}项`)
+                app.bookSearch.open = false
+                app.bookSearch.name = app.bookSearch.book_list[index].name
+                app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
+            },
+            publishBook: function () {
 
+            }
+        }
+    })
+
+    window.addEventListener('load', () => {
+        console.log(`fetch the ${URL.ListBook}`)
+        app.init();
+    });
+</script>
 </body>
 </html>

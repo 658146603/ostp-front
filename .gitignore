@@ -1,3 +1,7 @@
 
 *.xml
 .idea/ostp-front.iml
+.idea/inspectionProfiles/profiles_settings.xml
+*.iml
+.idea/workspace.xml
+.idea/inspectionProfiles/profiles_settings.xml
