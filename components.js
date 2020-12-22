@@ -41,34 +41,63 @@ Vue.component('book', {
 })
 
 Vue.component('college', {
-    props: ['college'],
+    props: ['college', 'state'],
     template: `
 <div class="container-fluid">
 <!-- Project -->
 <div class="project">
     <div class="row bg-white has-shadow">
-        <div class="left-col col-lg-8 d-flex align-items-center justify-content-between">
+        <div class="col-lg-8 col-12 d-flex align-items-center justify-content-between">
             <div class="project-title d-flex align-items-center">
                 <div class="text">
-                    <h3 class="h4">{{ college.name }}</h3>
-                    <small>#detail</small>
+                    <h3 class="h4"><a :href="'adminMajor.html#id=' + college.id">{{ college.name }}</a></h3>
+                    <small>{{ college.major_count }}个专业 {{ college.teacher_count }}个教师 {{ college.student_count }}个学生</small>
                 </div>
             </div>
         </div>
-        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
-            <div class="btn btn-default btn-block">
-                查看教师
-            </div>
-        </div>
-        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+        <div v-if="state.type.role === 'su'" class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
             <div class="btn btn-danger btn-block">
                 删除
             </div>
         </div>
+        <div class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
+            <div class="btn btn-default btn-block">
+                查看教师
+            </div>
+        </div>
     </div>
 </div>
+</div>`
+})
+
+Vue.component('major', {
+    props: ['major', 'state'],
+    template: `
+<div class="container-fluid">
+<!-- Project -->
+<div class="project">
+    <div class="row bg-white has-shadow">
+        <div class="col-lg-8 col-12 d-flex align-items-center justify-content-between">
+            <div class="project-title d-flex align-items-center">
+                <div class="text">
+                    <h3 class="h4"><a :href="'adminClass.html#id=' + major.id">{{ major.name }}</a></h3>
+                    <small>{{ major.class_count }}个班级 {{ major.student_count }}个学生</small>
+                </div>
+            </div>
+        </div>
+        <div v-if="state.type.role === 'su'" class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
+            <div class="btn btn-danger btn-block">
+                删除
+            </div>
+        </div>
+        <div class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
+            <div class="btn btn-default btn-block">
+                查看教师
+            </div>
+        </div>
+    </div>
 </div>
-    `
+</div>`
 })
 
 /**
@@ -257,6 +286,8 @@ Vue.component('app', {
                             </li>
                         </ul>
                     </li>
+                    <li :class="info.menu === 'admin_college' ? 'active': ''"><a href="adminCollege.html"><i class="icon-website"></i>学院信息</a>
+                    </li>
                     <!-- 管理员的相关界面 -->
                     <li v-if="state.type.role === 'admin'"><a href="#dropDown2" aria-expanded="false" data-toggle="collapse">
                         <i class="icon-interface-windows"></i>学院管理</a>
@@ -273,9 +304,7 @@ Vue.component('app', {
                         <i class="icon-interface-windows"></i>超级管理</a>
                         <ul id="dropDown3" class="collapse list-unstyled">
                             <!-- 管理专业和班级由管理学院进入 -->
-                            <li :class="info.menu === 'admin_college' ? 'active': ''"><a href="adminCollege.html">管理学院</a>
-                            </li>
-                            <li :class="info.menu === 'admin_teacher' ? 'active': ''"><a href="adminTeacher.html">管理教师</a>
+                            <li :class="info.menu === 'admin_teacher' ? 'active': ''"><a href="admin_add_teacher.html">管理教师</a>
                             </li>
                             <li :class="info.menu === 'admin_student' ? 'active' : ''"><a href="adminStudent.html">管理学生</a>
                             </li>

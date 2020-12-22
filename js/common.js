@@ -84,5 +84,19 @@ class common {
             }
         })
     }
+    // 获取location中#后面的部分，并分析成一个对象
+    static getHashDic(window) {
+        if (window.location.hash === '' || !window.location.hash.startsWith('#')) {
+            return null
+        } else {
+            let dic = {}
+            window.location.hash.slice(1).split('&').forEach((value, index) => {
+                let l = value.split('=')
+                dic[l[0]] = l[1]
+            })
+
+            return dic
+        }
+    }
 }
 

@@ -14,6 +14,7 @@ class URL {
     static ListBook = this.header + "/book/list"
     static FuzzyBook = this.header + "/book/fuzzy"
     static InsertCollege = this.header + "/college/insert"
+    static GetCollege = this.header + "/college/get"
     static SelectCollege = this.header + "/college/select"
     static DeleteCollege = this.header + "/college/delete"
     static ListCollege = this.header + "/college/list"

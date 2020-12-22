@@ -27,7 +27,15 @@
 <app id="app" :info="info" :state="state">
     <!-- Content -->
     <!-- 填写内容 -->
-    请填写内容
+    <div class="breadcrumb-holder container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a> </li>
+            <li class="breadcrumb-item active">{{ college?.name }}</li>
+        </ul>
+    </div>
+    <section class="majors">
+        <major v-for="major in majors" :major="major" :state="state"></major>
+    </section>
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -52,15 +60,36 @@
 			state: common.defaultAppState(),
 			// 用于存储app的信息
 			info: {
-				title: '管理专业',
+				title: '专业信息',
 				menu: common.admin_college
 			},
+            college: {
+				id: 0,
+                name: '某专业'
+            },
+            majors: [
+                {
+                	id: 1,
+                    name: '软件工程',
+                    class_count: 0,
+                    student_count: 0
+                }
+            ]
+
 			// 添加其他需要存储的数据
 		},
 		methods: {
 			init: function () {
 				common.getAppState((state) => app.state = state)
 				// 添加初始化代码
+                app.college.id = common.getHashDic(window).id
+                request(URL.GetCollege, `id=${app.college.id}`, (res) => {
+                	if (res.code === 200) {
+                		app.college = res.data
+                    }
+                })
+                request(URL.ListMajor, ``)
+
 			}
 		}
 	})
