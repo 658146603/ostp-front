@@ -27,7 +27,16 @@
 <app id="app" :info="info" :state="state">
     <!-- Content -->
     <!-- 填写内容 -->
-    请填写内容
+    <div class="breadcrumb-holder container-fluid">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a> </li>
+            <li class="breadcrumb-item"><a :href="'adminMajor.html#id=' + college.id">{{ college?.name }}</a> </li>
+            <li class="breadcrumb-item active">{{ major?.name }}({{ major?.year }})</li>
+        </ul>
+    </div>
+    <section class="classes">
+        <clazz v-for="clazz in classes" :clazz="clazz" :state="state"></clazz>
+    </section>
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -52,21 +61,54 @@
 			state: common.defaultAppState(),
 			// 用于存储app的信息
 			info: {
-				title: '管理班级',
+				title: '班级信息',
 				menu: common.admin_college
 			},
+			college: {
+				id: 0,
+				name: '某学院'
+			},
+            major: {
+				id: 0,
+                year: 2020,
+                name: '某专业'
+            },
+            classes: [
+                {
+                	id: 0,
+                    name: '某班级',
+                    student_count: 0
+                }
+            ]
 			// 添加其他需要存储的数据
 		},
 		methods: {
 			init: function () {
 				common.getAppState((state) => app.state = state)
 				// 添加初始化代码
+                app.major.id = common.getHashDic(window).id
+                request(URL.GetMajor, `id=${app.major.id}`, (res) => {
+                	if (res.code === 200) {
+                		app.major = res.data
+                    }
+                })
+                request(URL.GetCollegeByMajor, `id=${app.major.id}`, (res) => {
+                	if (res.code === 200) {
+                		app.college = res.data
+                    }
+                })
+                request(URL.SelectClassByMajor, `id=${app.major.id}`, (res) => {
+                	if (res.code === 200) {
+                        app.classes = res.data
+                        convert.classes(app.classes)
+                    }
+                })
 			}
 		}
 	})
 
 	window.addEventListener('load', () => {
-		console.log(`fetch the ${URL.ListBook}`)
+
 		app.init();
 	});
 </script>

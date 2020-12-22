@@ -26,7 +26,6 @@
 <body>
 <app id="app" :info="info" :state="state">
     <!-- Content -->
-    <!-- 填写内容 -->
     <div class="breadcrumb-holder container-fluid">
         <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a> </li>
@@ -65,12 +64,13 @@
 			},
             college: {
 				id: 0,
-                name: '某专业'
+                name: '某学院'
             },
             majors: [
                 {
                 	id: 1,
                     name: '软件工程',
+                    year: 2020,
                     class_count: 0,
                     student_count: 0
                 }
@@ -88,7 +88,12 @@
                 		app.college = res.data
                     }
                 })
-                request(URL.ListMajor, ``)
+                request(URL.FetchAllMajor, `id=${app.college.id}`, (res) => {
+                	if (res.code === 200) {
+                		app.majors = res.data
+                        convert.majors(app.majors)
+                    }
+                })
 
 			}
 		}
