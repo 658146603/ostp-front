@@ -27,7 +27,10 @@
 <app id="app" :info="info" :state="state">
     <!-- Content -->
     <!-- 填写内容 -->
-    请填写内容
+    <section class="colleges">
+        <college v-for="college in colleges" :college="college"></college>
+
+    </section>
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -55,6 +58,14 @@
 				title: '管理学院',
 				menu: common.admin_college
 			},
+            colleges: [
+                {
+                	id: 7,
+
+                    name: '计算机科学与技术学院',
+
+                }
+            ]
 			// 添加其他需要存储的数据
 		},
 		methods: {
