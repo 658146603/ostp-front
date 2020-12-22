@@ -37,7 +37,38 @@ Vue.component('book', {
           </div>
         </div>
       </div>
-      </div>`
+    </div>`
+})
+
+Vue.component('college', {
+    props: ['college'],
+    template: `
+<div class="container-fluid">
+<!-- Project -->
+<div class="project">
+    <div class="row bg-white has-shadow">
+        <div class="left-col col-lg-8 d-flex align-items-center justify-content-between">
+            <div class="project-title d-flex align-items-center">
+                <div class="text">
+                    <h3 class="h4">{{ college.name }}</h3>
+                    <small>#detail</small>
+                </div>
+            </div>
+        </div>
+        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="btn btn-default btn-block">
+                查看教师
+            </div>
+        </div>
+        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="btn btn-danger btn-block">
+                删除
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    `
 })
 
 /**

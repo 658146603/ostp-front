@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="template/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="template/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="template/css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="template/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="template/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="template/img/favicon.ico">
+</head>
+<script src="js/Url.js"></script>
+<body>
+<app id="app" :info="info" :state="state">
+    <div class="card-header d-flex align-items-center">
+        <h3 class="h4">发布课程</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-horizontal">
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label">课程编号</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control course_number">
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label">书名</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control book-name" id="inputName" v-model="bookSearch.name"
+                           v-on:input="fuzzyBook">
+                    <select v-if="bookSearch.book_list !== null && bookSearch.open === true" multiple
+                            class="form-control">
+                        <option v-on:click="bookSelect(index)" v-for="(book,index) in bookSearch.book_list">{{ book.name
+                            }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label">选择学年</label>
+                <div class="col-sm-9">
+                    <select name="account" class="form-control mb-3">
+                        <option v-for="(item,index) in yearList" :key="index" :value='course.year'>{{item.year}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label">价格</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control price">
+                </div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="form-group row">
+            <div class="col-sm-4 offset-sm-3">
+                <button class="btn btn-primary" v-on:click="publishBook">
+                    提交
+                </button>
+            </div>
+        </div>
+    </div>
+</app>
+<!-- JavaScript files-->
+<script src="template/vendor/jquery/jquery.min.js"></script>
+<script src="template/vendor/popper.js/umd/popper.min.js"></script>
+<script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="template/vendor/chart.js/Chart.min.js"></script>
+<script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="template/js/charts-home.js"></script>
+<!-- Main File-->
+<script src="template/js/front.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="components.js"></script>
+<script src="js/convert.js"></script>
+<script src="js/common.js"></script>
+<script>
+    <!-- Create a Vue app -->
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: {
+
+                user: null,
+                status: false,
+                tip: '正在加载中...'
+            },
+            // 用于存储app的信息
+            info: {
+                title: '模板代码',
+                menu: common.addCourse
+            },
+            course:{
+                year:null
+            },
+            bookSearch: {
+                name: '',
+                book_list: null,
+                open: false,
+                isbn: '',
+                exchange: 0,
+                price: ''
+            },
+            yearList:
+                [{id: 1, year: 2019}, {id: 2, year: 2020}, {id: 3, year: 2021}, {id: 4, year: 2022}]
+
+            // 添加其他需要存储的数据
+        },
+        methods: {
+            init: function () {
+                common.getAppState((state) => app.state = state)
+                // 添加初始化代码
+            },
+            // 执行模糊查询
+            fuzzyBook: function() {
+                app.bookSearch.isbn = ''
+                request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
+                    // 成功且有数据
+                    if (res.code === 200 && res.data.length > 0) {
+                        // 截取前10项
+                        app.bookSearch.open = true
+                        app.bookSearch.book_list = res.data.slice(0, 10)
+                    } else {
+                        app.bookSearch.open = false
+                        app.bookSearch.book_list = null
+                    }
+                })
+            },
+            // 选择了某个数据
+            bookSelect: function (index) {
+                console.log(`你选择了第${index}项`)
+                app.bookSearch.open = false
+                app.bookSearch.name = app.bookSearch.book_list[index].name
+                app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
+            },
+            publishBook: function () {
+
+            }
+        }
+    })
+
+    window.addEventListener('load', () => {
+        console.log(`fetch the ${URL.ListBook}`)
+        app.init();
+    });
+</script>
+</body>
+</html>
