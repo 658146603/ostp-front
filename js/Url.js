@@ -57,6 +57,8 @@ class URL {
     static getLoginUsername = this.header + "/account/username"
     static Logout = this.header + "/logout"
     static Status = this.header + "/account/status"
+    static FuzzyTeacher = this.header+"/teacher/fuzzy"
+    static FuzzyCourse = this.header+'/course/fuzzy'
 
     static getImage(url) {
         return URL.GetImage + "/" + url

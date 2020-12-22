@@ -30,12 +30,37 @@
     </div>
     <div class="card-body">
         <div class="form-horizontal">
+
+
+
+                <div class="form-group row">
+                    <label class="col-sm-3 form-control-label">课程名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control book-name" id="inputCourseName" v-model="courseSearch.name"
+                               v-on:input="fuzzyCourse">
+                        <select v-if="courseSearch.course_list !== null && courseSearch.open === true" multiple
+                                class="form-control">
+                            <option v-on:click="courseSelect(index)" v-for="(course,index) in courseSearch.course_list">
+                                {{ course.name
+                                }}
+                            </option>
+                        </select>
+                    </div>
+
+<!--                <label class="col-sm-3 form-control-label">课程名称</label>-->
+<!--                <div class="col-sm-9">-->
+<!--                    <input type="text" class="form-control course_name" v-model="course.name">-->
+<!--                </div>-->
+            </div>
+            <div class="line"></div>
             <div class="form-group row">
                 <label class="col-sm-3 form-control-label">课程编号</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control course_number">
+                    <input type="text" disabled="" placeholder=""
+                           class="form-control display-ISBN" :value="courseSearch.id">
                 </div>
             </div>
+
             <div class="line"></div>
             <div class="form-group row">
                 <label class="col-sm-3 form-control-label">书名</label>
@@ -52,26 +77,43 @@
             </div>
             <div class="line"></div>
             <div class="form-group row">
-                <label class="col-sm-3 form-control-label">选择学年</label>
+                <label class="col-sm-3 form-control-label">教师名</label>
                 <div class="col-sm-9">
-                    <select name="account" class="form-control mb-3">
-                        <option v-for="(item,index) in yearList" :key="index" :value='course.year'>{{item.year}}
+                    <input type="text" class="form-control teacher-name" id="inputTeacherName"
+                           v-model="teacherSearch.name"
+                           v-on:input="fuzzyTeacher">
+                    <select v-if="teacherSearch.teacher_list !== null && teacherSearch.open === true" multiple
+                            class="form-control">
+                        <option v-on:click="teacherSelect(index)" v-for="(teacher,index) in teacherSearch.teacher_list">
+                            {{ teacher.name}}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="line"></div>
             <div class="form-group row">
-                <label class="col-sm-3 form-control-label">价格</label>
+                <label class="col-sm-3 form-control-label">选择学年</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control price">
+                    <select name="account" class="form-control mb-3 year" @change="changeYear($event)">
+                        <option v-for="(item,index) in yearList" :key="index" :value='item.year'>{{item.year}}
+                        </option>
+                    </select>
                 </div>
             </div>
-        </div>
-        <div class="line"></div>
+            <div class="line"></div>
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label">选择学期</label>
+                <div class="col-sm-9">
+                    <select name="account" class="form-control mb-3 year" @change="changeSemester($event)">
+                        <option v-for="(item,index) in semesterList" :key="index" :value='item.semester'>{{item.semester}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+<!--        <div class="line"></div>-->
         <div class="form-group row">
             <div class="col-sm-4 offset-sm-3">
-                <button class="btn btn-primary" v-on:click="publishBook">
+                <button class="btn btn-primary" v-on:click="publishCourse()">
                     提交
                 </button>
             </div>
@@ -109,8 +151,13 @@
                 title: '模板代码',
                 menu: common.addCourse
             },
-            course:{
-                year:null
+            course: {
+                year: 2019,
+                name: null,
+                number: null,
+                semester: 1,
+                id: ''
+
             },
             bookSearch: {
                 name: '',
@@ -120,8 +167,22 @@
                 exchange: 0,
                 price: ''
             },
+            teacherSearch: {
+                name: '',
+                id: '',
+                teacher_list: null,
+                open: false
+            },
+            courseSearch: {
+                course_list: null,
+                name: '',
+                id: '',
+                open: false,
+
+            },
             yearList:
-                [{id: 1, year: 2019}, {id: 2, year: 2020}, {id: 3, year: 2021}, {id: 4, year: 2022}]
+                [{id: 1, year: 2019}, {id: 2, year: 2020}, {id: 3, year: 2021}, {id: 4, year: 2022}],
+            semesterList: [{id: 1, semester: 1}, {id: 2, semester: 2}, {id: 3, semester: 3}]
 
             // 添加其他需要存储的数据
         },
@@ -131,12 +192,14 @@
                 // 添加初始化代码
             },
             // 执行模糊查询
-            fuzzyBook: function() {
+            fuzzyBook: function () {
                 app.bookSearch.isbn = ''
                 request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
                     // 成功且有数据
+
                     if (res.code === 200 && res.data.length > 0) {
                         // 截取前10项
+                        console.log(res.data)
                         app.bookSearch.open = true
                         app.bookSearch.book_list = res.data.slice(0, 10)
                     } else {
@@ -145,15 +208,70 @@
                     }
                 })
             },
+            fuzzyCourse: function () {
+                app.courseSearch.id = ''
+                app.courseSearch.course_list = null
+                request(URL.FuzzyCourse,`name=${app.courseSearch.name}`,(res)=>{
+                    console.log(res.data)
+                    if (res.code === 200 && res.data.length > 0) {
+                        app.courseSearch.open = true
+                        app.courseSearch.course_list = res.data.slice(0, 10)
+                    } else {
+                        app.courseSearch.open = false
+                        app.courseSearch.course_list = null
+                    }
+                })
+            },
+            fuzzyTeacher: function () {
+                app.teacherSearch.id = ''
+                app.teacherSearch.teacher_list = null
+                request(URL.FuzzyTeacher, `name=${app.teacherSearch.name}`, (res) => {
+                    console.log(res.data)
+                    if (res.code === 200 && res.data.length > 0) {
+                        app.teacherSearch.open = true
+                        app.teacherSearch.teacher_list = res.data.slice(0, 10)
+                    } else {
+                        app.teacherSearch.open = false
+                        app.teacherSearch.teacher_list = null
+                    }
+                })
+            },
+            getCourseId: function () {
+
+            },
+            courseSelect: function (index){
+                console.log(`你选择了第${index}项`)
+                app.courseSearch.open = false
+                app.courseSearch.name = app.courseSearch.course_list[index].name
+                app.courseSearch.id = app.courseSearch.course_list[index].id
+            },
             // 选择了某个数据
             bookSelect: function (index) {
                 console.log(`你选择了第${index}项`)
                 app.bookSearch.open = false
                 app.bookSearch.name = app.bookSearch.book_list[index].name
                 app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
+                // app.teacherSearch.teacher_list=null
             },
-            publishBook: function () {
-
+            teacherSelect: function (index) {
+                console.log(`你选择了第${index}项`)
+                app.teacherSearch.open = false
+                app.teacherSearch.name = app.teacherSearch.teacher_list[index].name
+                console.log(app.teacherSearch.name + '&&&' + app.teacherSearch.open)
+                app.teacherSearch.id = app.teacherSearch.teacher_list[index].id
+            },
+            changeYear: function (event) {
+                this.course.year = event.target.value
+                // console.log(this.course.year)
+            },
+            changeSemester: function (event) {
+                this.course.semester = event.target.value
+            },
+            publishCourse: function () {
+                console.log(233333)
+                request(URL.InsertOpenCourse, `course=${app.courseSearch.id}&book=${app.bookSearch.isbn}&teacher=${app.teacherSearch.id}&year=${app.course.year}&semester=${app.course.semester}`, (res) => {
+                    console.log(res)
+                })
             }
         }
     })
