@@ -187,7 +187,9 @@
 				app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
 			},
 			publishRequest: function () {
-
+                request(URL.InsertSecondHandFind,`person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${app.bookSearch.price}&exchange=${app.bookSearch.exchange}&status=0`,(res)=>{
+                    console.log(res)
+                })
 			}
 		}
 	})
