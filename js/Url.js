@@ -36,6 +36,7 @@ class URL {
     static SelectSecondHandFindByIsbn = this.header + "/second/find/select"
     static SelectSecondHandFindByStudent = this.header + "/second/find/selectPerson"
     static InsertSecondHandPublish = this.header + "/second/publish/insert"
+    static InsertSecondHandFind = this.header+"/second/find/insert"
     static DeleteSecondHandPublish = this.header + "/second/publish/delete"
     static UpdateSecondHandPublish = this.header + "/second/publish/update"
     static ListSecondHandPublish = this.header + "/second/publish/select/all"
