@@ -77,37 +77,40 @@
                 searching: false,
             },
             books: [{
-                cover: 'cover',
-                isbn: 'isbn',
-                price: 'price',
-                name: 'name'
+            	book: {
+					cover: 'cover',
+					isbn: 'isbn',
+					price: '9.99',
+					name: 'name'
+                },
+                courses: ['软件工程', 'C++']
             }]
         },
         methods: {
             init: function () {
                 common.getAppState((state) => app.state = state)
-                request(URL.ListBook, '',  (res) => {
+                request(URL.SearchBook, '',  (res) => {
                     console.log(res)
                     app.books = res.data;
                     convert.books(app.books)
                 })
             },
             searchBook: function () {
-            	app.searchModel.searching = true
-            	request(URL.FuzzyBook, `name=${app.searchModel.name}`, (res) => {
-                    console.log(res)
-                    app.searchModel.searching = false
-                    if (res.code === 200) {
-						app.books = res.data
-						convert.books(app.books)
-                    }
-                })
+            	// app.searchModel.searching = true
+            	// request(URL.FuzzyBook, `name=${app.searchModel.name}`, (res) => {
+                //     console.log(res)
+                //     app.searchModel.searching = false
+                //     if (res.code === 200) {
+				// 		app.books = res.data
+				// 		convert.books(app.books)
+                //     }
+                // })
             }
         }
     })
 
     window.addEventListener('load', () => {
-        console.log(`fetch the ${URL.ListBook}`)
+        console.log(`fetch the ${URL.SearchBook}`)
         app.init();
     });
 </script>

@@ -9,6 +9,7 @@ class URL {
 
     static InsertBook = this.header + "/book/insert"
     static SelectBook = this.header + "/book/select"
+    static SearchBook = this.header + "/book/search"
     static DeleteBook = this.header + "/book/delete"
     static UpdateBook = this.header + "/book/update"
     static ListBook = this.header + "/book/list"

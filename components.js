@@ -16,18 +16,18 @@ Vue.component('book', {
           <div class="left-col col-lg-8 d-flex align-items-center justify-content-between">
             <div class="project-title d-flex align-items-center">
               <div class="image has-shadow">
-                <img v-bind:src="book.cover" alt="..."
+                <img v-bind:src="book.book.cover" alt="..."
                      class="img-fluid">
               </div>
               <div class="text">
-                <h3 class="h4">{{ book.name }}</h3>
-                <small>{{ book.isbn }}</small>
+                <h3 class="h4">{{ book.book.name }}</h3>
+                <small>{{ book.book.isbn }}[<span v-if="book.courses !== null" v-for="v in book.courses">&nbsp;{{ v }}</span>]</small>
               </div>
             </div>
           </div>
           <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
             <div class="text">
-              <h3 class="h4">\${{ book.price }}</h3>
+              <h3 class="h4">\${{ book.book.price }}</h3>
             </div>
           </div>
           <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
