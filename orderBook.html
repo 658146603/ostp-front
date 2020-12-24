@@ -32,8 +32,8 @@
                 <input id="name" type="text" placeholder="书名" v-model="searchModel.name" class="form-control col-12"/>
             </div>
             <div class="form-group col-lg-5">
-                <label for="clazz" class="sr-only"></label>
-                <input id="clazz" type="text" placeholder="课程" v-model="searchModel.clazz" class="form-control col-12"/>
+                <label for="course" class="sr-only"></label>
+                <input id="course" type="text" placeholder="课程" v-model="searchModel.course" class="form-control col-12"/>
             </div>
             <div class="form-group col-lg-2">
                 <button type="submit" v-on:click="searchBook" :disabled="searchModel.searching" class="btn btn-primary col-12">{{ searchModel.searching ? '正在搜索...': '搜索' }}</button>
@@ -59,6 +59,7 @@
 <script src="components.js"></script>
 <script src="js/convert.js"></script>
 <script src="js/common.js"></script>
+<script src="js/asyncNet.js"></script>
 <script>
     <!-- Create a Vue app -->
     let app = new Vue({
@@ -73,7 +74,7 @@
             },
             searchModel: {
                 name: '',
-                clazz: '',
+                course: '',
                 searching: false,
             },
             books: [{
@@ -87,24 +88,21 @@
             }]
         },
         methods: {
-            init: function () {
-                common.getAppState((state) => app.state = state)
-                request(URL.SearchBook, '',  (res) => {
-                    console.log(res)
-                    app.books = res.data;
-                    convert.books(app.books)
-                })
+            init: async function () {
+            	app.state = await net.appState()
+                let res = await net.searchBook()
+				console.log(res)
+                if (res.code === 200) {
+					app.books = res.data
+					convert.books(app.books)
+                }
             },
-            searchBook: function () {
-            	// app.searchModel.searching = true
-            	// request(URL.FuzzyBook, `name=${app.searchModel.name}`, (res) => {
-                //     console.log(res)
-                //     app.searchModel.searching = false
-                //     if (res.code === 200) {
-				// 		app.books = res.data
-				// 		convert.books(app.books)
-                //     }
-                // })
+            searchBook: async function () {
+            	let res = await net.searchBook(app.searchModel.name, app.searchModel.course)
+                if (res.code === 200) {
+                	app.books = res.data
+                    convert.books(app.books)
+                }
             }
         }
     })
