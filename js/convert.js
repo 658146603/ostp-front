@@ -4,7 +4,7 @@
 class convert {
     static books(books) {
         books.forEach((book) => {
-            book.book.cover = URL.getImage(book.cover)
+            book.book.cover = URL.getImage(book.book.cover)
             book.book.price = book.book.price / 100
         })
         return books
