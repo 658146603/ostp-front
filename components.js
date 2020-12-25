@@ -38,8 +38,11 @@ Vue.component('book', {
               <button v-else-if="book.state === 1" class="btn btn-primary btn-block">
                   订阅
               </button>
-              <button v-else class="btn btn-outline-primary btn-block">
+              <button v-else-if="book.state === 2" class="btn btn-outline-primary btn-block">
                   取消订阅
+              </button>
+              <button v-else class="btn btn-outline-primary btn-block" disabled>
+                  已送达
               </button>
           </div>
         </div>

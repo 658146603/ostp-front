@@ -26,11 +26,19 @@ class convert {
                 student.clazz.major.id === co.course.major.id
             )
             book.canOrdered = book.courseOpensRelated.length !== 0
-            book.ordersRelated = book.orders.filter((order) =>
-                student.id === order.student
-            )
+            book.received = false
+            book.ordersRelated = book.orders.filter((order) => {
+                if (student.id === order.student.id && order.received) {
+                    book.received = true
+                }
+                return student.id === order.student.id
+            })
+
+
             book.isOrdered = book.ordersRelated.length !== 0
-            if (book.canOrdered && book.isOrdered) {
+            if (book.received){
+                book.state = 3
+            } else if (book.canOrdered && book.isOrdered) {
                 book.state = 2
             } else if (book.canOrdered) {
                 book.state = 1
