@@ -84,17 +84,24 @@
 					price: '9.99',
 					name: 'name'
                 },
+                orders: [],
+                courseOpens: [],
+                courseOpensRelated: [],
+                ordersRelated: [],
                 courses: ['软件工程', 'C++']
             }]
         },
         methods: {
             init: async function () {
-            	net.addWatcher(app.stateChanged)
+            	await net.addWatcher(app.stateChanged)
                 let res = await net.searchBook()
-				console.log(res)
+				//console.log(res)
                 if (res.code === 200) {
+                	console.log(res.data)
 					app.books = res.data
 					convert.books(app.books)
+					convert.books2(app.books, app.state.user)
+					console.log(app.books)
                 }
             },
             stateChanged: function (state) {
@@ -106,6 +113,7 @@
                 if (res.code === 200) {
                 	app.books = res.data
                     convert.books(app.books)
+					convert.books2(app.books, app.state.user)
                 }
             }
         }

@@ -31,9 +31,16 @@ Vue.component('book', {
             </div>
           </div>
           <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
-            <div class="btn btn-primary btn-block">
-              订阅
-            </div>
+              <!--无需订阅的情况-->
+              <button v-if="book.state === 0" disabled class="btn btn-default btn-block" >
+                  无法订阅
+              </button>
+              <button v-else-if="book.state === 1" class="btn btn-primary btn-block">
+                  订阅
+              </button>
+              <button v-else class="btn btn-outline-primary btn-block">
+                  取消订阅
+              </button>
           </div>
         </div>
       </div>
