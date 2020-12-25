@@ -349,7 +349,7 @@ Vue.component('app', {
                 <header class="page-header">
                     <div class="container-fluid">
                         <h2 class="no-margin-bottom">
-                            {{ state.tip === '' ? info.title : info.title + " - " + state.tip }}</h2>
+                            {{ (state.tip === '') ? info.title : info.title + " - " + state.tip }}</h2>
                     </div>
                 </header>
                 <slot></slot>
