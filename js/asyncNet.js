@@ -58,9 +58,20 @@ class asyncNet {
 		return result
 	}
 
+	async searchBookStu(name = '', course = '') {
+		return this.request(URL.SearchBookStu, `name=${name}&course=${course}`)
+	}
+
+	async orderBookStu(isbn) {
+		return this.request(URL.OrderBookStu, `isbn=${isbn}`)
+	}
+
+	// Obsoleted
 	async searchBook(name = '', course = '') {
 		return this.request(URL.SearchBook, `name=${name}&course=${course}`)
 	}
+
+
 
 	async appState() {
 		let res = await this.request(URL.getLoginStatus, '')

@@ -7,7 +7,21 @@
  */
 Vue.component('book', {
     props: ['book'],
-
+    methods: {
+        order: async function () {
+            if (this.book.state === 1 || this.book.state === 2){
+                let res = await net.orderBookStu(this.book.book.isbn)
+                if (res.code === 200) {
+                    if (this.book.state === 1) {
+                        this.book.state = 2
+                    } else {
+                        this.book.state = 1
+                    }
+                }
+            }
+            this.$forceUpdate()
+        }
+    },
     template: `
       <div class="container-fluid">
       <!-- Project -->
@@ -35,10 +49,10 @@ Vue.component('book', {
               <button v-if="book.state === 0" disabled class="btn btn-default btn-block" >
                   无法订阅
               </button>
-              <button v-else-if="book.state === 1" class="btn btn-primary btn-block">
+              <button v-else-if="book.state === 1" class="btn btn-primary btn-block" v-on:click="order">
                   订阅
               </button>
-              <button v-else-if="book.state === 2" class="btn btn-outline-primary btn-block">
+              <button v-else-if="book.state === 2" class="btn btn-outline-primary btn-block" v-on:click="order">
                   取消订阅
               </button>
               <button v-else class="btn btn-outline-primary btn-block" disabled>

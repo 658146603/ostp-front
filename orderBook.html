@@ -94,7 +94,7 @@
         methods: {
             init: async function () {
             	await net.addWatcher(app.stateChanged)
-                let res = await net.searchBook()
+                let res = await net.searchBookStu()
 				//console.log(res)
                 if (res.code === 200) {
                 	console.log(res.data)
@@ -109,7 +109,7 @@
             	app.state = state
             },
             searchBook: async function () {
-            	let res = await net.searchBook(app.searchModel.name, app.searchModel.course)
+            	let res = await net.searchBookStu(app.searchModel.name, app.searchModel.course)
                 if (res.code === 200) {
                 	app.books = res.data
                     convert.books(app.books)
