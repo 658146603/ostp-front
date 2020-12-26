@@ -75,9 +75,16 @@ class asyncNet {
 	}
 
 	async selectSecondHandFindByStudentId(studentId){
-		return this.request(URL.SelectSecondHandFindByStudent, `id=${studentId}`)
+		return this.request(URL.SelectSecondHandFindByStudent, `person=${studentId}`)
 	}
 
+	async searchSecondHandPublishBuyList(name = '', publisher = '') {
+		return this.request(URL.SelectSecondHandPublishBuyList, `name=${name}&publisher=${publisher}`)
+	}
+
+	async searchSecondHandPublishExchangeList(name = '', publisher = '') {
+		return this.request(URL.SelectSecondHandPublishExchangeList, `name=${name}&publisher=${publisher}`)
+	}
 
 	async appState() {
 		let res = await this.request(URL.getLoginStatus, '')

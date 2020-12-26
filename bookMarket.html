@@ -39,7 +39,7 @@
             </div>
         </div>
     </section>
-    <section class="bookFinds no-padding-top">
+    <section class="bookFinds no-padding-top no-padding-bottom">
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
@@ -47,6 +47,45 @@
                 </div>
                 <div class="card-body no-padding">
                     <find-book v-for="find in finds" :find="find"></find-book>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="no-padding-top">
+        <div class="form-inline container-fluid">
+            <div class="form-group col-lg-5">
+                <label for="name" class="sr-only"></label>
+                <input id="name" type="text" placeholder="书名" v-model="searchModel.name" class="form-control col-12"/>
+            </div>
+            <div class="form-group col-lg-5">
+                <label for="course" class="sr-only"></label>
+                <input id="course" type="text" placeholder="发布者" v-model="searchModel.publisher" class="form-control col-12"/>
+            </div>
+            <div class="form-group col-lg-2">
+                <button type="submit" v-on:click="searchSecondHand" :disabled="searchModel.searching" class="btn btn-primary col-12">{{ searchModel.searching ? '正在搜索...': '搜索' }}</button>
+            </div>
+        </div>
+    </section>
+    <section class="bookBuyList no-padding-top no-padding-bottom">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="h4">购买列表</h3>
+                </div>
+                <div class="card-header no-padding">
+                    <buy-book v-for="buy in buyList" :buy="buy"></buy-book>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bookExchangeList no-padding-top no-padding-bottom">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="h4">交换列表</h3>
+                </div>
+                <div class="card-header no-padding">
+                    <exchange-book v-for="exchange in exchangeList" :exchange="exchange"></exchange-book>
                 </div>
             </div>
         </div>
@@ -60,7 +99,6 @@
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
 <script src="template/vendor/chart.js/Chart.min.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="template/js/charts-home.js"></script>
 <!-- Main File-->
 <script src="template/js/front.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -80,76 +118,94 @@
 				title: '二手市场',
 				menu: common.book_market
 			},
+            searchModel:{
+			    name: '',
+                publisher: '',
+                searching: false
+            },
 			// 添加其他需要存储的数据
             publishes: [
-                {
-                	id: '1',
-                    book: {
-                		isbn: 'isbn',
-                        name: 'name',
-                        price: 'price',
-                        cover: 'cover'
-                    },
-                    price: 89.4,
-                    exchange: 0,
-                    status: 0
-                },
-				{
-					id: '1',
-					book: {
-						isbn: 'isbn',
-						name: 'name',
-						price: 'price',
-						cover: 'cover'
-					},
-					price: 89.4,
-					exchange: 0,
-					status: 0
-				}
+				// {
+				// 	id: '1',
+				// 	book: {
+				// 		isbn: 'isbn',
+				// 		name: 'name',
+				// 		price: 'price',
+				// 		cover: 'cover'
+				// 	},
+				// 	price: 89.4,
+				// 	exchange: 0,
+				// 	status: 0
+				// }
             ],
             finds: [
-				{
-					id: '1',
-					book: {
-						isbn: 'isbn',
-						name: 'name',
-						price: 'price',
-						cover: 'cover'
-					},
-					price: 89.4,
-					exchange: 0,
-					status: 0
-				},
-				{
-					id: '1',
-					book: {
-						isbn: 'isbn',
-						name: 'name',
-						price: 'price',
-						cover: 'cover'
-					},
-					price: 89.4,
-					exchange: 0,
-					status: 0
-				}
-			]
+				// {
+				// 	id: '1',
+				// 	book: {
+				// 		isbn: 'isbn',
+				// 		name: 'name',
+				// 		price: 'price',
+				// 		cover: 'cover'
+				// 	},
+				// 	price: 89.4,
+				// 	exchange: 0,
+				// 	status: 0
+				// }
+			],
+            // 指别人发布的购买书籍
+            buyList: [
+				// {
+				// 	id: '1',
+                //     person: {
+				// 	    id: 'id',
+                //         name: 'name'
+                //     },
+				// 	book: {
+				// 		isbn: 'isbn',
+				// 		name: 'name',
+				// 		price: 'price',
+				// 		cover: 'cover'
+				// 	},
+				// 	price: 89.4,
+				// 	exchange: 0,
+				// 	status: 0
+				// }
+            ],
+            exchangeList: [
+
+            ]
 		},
 
 		methods: {
+			searchSecondHand: async function() {
+				app.searchModel.searching = true
+			    let resBuyList = await net.searchSecondHandPublishBuyList(app.searchModel.name, app.searchModel.publisher)
+				if (resBuyList.code === 200){
+					app.buyList = resBuyList.data
+					convert.secondHand(app.buyList)
+				}
+				let resExchangeList = await net.searchSecondHandPublishExchangeList(app.searchModel.name, app.searchModel.publisher)
+                if (resBuyList.code === 200) {
+                	app.exchangeList = resExchangeList.data
+                    convert.secondHand(app.exchangeList)
+                }
+				app.searchModel.searching = false
+            },
 			init: async function () {
                 net.addWatcher(app.stateChanged)
 				app.state = await net.appState()
                 let res = await net.selectSecondHandPublishByStudentId(app.state.user.id)
                 if (res.code === 200){
 					app.publishes = res.data
-                    convert.publishesOrFinds(app.publishes)
+                    convert.secondHand(app.publishes)
                 }
-                console.log(app.publishes)
                 let resFind = await net.selectSecondHandFindByStudentId(app.state.user.id)
                 if (resFind.code === 200){
                 	app.finds = resFind.data
-                    convert.publishesOrFinds(app.finds)
+                    convert.secondHand(app.finds)
                 }
+                app.searchSecondHand().then()
+
 			},
 			stateChanged: function (state) {
 				app.state = state

@@ -146,6 +146,80 @@ Vue.component('find-book', {
     `
 })
 
+/**
+ * component: buy book
+ */
+Vue.component('buy-book', {
+    props: ['buy'],
+    template: `        
+<div class="project">
+    <div class="row bg-white has-shadow no-margin">
+        <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+            <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                    <img v-bind:src="buy.book.cover" alt="..."
+                         class="img-fluid">
+                </div>
+                <div class="text">
+                    <h3 class="h4">{{ buy.book.name }}</h3>
+                    <small>{{ buy.book.isbn }} 原价:\${{ buy.book.price }} 发布者:{{ buy.person.name }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">{{ buy.exchange === 0 ? '出售': '交换' }}</h3>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">\${{ buy.price }}</h3>
+            </div>
+        </div>
+        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+        </div>
+    </div>
+</div>
+    `
+})
+
+/**
+ * component: buy book
+ */
+Vue.component('exchange-book', {
+    props: ['exchange'],
+    template: `        
+<div class="project">
+    <div class="row bg-white has-shadow no-margin">
+        <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+            <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                    <img v-bind:src="exchange.book.cover" alt="..."
+                         class="img-fluid">
+                </div>
+                <div class="text">
+                    <h3 class="h4">{{ exchange.book.name }}</h3>
+                    <small>{{ exchange.book.isbn }} 原价:\${{ exchange.book.price }} 发布者:{{ exchange.person.name }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">{{ exchange.exchange === 0 ? '出售': '交换' }}</h3>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">\${{ exchange.price }}</h3>
+            </div>
+        </div>
+        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+        </div>
+    </div>
+</div>
+    `
+})
+
 Vue.component('college', {
     props: ['college', 'state'],
     template: `

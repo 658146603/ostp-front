@@ -80,7 +80,7 @@ class convert {
         return classes
     }
 
-    static publishesOrFinds(publishes) {
+    static secondHand(publishes) {
         publishes.forEach((publish) => {
             publish.book.cover = URL.getImage(publish.book.cover)
             publish.book.price = publish.book.price / 100
