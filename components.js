@@ -425,8 +425,6 @@ Vue.component('app', {
                 <!-- Sidebar Navidation Menus-->
                 <span class="heading">Main</span>
                 <ul class="list-unstyled">
-                    <li :class="info.menu === 'index' ? 'active': ''"><a href="index.html"> <i class="icon-home"></i>主页</a>
-                    </li>
                     <!-- 与书籍有关的三个相关界面，查找功能类似，在订阅功能上略有区别 -->
                     <li v-if="state.type.role === 'student'" :class="info.menu === 'book_list' ? 'active' : ''">
                         <a href="orderBook.html"><i class="icon-flask"></i>订阅书籍</a>
@@ -480,12 +478,13 @@ Vue.component('app', {
                     </li>
                     
                     <li><a href="login.html"> <i class="icon-interface-windows"></i>登录</a></li>
-                    <li :class="info.menu === 'user' ? 'active': ''"><a href="user.html"><i class="icon-user"></i>个人信息</a></li>
+                    <li :class="info.menu === 'user' ? 'active': ''"><a href="index.html"><i class="icon-user"></i>个人信息</a></li>
                 </ul>
                 <span class="heading">Extras</span>
                 <ul class="list-unstyled">
                     <li :class="info.menu === 'template' ? 'active' : ''"><a href="template.html"><i
                         class="icon-screen"></i>模板代码</a></li>
+                    <li><a href="home.html"> <i class="icon-home"></i>Home </a></li>
                     <li><a href="tables.html"> <i class="icon-grid"></i>Tables </a></li>
                     <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
                     <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>

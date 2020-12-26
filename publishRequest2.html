@@ -188,8 +188,13 @@
 				app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
 			},
 			publishRequest: function () {
-                request(URL.InsertSecondHandFind,`person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${app.bookSearch.price}&exchange=${app.bookSearch.exchange}&status=0`,(res)=>{
-                    console.log(res)
+                request(URL.InsertSecondHandFind,`person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${Math.round(app.bookSearch.price*100)}&exchange=${app.bookSearch.exchange}&status=0`,(res)=>{
+					if (res.code === 200) {
+						alert("发布成功")//TODO 美化
+						window.location.assign("");
+					} else {
+						alert(res.message)
+					}
                 })
 			}
 		}
