@@ -9,6 +9,7 @@ Vue.component('book', {
     props: ['book'],
     methods: {
         order: async function () {
+            this.searching = true;
             if (this.book.state === 1 || this.book.state === 2){
                 let res = await net.orderBookStu(this.book.book.isbn)
                 if (res.code === 200) {
@@ -20,6 +21,7 @@ Vue.component('book', {
                 }
             }
             this.$forceUpdate()
+            this.searching = false
         }
     },
     template: `

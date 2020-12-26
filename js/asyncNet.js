@@ -38,8 +38,7 @@ class asyncNet {
 		})
 	}
 
-	async addWatcher(watcher) {
-		await this.appState()
+	addWatcher(watcher) {
 		this._watchers.push(watcher)
 	}
 

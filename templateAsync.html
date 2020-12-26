@@ -53,15 +53,16 @@
 			state: common.defaultAppState(),
 			// 用于存储app的信息
 			info: {
-				title: '二手市场',
-				menu: common.book_market
+				title: '模板代码',
+				menu: common.template
 			},
 			// 添加其他需要存储的数据
 		},
+
 		methods: {
 			init: async function () {
                 net.addWatcher(app.stateChanged)
-				app.state = await net.appState()
+                app.state = await net.appState()
 			},
 			stateChanged: function (state) {
 				app.state = state
