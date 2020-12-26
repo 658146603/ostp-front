@@ -79,4 +79,12 @@ class convert {
         })
         return classes
     }
+
+    static publishesOrFinds(publishes) {
+        publishes.forEach((publish) => {
+            publish.book.cover = URL.getImage(publish.book.cover)
+            publish.book.price = publish.book.price / 100
+            publish.price = publish.price / 100
+        })
+    }
 }
