@@ -107,6 +107,177 @@
 <script src="js/common.js"></script>
 <script src="js/asyncNet.js"></script>
 <script>
+    // -- inject custom components --
+	/**
+	 * component: publish book
+	 */
+	Vue.component('publish-book', {
+		props: ['publish'],
+        methods: {
+			// 删除这个
+		    cancel: async function () {
+                let res = await net.secondHandPublishCancel(this.publish.id)
+                if (res.code === 200){
+                	window.location.assign('')
+                }
+            }
+        },
+		template: `
+          <div class="project">
+          <div class="row bg-white has-shadow no-margin">
+            <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+              <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                  <img v-bind:src="publish.book.cover" alt="..."
+                       class="img-fluid">
+                </div>
+                <div class="text">
+                  \<!--使用模态框，并设置id--\>
+                  <h3 class="h4">{{ publish.book.name }}&nbsp;<div style="user-select: none" v-if="publish.status === 1"
+                                                                   class="badge badge-rounded bg-blue"
+                                                                   data-toggle="modal"
+                                                                   :data-target="'#modalPublish' + publish.id">
+                    {{ publish.secondPerson.name }}
+                  </div>
+                  </h3>
+                  <small>{{ publish.book.isbn }} 原价:\${{ publish.book.price }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
+                <h3 class="h4">{{ publish.exchange === 0 ? '出售' : '交换' }}</h3>
+              </div>
+            </div>
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
+                <h3 class="h4">\${{ publish.price }}</h3>
+              </div>
+            </div>
+            <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+              <button v-if="publish.status === 0" class="btn btn-outline-danger btn-block" v-on:click="cancel">
+                撤销
+              </button>
+              <button v-else class="btn btn-primary btn-block">
+                确认订单
+              </button>
+            </div>
+          </div>
+          \<!--使用模态框，并设置id--\>
+          <div v-if="publish.status === 1" class="modal fade" :id="'modalPublish' + publish.id" tabindex="-1" role="dialog"
+               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">用户信息</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="text-blue">学号:&nbsp;{{ publish.secondPerson.id }}</div>
+                  <div class="text-blue">姓名:&nbsp;{{ publish.secondPerson.name }}</div>
+                  <div class="text-blue">所属:&nbsp;{{ publish.secondPerson.clazz.major.college.name }}
+                    &nbsp;{{ publish.secondPerson.clazz.major.name }}
+                    &nbsp;{{ publish.secondPerson.clazz.name }}
+                  </div>
+                  <div class="text-blue">邮箱:&nbsp;{{ publish.secondPerson.email }}</div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          </div>
+        `
+	})
+
+	/**
+	 * component: find book
+	 */
+	Vue.component('find-book', {
+		props: ['find'],
+		methods: {
+			// 删除这个
+			cancel: async function () {
+				let res = await net.secondHandFindCancel(this.find.id)
+				if (res.code === 200){
+					window.location.assign('')
+				}
+			}
+		},
+		template: `
+          <div class="project">
+          <div class="row bg-white has-shadow no-margin">
+            <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+              <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                  <img v-bind:src="find.book.cover" alt="..."
+                       class="img-fluid">
+                </div>
+                <div class="text">
+                  \<!--使用模态框，并设置id--\>
+                  <h3 class="h4">{{ find.book.name }}&nbsp;<div style="user-select: none" v-if="find.status === 1"
+                                                                   class="badge badge-rounded bg-blue"
+                                                                   data-toggle="modal"
+                                                                   :data-target="'#modalFind' + find.id">
+                    {{ find.secondPerson.name }}
+                  </div>
+                  </h3>
+                  <small>{{ find.book.isbn }} 原价:\${{ find.book.price }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
+                <h3 class="h4">{{ find.exchange === 0 ? '购买' : '交换' }}</h3>
+              </div>
+            </div>
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
+                <h3 class="h4">\${{ find.price }}</h3>
+              </div>
+            </div>
+            <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+              <button v-if="find.status === 0" class="btn btn-outline-danger btn-block" v-on:click="cancel">
+                撤销
+              </button>
+              <button v-else class="btn btn-primary btn-block">
+                确认订单
+              </button>
+            </div>
+          </div>
+          \<!--使用模态框，并设置id--\>
+          <div v-if="find.status === 1" class="modal fade" :id="'modalFind' + find.id" tabindex="-1" role="dialog"
+               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">用户信息</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="text-blue">学号:&nbsp;{{ find.secondPerson.id }}</div>
+                  <div class="text-blue">姓名:&nbsp;{{ find.secondPerson.name }}</div>
+                  <div class="text-blue">所属:&nbsp;{{ find.secondPerson.clazz.major.college.name }}
+                  &nbsp;{{ find.secondPerson.clazz.major.name }}
+                  &nbsp;{{ find.secondPerson.clazz.name }}</div>
+                  <div class="text-blue">邮箱:&nbsp;{{ find.secondPerson.email }}</div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        `})
+
+
 	<!-- Create a Vue app -->
 	let app = new Vue({
 		el: '#app',
@@ -139,18 +310,19 @@
 				// }
             ],
             finds: [
-				// {
-				// 	id: '1',
-				// 	book: {
-				// 		isbn: 'isbn',
-				// 		name: 'name',
-				// 		price: 'price',
-				// 		cover: 'cover'
-				// 	},
-				// 	price: 89.4,
-				// 	exchange: 0,
-				// 	status: 0
-				// }
+				{
+					id: '1',
+					book: {
+						isbn: 'isbn',
+						name: 'name',
+						price: 'price',
+						cover: 'cover'
+					},
+                    secondPerson: {},
+					price: 89.4,
+					exchange: 0,
+					status: 0
+				}
 			],
             // 指别人发布的购买书籍
             buyList: [

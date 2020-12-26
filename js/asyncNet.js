@@ -97,6 +97,14 @@ class asyncNet {
 		)
 	}
 
+	async secondHandPublishCancel(orderId) {
+		return this.request(URL.CancelSecondHandPublish, `id=${orderId}`)
+	}
+
+	async secondHandFindCancel(orderId) {
+		return this.request(URL.CancelSecondHandFind, `id=${orderId}`)
+	}
+
 	async appState() {
 		let res = await this.request(URL.getLoginStatus, '')
 		if (res.code === 200) {
