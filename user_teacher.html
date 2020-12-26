@@ -26,6 +26,41 @@
 <body>
 <app id="app" :info="info" :state="state">
     <!-- Content -->
+    <!-- Info for Teacher -->
+    <section class="dashboard-counts no-padding-bottom" id="section_for_teacher">
+        <div class="container-fluid">
+            <div class="row bg-white has-shadow">
+                <div class="col-xl-4 col-sm-6">
+                    <div class="item d-flex align-items-center">
+                        <div class="icon bg-green"><i class="icon-flask"></i></div>
+                        <div class="title"><span>学院</span></div>
+                        <div class="text-small"><strong>{{state.user.college.name}}</strong></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6">
+                    <div class="item d-flex align-items-center">
+                        <div class="icon bg-violet"><i class="icon-user"></i></div>
+                        <div class="title"><strong>姓名</strong></div>
+                        <div class="text"><strong>{{state.user.name}}</strong></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6">
+                    <div class="item d-flex align-items-center">
+                        <div class="icon bg-red"><i class="icon-padnote"></i></div>
+                        <div class="title"><span>工号</span></div>
+                        <div class="text"><strong>{{state.user.id}}</strong></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6">
+                    <div class="item d-flex align-items-center">
+                        <div class="icon bg-yellow"><i class="icon-home"></i></div>
+                        <div class="title"><span>邮箱</span></div>
+                        <div class="text"><strong>{{state.user.email}}</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -41,7 +76,6 @@
 <script src="components.js"></script>
 <script src="js/convert.js"></script>
 <script src="js/common.js"></script>
-<script src="js/asyncNet.js"></script>
 <script>
     <!-- Create a Vue app -->
     let app = new Vue({
@@ -49,12 +83,20 @@
         data: {
             // 用于存储用户的状态
             state: {
-                user: null,
+                user: {
+                    id: "",
+                    name: "",
+                    college: {
+                        id: "",
+                        name: ""
+                    },
+                    email: ""
+                },
                 type: {
-                    'role': null,
+                    'role': common.teacher,
                     // 显示名称
                     'display': '未登录',
-                    'role_display': null
+                    'role_display': common.teacher_display
                 },
                 status: false,
                 tip: '正在加载中...'
@@ -68,26 +110,20 @@
         },
         methods: {
             // 添加初始化代码
-            init: async function () {
-                app.state = await net.appState()
-
-                if (app.state.status !== null && app.state.type.role === common.student) {
-                    window.location.assign("user_student.html")
-                } else if (app.state.status !== null && app.state.type.role === common.teacher) {
-                    window.location.assign("user_teacher.html")
-                } else if (app.state.status !== null && (app.state.type.role === common.admin || app.state.type.role === common.su)) {
-                    window.location.assign("user_admin.html")
-                } else {
-                    alert("请登录")
-                    window.location.assign("login.html")
-                }
+            init: function () {
+                common.getAppState((state) => {
+                    app.state = state
+                    console.log(state)
+                })
             },
             // 其他的逻辑
+            get_courses: function () {
+
+            },
         }
     })
 
     window.addEventListener('load', () => {
-        console.log(`user page init`)
         app.init();
     });
 </script>
