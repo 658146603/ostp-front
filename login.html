@@ -67,7 +67,7 @@
                 <div class="col-lg-6 bg-white">
                     <div class="form d-flex align-items-center">
                         <div class="content">
-                            <form method="post" class="form-validate">
+                            <div  class="form-validate">
                                 <div class="form-group">
                                     <input id="login-username" type="text" name="loginUsername" required
                                            data-msg="Please enter your username" class="input-material">
@@ -78,10 +78,10 @@
                                            data-msg="Please enter your password" class="input-material">
                                     <label for="login-password" class="label-material">密码</label>
                                 </div>
-                                <a id="login" class="btn btn-primary"
-                                   onclick="login(document.getElementById('login-username').value,document.getElementById('login-password').value) ">登录</a>
+                                <button id="login" class="btn btn-primary"
+                                   onclick="login(document.getElementById('login-username').value,document.getElementById('login-password').value) ">登录</button>
                                 <!-- This should be submit button but I replaced it with <a> for demo purposes-->
-                            </form>
+                            </div>
                             <a href="#" class="forgot-pass">忘记密码</a><br>
                         </div>
                     </div>
