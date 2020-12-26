@@ -66,6 +66,41 @@ Vue.component('book', {
     </div>`
 })
 
+/**
+ * component: publish book
+ */
+Vue.component('publish', {
+    props: ['publish'],
+    template: `        
+<div class="project">
+    <div class="row bg-white has-shadow no-margin">
+        <div class="left-col col-lg-8 d-flex align-items-center justify-content-between">
+            <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                    <img v-bind:src="publish.book.cover" alt="..."
+                         class="img-fluid">
+                </div>
+                <div class="text">
+                    <h3 class="h4">{{ publish.book.name }}</h3>
+                    <small>{{ publish.book.isbn }}，\${{ publish.book.price }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">\${{ publish.price }}</h3>
+            </div>
+        </div>
+        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+            <button disabled class="btn btn-default btn-block">
+                无法订阅
+            </button>
+        </div>
+    </div>
+</div>
+    `
+})
+
 Vue.component('college', {
     props: ['college', 'state'],
     template: `
