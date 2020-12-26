@@ -537,7 +537,7 @@ Vue.component('app', {
                             </li>
                             <li :class="info.menu === 'add_course' ? 'active': ''"><a href="addCourse.html">添加课程</a>
                             </li>
-                            <li :class="info.menu === 'open_course' ? 'active' : ''"><a href="openCourse.html">开设课程</a>
+                            <li :class="info.menu === 'open_course' ? 'active' : ''"><a href="admin_open_course.html">开设课程</a>
                             </li>
                         </ul>
                     </li>
@@ -553,7 +553,7 @@ Vue.component('app', {
                             </li>
                             <li :class="info.menu === 'add_course' ? 'active': ''"><a href="addCourse.html">添加课程</a>
                             </li>
-                            <li :class="info.menu === 'open_course' ? 'active' : ''"><a href="openCourse.html">开设课程</a>
+                            <li :class="info.menu === 'open_course' ? 'active' : ''"><a href="admin_open_course.html">开设课程</a>
                             </li>
                         </ul>
                     </li>

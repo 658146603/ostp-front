@@ -146,9 +146,9 @@
 <script src="template/vendor/popper.js/umd/popper.min.js"></script>
 <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="template/vendor/chart.js/Chart.min.js"></script>
+<!--<script src="template/vendor/chart.js/Chart.min.js"></script>-->
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="template/js/charts-home.js"></script>
+<!--<script src="template/js/charts-home.js"></script>-->
 <!-- Main File-->
 <script src="template/js/front.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -209,7 +209,7 @@
                 app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
             },
             publishBook: function () {
-                let body = `person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${app.bookSearch.price * 100}&exchange=${app.bookSearch.exchange}`
+                let body = `person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${Math.round(app.bookSearch.price * 100)}&exchange=${app.bookSearch.exchange}`
                 request(URL.InsertSecondHandPublish, body, (res) => {
                     if (res.code === 200) {
                         alert("发布成功")//TODO 美化
