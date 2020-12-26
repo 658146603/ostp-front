@@ -75,6 +75,7 @@ class URL {
     static FuzzyCourse = this.header + '/course/fuzzy'
     static FuzzyCollege = this.header + "/college/fuzzy"
     static FuzzyMajor = this.header + "/major/fuzzy"
+    static FuzzyCourseWithMajor = this.header + "/course/fuzzy/by/major"
     static IdDuplicate = this.header + "/account/duplicate"
 
     static getImage(url) {
