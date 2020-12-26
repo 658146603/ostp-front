@@ -32,17 +32,22 @@
                 <!-- Form Elements -->
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header d-flex align-items-center">
-                            <h3 class="h4">开设课程</h3>
-                        </div>
                         <div class="card-body">
                             <div class="form-horizontal">
                                 <div class="form-group row">
                                     <label for="input_major" class="col-sm-3 form-control-label">专业</label>
                                     <div class="col-sm-9">
                                         <input type="text" placeholder="请输入开课专业" id="input_major"
-                                               class="form-control display-college" v-on:input="fuzzy_major"
+                                               class="form-control" v-on:input="fuzzy_major"
                                                v-model="course_open.major.name">
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select v-if="fuzzy_list.major !== null && fuzzy_list.major_open === true"
+                                                multiple class="form-control">
+                                            <option v-on:click="select_major(index)"
+                                                    v-for="(major, index) in fuzzy_list.major">
+                                                {{ major.name}} {{major.year}} ({{major.id}})
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -51,8 +56,42 @@
                                     <label for="input_course" class="col-sm-3 form-control-label">课程</label>
                                     <div class="col-sm-9">
                                         <input type="text" placeholder="请输入开课课程" id="input_course"
-                                               class="form-control display-college" v-on:input="fuzzy_course"
+                                               class="form-control" v-on:input="fuzzy_course" disabled
                                                v-model="course_open.course.name">
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select v-if="fuzzy_list.course !== null && fuzzy_list.course_open === true"
+                                                multiple class="form-control">
+                                            <option v-on:click="select_course(index)"
+                                                    v-for="(course, index) in fuzzy_list.course">
+                                                {{ course.name}} ({{course.id}})
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <label for="input_year" class="col-sm-3 form-control-label">开课学年</label>
+                                    <div class="col-sm-3">
+                                        <select name="account" class="form-control mb-3" id="input_year"
+                                                v-model="course_open.time.year">
+                                            <option>2016</option>
+                                            <option>2017</option>
+                                            <option>2018</option>
+                                            <option>2019</option>
+                                            <option>2020</option>
+                                            <option>2021</option>
+                                            <option>2022</option>
+                                        </select>
+                                    </div>
+                                    <label for="input_semester" class="col-sm-3 form-control-label">开课学期</label>
+                                    <div class="col-sm-3">
+                                        <select name="account" class="form-control mb-3" id="input_semester"
+                                                v-model="course_open.time.semester">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -61,8 +100,16 @@
                                     <label for="input_book" class="col-sm-3 form-control-label">教材</label>
                                     <div class="col-sm-9">
                                         <input type="text" placeholder="请输入教材" id="input_book"
-                                               class="form-control display-college" v-on:input="fuzzy_book"
+                                               class="form-control" v-on:input="fuzzy_book"
                                                v-model="course_open.book.name">
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select v-if="fuzzy_list.book !== null && fuzzy_list.book_open === true"
+                                                multiple class="form-control">
+                                            <option v-on:click="select_book(index)"
+                                                    v-for="(book, index) in fuzzy_list.book">
+                                                {{ book.name}} ({{book.isbn}})
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -71,8 +118,16 @@
                                     <label for="input_teacher" class="col-sm-3 form-control-label">任课教师</label>
                                     <div class="col-sm-9">
                                         <input type="text" placeholder="请输入任课教师" id="input_teacher"
-                                               class="form-control display-college" v-on:input="fuzzy_teacher"
+                                               class="form-control" v-on:input="fuzzy_teacher"
                                                v-model="course_open.teacher.name">
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select v-if="fuzzy_list.teacher !== null && fuzzy_list.teacher_open === true"
+                                                multiple class="form-control">
+                                            <option v-on:click="select_teacher(index)"
+                                                    v-for="(teacher, index) in fuzzy_list.teacher">
+                                                {{ teacher.name}} ({{teacher.id}})
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="line"></div>
@@ -135,15 +190,15 @@
                     name: '',
                 },
                 time: {
-                    year: '',
-                    semester: '',
+                    year: '2020',
+                    semester: '1',
                 },
                 course: {
                     id: -1,
                     name: '',
                 },
                 book: {
-                    id: '',
+                    isbn: '',
                     name: '',
                 },
                 teacher: {
@@ -179,14 +234,45 @@
             },
             // 添加其他逻辑
             open_course: function () {
+                if (
+                    $('#input_major').hasClass("is-valid") && app.state.course_open.major.id > -1
+                    && $('#input_course').hasClass("is-valid") && app.state.course_open.course.id === ''
+                    && $('#input_teacher').hasClass("is-valid") && app.state.course_open.teacher.id !== -1
+                    && $('#input_book').hasClass("is-valid") && app.state.course_open.book.isbn !== ''
+                ) {
 
+                }
             },
             fuzzy_course: function () {
-
+                app.course_open.course.id = -1
+                console.log(`${app.course_open.major.name}(${app.course_open.major.id}).${app.course_open.course.name}(${app.course_open.course.id})`)
+                this.invalid($('#input_course'))
+                if (app.state.status === true) {
+                    request_su(URL.FuzzyCourseWithMajor, `major=${app.course_open.major.id}&name=${app.course_open.course.name}`, (status, result) => {
+                        if (status === 200 && result.code === 200 && result.data.length > 0) {
+                            app.fuzzy_list.course_open = true
+                            app.fuzzy_list.course = result.data.slice(0, 10)
+                        } else {
+                            app.fuzzy_list.course_open = false
+                            app.fuzzy_list.course = null
+                            app.course_open.course.id = ''
+                        }
+                    })
+                }
+            },
+            select_course: function (index) {
+                app.course_open.course.id = app.fuzzy_list.course[index].id
+                app.course_open.course.name = `${app.fuzzy_list.course[index].name} (${app.course_open.course.id})`
+                app.fuzzy_list.course_open = false
+                this.valid($('#input_course'))
+                console.log(`selected: ${app.course_open.course.id}->${app.course_open.course.name}`)
             },
             fuzzy_major: function () {
-                console.log(app.course_open.major.name)
                 app.course_open.major.id = -1
+                app.course_open.course.id = ''
+                app.course_open.course.name = ''
+                console.log(`${app.course_open.major.name}(${app.course_open.major.id}).${app.course_open.course.name}(${app.course_open.course.id})`)
+                this.disable($('#input_course'))
                 this.invalid($('#input_major'))
                 if (app.state.status === true) {
                     request_su(URL.FuzzyMajor, `college=${app.state.user.college.id}&name=${app.course_open.major.name}`, (status, result) => {
@@ -202,23 +288,72 @@
                 }
             },
             select_major: function (index) {
-                app.course_open.major.id = app.college_list.list[index].id
-                app.course_open.major.name = `${app.fuzzy_list.major[index].name} (${app.course_open.major.id})`
+                app.course_open.major.id = app.fuzzy_list.major[index].id
+                app.course_open.major.name = `${app.fuzzy_list.major[index].name} ${app.fuzzy_list.major[index].year} (${app.course_open.major.id})`
                 app.fuzzy_list.major_open = false
-                console.log(`selected: ${app.course_open.major.id}->${app.course_open.major.name}`)
+                this.enable($('#input_course'))
                 this.valid($('#input_major'))
+                console.log(`selected: ${app.course_open.major.id}->${app.course_open.major.name}`)
             },
             fuzzy_book: function () {
-
+                app.course_open.book.isbn = ''
+                this.invalid($('#input_book'))
+                console.log(`${app.course_open.book.name}(${app.course_open.book.isbn})`)
+                if (app.state.status === true) {
+                    request_su(URL.FuzzyBook, `name=${app.course_open.book.name}`, (status, result) => {
+                        if (status === 200 && result.code === 200 && result.data.length > 0) {
+                            app.fuzzy_list.book_open = true
+                            app.fuzzy_list.book = result.data.slice(0, 10)
+                        } else {
+                            app.fuzzy_list.book_open = false
+                            app.fuzzy_list.book = null
+                            app.course_open.book.isbn = ''
+                        }
+                    })
+                }
+            },
+            select_book: function (index) {
+                app.course_open.book.isbn = app.fuzzy_list.book[index].isbn
+                app.course_open.book.name = `${app.fuzzy_list.book[index].name} (${app.course_open.book.isbn})`
+                app.fuzzy_list.book_open = false
+                this.valid($('#input_book'))
+                console.log(`selected: ${app.course_open.book.isbn}->${app.course_open.book.name}`)
             },
             fuzzy_teacher: function () {
-
+                app.course_open.teacher.id = ''
+                console.log(`${app.course_open.teacher.name}(${app.course_open.teacher.id})`)
+                this.invalid($('#input_teacher'))
+                if (app.state.status === true) {
+                    request_su(URL.FuzzyTeacher, `name=${app.course_open.teacher.name}`, (status, result) => {
+                        if (status === 200 && result.code === 200 && result.data.length > 0) {
+                            app.fuzzy_list.teacher_open = true
+                            app.fuzzy_list.teacher = result.data.slice(0, 10)
+                        } else {
+                            app.fuzzy_list.teacher_open = false
+                            app.fuzzy_list.teacher = null
+                            app.course_open.teacher.id = ''
+                        }
+                    })
+                }
+            },
+            select_teacher: function (index) {
+                app.course_open.teacher.id = app.fuzzy_list.teacher[index].id
+                app.course_open.teacher.name = `${app.fuzzy_list.teacher[index].name}  (${app.course_open.teacher.id})`
+                app.fuzzy_list.teacher_open = false
+                this.valid($('#input_teacher'))
+                console.log(`selected: ${app.course_open.teacher.id}->${app.course_open.teacher.name}`)
             },
             invalid: function (element) {
                 element.removeClass("is-valid").addClass("is-invalid")
             },
             valid: function (element) {
-                element.addClass("is-invalid").removeClass("is-valid")
+                element.removeClass("is-invalid").addClass("is-valid")
+            },
+            enable: function (element) {
+                element.attr("disabled", false);
+            },
+            disable: function (element) {
+                element.attr("disabled", true)
             }
         }
     })
