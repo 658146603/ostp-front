@@ -70,6 +70,13 @@ class asyncNet {
 		return this.request(URL.SearchBook, `name=${name}&course=${course}`)
 	}
 
+	async selectSecondHandPublishByStudentId(studentId) {
+		return this.request(URL.SelectSecondHandPublishByStudent, `id=${studentId}`)
+	}
+
+	async selectSecondHandFindByStudentId(studentId){
+		return this.request(URL.SelectSecondHandFindByStudent, `id=${studentId}`)
+	}
 
 
 	async appState() {

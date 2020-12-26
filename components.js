@@ -37,7 +37,7 @@ Vue.component('book', {
               </div>
               <div class="text">
                 <h3 class="h4">{{ book.book.name }}</h3>
-                <small>{{ book.book.isbn }}[<span v-if="book.courses !== null" v-for="v in book.courses">&nbsp;{{ v }}</span>]</small>
+                <small>{{ book.book.isbn }}[<span v-if="book.courses !== null" v-for="v in book.courses">&nbsp;{{ v }}&nbsp;</span>]</small>
               </div>
             </div>
           </div>
@@ -64,6 +64,86 @@ Vue.component('book', {
         </div>
       </div>
     </div>`
+})
+
+/**
+ * component: publish book
+ */
+Vue.component('publish-book', {
+    props: ['publish'],
+    template: `        
+<div class="project">
+    <div class="row bg-white has-shadow no-margin">
+        <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+            <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                    <img v-bind:src="publish.book.cover" alt="..."
+                         class="img-fluid">
+                </div>
+                <div class="text">
+                    <h3 class="h4">{{ publish.book.name }}</h3>
+                    <small>{{ publish.book.isbn }} 原价:\${{ publish.book.price }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">{{ publish.exchange === 0 ? '出售': '交换' }}</h3>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">\${{ publish.price }}</h3>
+            </div>
+        </div>
+        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+            <button v-if="publish.status === 0" class="btn btn-outline-danger btn-block">
+                撤销
+            </button>
+        </div>
+    </div>
+</div>
+    `
+})
+
+/**
+ * component: find book
+ */
+Vue.component('find-book', {
+    props: ['find'],
+    template: `        
+<div class="project">
+    <div class="row bg-white has-shadow no-margin">
+        <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+            <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                    <img v-bind:src="find.book.cover" alt="..."
+                         class="img-fluid">
+                </div>
+                <div class="text">
+                    <h3 class="h4">{{ find.book.name }}</h3>
+                    <small>{{ find.book.isbn }} 原价:\${{ find.book.price }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">{{ find.exchange === 0 ? '出售': '交换' }}</h3>
+            </div>
+        </div>
+        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+            <div class="text">
+                <h3 class="h4">\${{ find.price }}</h3>
+            </div>
+        </div>
+        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+            <button v-if="find.status === 0" class="btn btn-outline-danger btn-block">
+                撤销
+            </button>
+        </div>
+    </div>
+</div>
+    `
 })
 
 Vue.component('college', {

@@ -93,8 +93,9 @@
         },
         methods: {
             init: async function () {
-				this.searchModel.searching = true;
+				this.searchModel.searching = true
             	await net.addWatcher(app.stateChanged)
+                app.state = await net.appState()
                 let res = await net.searchBookStu()
 				//console.log(res)
                 if (res.code === 200) {

@@ -26,25 +26,35 @@
 <script src="js/Url.js"></script>
 <script type="text/javascript">
     function login(username, password) {
-        let formRequest = new Request(URL.Login, {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
-            },
-            body: `id=${username}&password=${password}`,
-            credentials: 'include',
-        })
-        fetch(formRequest).then(response => {
-            let result = response.json()
-            result.then(res => {
-                if (res.code === 200) {
-                    window.location.assign("index.html")//TODO 跳转到主界面
-                } else {
-                    alert(res.message)
-                }
-                console.log(res)
-            })
+        // let formRequest = new Request(URL.Login, {
+        //     method: 'post',
+        //     mode: 'cors',
+        //     headers: {
+        //         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
+        //     },
+        //     body: `id=${username}&password=${password}`,
+        //     credentials: 'include',
+        // })
+        // fetch(formRequest).then(response => {
+        //     let result = response.json()
+        //     result.then(res => {
+        //         if (res.code === 200) {
+        //             window.location.assign("index.html")//TODO 跳转到主界面
+        //         } else {
+        //             alert(res.message)
+        //         }
+        //         console.log(res)
+        //     })
+        // })
+
+        request_su(URL.Login, `id=${username}&password=${password}`, (status, result) => {
+            if (status === 200 && result.code === 200) {
+                window.location.assign("index.html")
+            } else if (status === 200) {
+                alert(result.message)
+            }
+            console.log(status)
+            console.log(result)
         })
     }
 </script>
@@ -75,14 +85,13 @@
                                 </div>
                                 <div class="form-group">
                                     <input id="login-password" type="password" name="loginPassword" required
-                                           data-msg="Please enter your password" class="input-material" onkeydown="">
+                                           data-msg="Please enter your password" class="input-material">
                                     <label for="login-password" class="label-material">密码</label>
                                 </div>
                                 <button id="login" class="btn btn-primary"
-                                        onclick="login(document.getElementById('login-username').value,document.getElementById('login-password').value) ">
+                                        onclick="login($('#login-username').val(), $('#login-password').val())">
                                     登录
                                 </button>
-                                <!-- This should be submit button but I replaced it with <a> for demo purposes-->
                             </div>
                             <a href="#" class="forgot-pass">忘记密码</a><br>
                         </div>
