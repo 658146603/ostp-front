@@ -90,6 +90,13 @@ class asyncNet {
 		return this.request(URL.SelectSecondHandPublishPurchase, `id=${orderId}`)
 	}
 
+	async addCourseOpen(major, course, year, semester, book, teacher) {
+		return this.request(
+			URL.InsertOpenCourse,
+			`major=${major}&course=${course}&year=${year}&semester=${semester}&book=${book}&teacher=${teacher}`
+		)
+	}
+
 	async appState() {
 		let res = await this.request(URL.getLoginStatus, '')
 		if (res.code === 200) {

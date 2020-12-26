@@ -518,7 +518,7 @@ Vue.component('app', {
                     </li>
                     <li><a href="#dropDown1" aria-expanded="false" data-toggle="collapse">
                         <i class="icon-interface-windows"></i>买东西</a>
-                        <ul id="dropDown1" class="collapse list-unstyled show">
+                        <ul id="dropDown1" class="collapse list-unstyled">
                             <li :class="info.menu === 'book_market' ? 'active': ''"><a href="bookMarket.html">二手市场</a>
                             </li>
                             <li :class="info.menu === 'publish_book' ? 'active': ''"><a href="publishBook2.html">发布二手书</a>
