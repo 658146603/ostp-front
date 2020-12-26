@@ -90,6 +90,13 @@ class asyncNet {
 		return this.request(URL.SelectSecondHandPublishPurchase, `id=${orderId}`)
 	}
 
+	async addCourseOpen(major, course, year, semester, book, teacher) {
+		return this.request(
+			URL.InsertOpenCourse,
+			`major=${major}&course=${course}&year=${year}&semester=${semester}&book=${book}&teacher=${teacher}`
+		)
+	}
+
 	async secondHandPublishCancel(orderId) {
 		return this.request(URL.CancelSecondHandPublish, `id=${orderId}`)
 	}

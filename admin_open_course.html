@@ -181,7 +181,7 @@
             // 用于存储app的信息
             info: {
                 title: '开设课程',
-                menu: common.template
+                menu: common.open_course
             },
             // 添加其他需要存储的数据
             course_open: {
@@ -233,13 +233,29 @@
                 app.state = state
             },
             // 添加其他逻辑
-            open_course: function () {
+            open_course: async function () {
                 if (
-                    $('#input_major').hasClass("is-valid") && app.state.course_open.major.id > -1
-                    && $('#input_course').hasClass("is-valid") && app.state.course_open.course.id === ''
-                    && $('#input_teacher').hasClass("is-valid") && app.state.course_open.teacher.id !== -1
-                    && $('#input_book').hasClass("is-valid") && app.state.course_open.book.isbn !== ''
+                    $('#input_major').hasClass("is-valid") && app.course_open.major.id > -1
+                    && $('#input_course').hasClass("is-valid") && app.course_open.course.id !== ''
+                    && $('#input_teacher').hasClass("is-valid") && app.course_open.teacher.id !== -1
+                    && $('#input_book').hasClass("is-valid") && app.course_open.book.isbn !== ''
                 ) {
+                    console.log(app.course_open)
+                    let result = await net.addCourseOpen(
+                        app.course_open.major.id,
+                        app.course_open.course.id,
+                        app.course_open.time.year,
+                        app.course_open.time.semester,
+                        app.course_open.book.isbn,
+                        app.course_open.teacher.id
+                    )
+
+                    if (result.code === 200) {
+                        alert("添加课程成功")
+                        window.location.assign("")
+                    } else {
+                        alert(result.message)
+                    }
 
                 }
             },
@@ -272,7 +288,9 @@
                 app.course_open.course.id = ''
                 app.course_open.course.name = ''
                 console.log(`${app.course_open.major.name}(${app.course_open.major.id}).${app.course_open.course.name}(${app.course_open.course.id})`)
-                this.disable($('#input_course'))
+                let element_course = $('#input_course')
+                this.disable(element_course)
+                this.invalid(element_course)
                 this.invalid($('#input_major'))
                 if (app.state.status === true) {
                     request_su(URL.FuzzyMajor, `college=${app.state.user.college.id}&name=${app.course_open.major.name}`, (status, result) => {
