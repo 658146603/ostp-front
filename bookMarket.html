@@ -120,7 +120,13 @@
                 if (res.code === 200){
                 	window.location.assign('')
                 }
-            }
+            },
+			changeStatusOk: async function() {
+				let res = await net.secondPublishChangeStatusOk(this.publish.id)
+				if (res.code === 200) {
+					this.publish.status = res.data.status
+				}
+			}
         },
 		template: `
           <div class="project">
@@ -133,7 +139,7 @@
                 </div>
                 <div class="text">
                   \<!--使用模态框，并设置id--\>
-                  <h3 class="h4">{{ publish.book.name }}&nbsp;<div style="user-select: none" v-if="publish.status === 1"
+                  <h3 class="h4">{{ publish.book.name }}&nbsp;<div style="user-select: none" v-if="publish.status !== 0"
                                                                    class="badge badge-rounded bg-blue"
                                                                    data-toggle="modal"
                                                                    :data-target="'#modalPublish' + publish.id">
@@ -158,13 +164,16 @@
               <button v-if="publish.status === 0" class="btn btn-outline-danger btn-block" v-on:click="cancel">
                 撤销
               </button>
-              <button v-else class="btn btn-primary btn-block">
+              <button v-else-if="publish.status === 1" class="btn btn-primary btn-block" v-on:click="changeStatusOk">
                 确认订单
+              </button>
+              <button v-else class="btn btn-outline-primary btn-block" v-on:click="changeStatusOk">
+                已确认
               </button>
             </div>
           </div>
           \<!--使用模态框，并设置id--\>
-          <div v-if="publish.status === 1" class="modal fade" :id="'modalPublish' + publish.id" tabindex="-1" role="dialog"
+          <div v-if="publish.status !== 0" class="modal fade" :id="'modalPublish' + publish.id" tabindex="-1" role="dialog"
                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
@@ -206,7 +215,13 @@
 				if (res.code === 200){
 					window.location.assign('')
 				}
-			}
+			},
+            changeStatusOk: async function() {
+                let res = await net.secondHandChangeStatusOk(this.find.id)
+                if (res.code === 200) {
+                	this.find.status = res.data.status
+                }
+            }
 		},
 		template: `
           <div class="project">
@@ -219,7 +234,7 @@
                 </div>
                 <div class="text">
                   \<!--使用模态框，并设置id--\>
-                  <h3 class="h4">{{ find.book.name }}&nbsp;<div style="user-select: none" v-if="find.status === 1"
+                  <h3 class="h4">{{ find.book.name }}&nbsp;<div style="user-select: none" v-if="find.status !== 0"
                                                                    class="badge badge-rounded bg-blue"
                                                                    data-toggle="modal"
                                                                    :data-target="'#modalFind' + find.id">
@@ -244,13 +259,16 @@
               <button v-if="find.status === 0" class="btn btn-outline-danger btn-block" v-on:click="cancel">
                 撤销
               </button>
-              <button v-else class="btn btn-primary btn-block">
+              <button v-else-if="find.status === 1" class="btn btn-primary btn-block" v-on:click="changeStatusOk">
                 确认订单
+              </button>
+              <button v-else class="btn btn-outline-primary btn-block" v-on:click="changeStatusOk">
+                已确认
               </button>
             </div>
           </div>
           \<!--使用模态框，并设置id--\>
-          <div v-if="find.status === 1" class="modal fade" :id="'modalFind' + find.id" tabindex="-1" role="dialog"
+          <div v-if="find.status !== 0" class="modal fade" :id="'modalFind' + find.id" tabindex="-1" role="dialog"
                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">

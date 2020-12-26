@@ -87,4 +87,5 @@ class convert {
             publish.price = publish.price / 100
         })
     }
+
 }
