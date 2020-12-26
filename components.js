@@ -128,7 +128,7 @@ Vue.component('find-book', {
         </div>
         <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
             <div class="text">
-                <h3 class="h4">{{ find.exchange === 0 ? '出售': '交换' }}</h3>
+                <h3 class="h4">{{ find.exchange === 0 ? '购买': '交换' }}</h3>
             </div>
         </div>
         <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
@@ -139,6 +139,9 @@ Vue.component('find-book', {
         <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
             <button v-if="find.status === 0" class="btn btn-outline-danger btn-block">
                 撤销
+            </button>
+            <button v-else class="btn btn-default btn-block" disabled>
+                已成交
             </button>
         </div>
     </div>
@@ -151,6 +154,17 @@ Vue.component('find-book', {
  */
 Vue.component('buy-book', {
     props: ['buy'],
+    methods: {
+        purchase: async function () {
+            let res = await net.secondHandPublishPurchase(this.buy.id)
+            if (res.code === 200){
+                window.location.assign('')
+            } else {
+                this.buy.tip = res.message
+            }
+            this.$forceUpdate();
+        }
+    },
     template: `        
 <div class="project">
     <div class="row bg-white has-shadow no-margin">
@@ -177,9 +191,40 @@ Vue.component('buy-book', {
             </div>
         </div>
         <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+            <button v-if="buy.status === 0" class="btn btn-primary btn-block" data-toggle="modal" :data-target="'#modalCenter' + buy.id">
+                购买
+            </button>
+            <button v-else class="btn btn-default" disabled>
+                已购买
+            </button>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" :id="'modalCenter' + buy.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">确认购买书籍?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="h3">{{ buy.book.name }}</h3>
+                    <small>{{ buy.book.isbn }} 原价:&nbsp;<span class="text-red">\${{ buy.book.price }}</span>&nbsp;发布者:{{ buy.person.name }}</small>
+                    <h3 class="h4">您确认花费&nbsp;<span class="text-red">\${{ buy.price }}&nbsp;</span>购买该书籍?</h3>
+                    
+                </div>
+                <div class="modal-footer">
+                    <h3><span class="text-red">{{ buy.tip }}</span></h3>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" v-on:click="purchase">确认购买</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
     `
 })
 
@@ -450,7 +495,7 @@ Vue.component('app', {
                     <!--如果-->
                     <div v-if="state.status" class="title">
                         <h1 class="h4">{{ state.type.display }}</h1>
-                        <p>{{ state.type.role_display }}</p>
+                        <p>{{ state.type.role_display }} <span v-if="state.type.role === 'student'">\${{ state.user.balance / 100 }}</span></p>
                     </div>
                     <div v-else class="title">
                         <h1 class="h4">未登录</h1>
