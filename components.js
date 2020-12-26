@@ -437,7 +437,7 @@ Vue.component('app', {
                     <li v-else :class="info.menu === 'book_list' ? 'active' : ''">
                         <a href="searchBook.html"><i class="icon-flask"></i>查找书籍</a>
                     </li>
-                    <li><a href="#dropDown1" aria-expanded="false" data-toggle="collapse">
+                    <li v-if="state.type.role === 'student'"><a href="#dropDown1" aria-expanded="false" data-toggle="collapse">
                         <i class="icon-interface-windows"></i>买东西</a>
                         <ul id="dropDown1" class="collapse list-unstyled">
                             <li :class="info.menu === 'book_market' ? 'active': ''"><a href="bookMarket.html">二手市场</a>
