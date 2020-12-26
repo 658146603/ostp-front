@@ -37,7 +37,7 @@ Vue.component('book', {
               </div>
               <div class="text">
                 <h3 class="h4">{{ book.book.name }}</h3>
-                <small>{{ book.book.isbn }}[<span v-if="book.courses !== null" v-for="v in book.courses">&nbsp;{{ v }}</span>]</small>
+                <small>{{ book.book.isbn }}[<span v-if="book.courses !== null" v-for="v in book.courses">&nbsp;{{ v }}&nbsp;</span>]</small>
               </div>
             </div>
           </div>
