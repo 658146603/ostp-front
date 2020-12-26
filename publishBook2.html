@@ -23,6 +23,18 @@
     <link rel="shortcut icon" href="template/img/favicon.ico">
 </head>
 <script src="js/Url.js"></script>
+<script type="text/javascript">
+    function check_is_number() {
+        let value = document.getElementById("price").value
+        if (/([1-9]\d*\.?\d*)|(0\.\d*[1-9])/.test(value)) {
+            document.getElementById("price").classList.add("is-valid")
+            document.getElementById("price").classList.remove("is-invalid")
+        } else {
+            document.getElementById("price").classList.add("is-invalid")
+            document.getElementById("price").classList.remove("is-valid")
+        }
+    }
+</script>
 <body>
 <app id="app" :info="info" :state="state">
     <!-- Content -->
@@ -51,9 +63,13 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">书名</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control book-name" id="inputName" v-model="bookSearch.name" v-on:input="fuzzyBook">
-                                        <select v-if="bookSearch.book_list !== null && bookSearch.open === true" multiple class="form-control">
-                                            <option v-on:click="bookSelect(index)"  v-for="(book,index) in bookSearch.book_list">{{ book.name }}</option>
+                                        <input type="text" class="form-control book-name" id="inputName"
+                                               v-model="bookSearch.name" v-on:input="fuzzyBook">
+                                        <select v-if="bookSearch.book_list !== null && bookSearch.open === true"
+                                                multiple class="form-control">
+                                            <option v-on:click="bookSelect(index)"
+                                                    v-for="(book,index) in bookSearch.book_list">{{ book.name }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -69,10 +85,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">选择交换/出售</label>
                                     <div class="col-sm-9 exchange">
-                                        <input id="radioCustom1" type="radio" :checked="bookSearch.exchange === 0? 'checked': ''"
+                                        <input id="radioCustom1" type="radio"
+                                               :checked="bookSearch.exchange === 0? 'checked': ''"
                                                name="a" class="radio-template" v-on:input="bookSearch.exchange = 0">
                                         <label for="radioCustom1">交换</label>
-                                        <input id="radioCustom2" type="radio" :checked="bookSearch.exchange === 1? 'checked': ''"
+                                        <input id="radioCustom2" type="radio"
+                                               :checked="bookSearch.exchange === 1? 'checked': ''"
                                                name="a" class="radio-template" v-on:input="bookSearch.exchange = 1">
                                         <label for="radioCustom2">出售</label>
 
@@ -81,8 +99,10 @@
                                 <div class="line"></div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 form-control-label">价格</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control price" v-model="bookSearch.price">
+                                    <div id="form-price" class="col-sm-9">
+                                        <input type="text" id="price" class="form-control price"
+                                               onchange="check_is_number()"
+                                               v-model="bookSearch.price">
                                     </div>
                                 </div>
 
@@ -107,7 +127,8 @@
                                 <div class="form-group row">
                                     <div class="col-sm-4 offset-sm-3">
                                         <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                        <button class="btn btn-primary" v-on:click="publishBook">
+                                        <button class="btn btn-primary"
+                                                v-on:click="publishBook()">
                                             提交
                                         </button>
                                     </div>
@@ -135,18 +156,19 @@
 <script src="js/convert.js"></script>
 <script src="js/common.js"></script>
 <script>
-	<!-- Create a Vue app -->
-	let app = new Vue({
-		el: '#app',
-		data: {
-			// 用于存储用户的状态
-			state: common.defaultAppState(),
-			// 用于存储app的信息
-			info: {
-				title: '发布二手书',
-				menu: common.publish_book
-			},
+    <!-- Create a Vue app -->
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: common.defaultAppState(),
+            // 用于存储app的信息
+            info: {
+                title: '发布二手书',
+                menu: common.publish_book
+            },
             bookSearch: {
+                disabled: true,
                 name: '',
                 book_list: null,
                 open: false,
@@ -154,29 +176,29 @@
                 exchange: 0,
                 price: ''
             }
-			// 添加其他需要存储的数据
-		},
-		methods: {
-			init: function () {
-				common.getAppState((state) => app.state = state)
-				// 添加初始化代码
-			},
+            // 添加其他需要存储的数据
+        },
+        methods: {
+            init: function () {
+                common.getAppState((state) => app.state = state)
+                // 添加初始化代码
+            },
             // 执行模糊查询
-            fuzzyBook: function() {
-				app.bookSearch.isbn = ''
+            fuzzyBook: function () {
+                app.bookSearch.isbn = ''
                 // 处于登录状态
                 if (app.state.status === true) {
-					request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
-						// 成功且有数据
-						if (res.code === 200 && res.data.length > 0) {
-							// 截取前10项
-							app.bookSearch.open = true
-							app.bookSearch.book_list = res.data.slice(0, 10)
-						} else {
-							app.bookSearch.open = false
-							app.bookSearch.book_list = null
-						}
-					})
+                    request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
+                        // 成功且有数据
+                        if (res.code === 200 && res.data.length > 0) {
+                            // 截取前10项
+                            app.bookSearch.open = true
+                            app.bookSearch.book_list = res.data.slice(0, 10)
+                        } else {
+                            app.bookSearch.open = false
+                            app.bookSearch.book_list = null
+                        }
+                    })
                 }
             },
             // 选择了某个数据
@@ -187,14 +209,23 @@
                 app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
             },
             publishBook: function () {
-                
-            }
-		}
-	})
+                let body = `person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${app.bookSearch.price * 100}&exchange=${app.bookSearch.exchange}`
+                request(URL.InsertSecondHandPublish, body, (res) => {
+                    if (res.code === 200) {
+                        alert("发布成功")//TODO 美化
+                        window.location.assign("");
+                    } else {
+                        alert("fail" + res)
+                    }
+                })
+            },
 
-	window.addEventListener('load', () => {
-		app.init();
-	});
+        }
+    })
+
+    window.addEventListener('load', () => {
+        app.init();
+    });
 </script>
 </body>
 </html>
