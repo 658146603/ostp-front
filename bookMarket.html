@@ -27,18 +27,31 @@
 <app id="app" :info="info" :state="state">
     <!-- Content -->
     <!-- 填写内容 -->
-    <section class="bookPublished">
+    <section class="bookPublishes no-padding-bottom">
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <h3 class="h4">已发布的书籍</h3>
                 </div>
                 <div class="card-body no-padding">
-                    <publish v-for="publish in published" :publish="publish"></publish>
+                    <publish-book v-for="publish in publishes" :publish="publish"></publish-book>
                 </div>
             </div>
         </div>
     </section>
+    <section class="bookFinds no-padding-top">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <h3 class="h4">我想要的书籍</h3>
+                </div>
+                <div class="card-body no-padding">
+                    <find-book v-for="find in finds" :find="find"></find-book>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -68,7 +81,7 @@
 				menu: common.book_market
 			},
 			// 添加其他需要存储的数据
-            published: [
+            publishes: [
                 {
                 	id: '1',
                     book: {
@@ -93,14 +106,50 @@
 					exchange: 0,
 					status: 0
 				}
-            ]
+            ],
+            finds: [
+				{
+					id: '1',
+					book: {
+						isbn: 'isbn',
+						name: 'name',
+						price: 'price',
+						cover: 'cover'
+					},
+					price: 89.4,
+					exchange: 0,
+					status: 0
+				},
+				{
+					id: '1',
+					book: {
+						isbn: 'isbn',
+						name: 'name',
+						price: 'price',
+						cover: 'cover'
+					},
+					price: 89.4,
+					exchange: 0,
+					status: 0
+				}
+			]
 		},
 
 		methods: {
 			init: async function () {
                 net.addWatcher(app.stateChanged)
 				app.state = await net.appState()
-                await net.selectSecondHandPublishByStudentId(state.user.id)
+                let res = await net.selectSecondHandPublishByStudentId(app.state.user.id)
+                if (res.code === 200){
+					app.publishes = res.data
+                    convert.publishesOrFinds(app.publishes)
+                }
+                console.log(app.publishes)
+                let resFind = await net.selectSecondHandFindByStudentId(app.state.user.id)
+                if (resFind.code === 200){
+                	app.finds = resFind.data
+                    convert.publishesOrFinds(app.finds)
+                }
 			},
 			stateChanged: function (state) {
 				app.state = state

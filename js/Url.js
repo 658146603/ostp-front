@@ -43,7 +43,7 @@ class URL {
     static SelectClassByMajor = this.header + "/class/fetch_all"
     static ListSecondHandFind = this.header + "/second/find/select/all"
     static SelectSecondHandFindByIsbn = this.header + "/second/find/select"
-    static SelectSecondHandFindByStudent = this.header + "/second/find/selectPerson"
+    static SelectSecondHandFindByStudent = this.header + "/second/find/selectByStudent"
     static InsertSecondHandPublish = this.header + "/second/publish/insert"
     static InsertSecondHandFind = this.header + "/second/find/insert"
     static DeleteSecondHandPublish = this.header + "/second/publish/delete"
