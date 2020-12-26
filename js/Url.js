@@ -7,6 +7,8 @@ class URL {
     static header = this.protocol + this.host + ":" + this.port + this.path
 
 
+    static StudentHeader = this.header+"/student"
+
     static InsertBook = this.header + "/book/insert"
     static SelectBook = this.header + "/book/select"
     static SearchBook = this.header + "/book/search"
@@ -43,7 +45,7 @@ class URL {
     static SelectSecondHandFindByIsbn = this.header + "/second/find/select"
     static SelectSecondHandFindByStudent = this.header + "/second/find/selectPerson"
     static InsertSecondHandPublish = this.header + "/second/publish/insert"
-    static InsertSecondHandFind = this.header+"/second/find/insert"
+    static InsertSecondHandFind = this.header + "/second/find/insert"
     static DeleteSecondHandPublish = this.header + "/second/publish/delete"
     static UpdateSecondHandPublish = this.header + "/second/publish/update"
     static ListSecondHandPublish = this.header + "/second/publish/select/all"
@@ -66,8 +68,8 @@ class URL {
     static getLoginUsername = this.header + "/account/username"
     static Logout = this.header + "/logout"
     static Status = this.header + "/account/status"
-    static FuzzyTeacher = this.header+"/teacher/fuzzy"
-    static FuzzyCourse = this.header+'/course/fuzzy'
+    static FuzzyTeacher = this.header + "/teacher/fuzzy"
+    static FuzzyCourse = this.header + '/course/fuzzy'
     static FuzzyCollege = this.header + "/college/fuzzy"
     static IdDuplicate = this.header + "/account/duplicate"
 
