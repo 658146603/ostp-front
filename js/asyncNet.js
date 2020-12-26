@@ -86,6 +86,10 @@ class asyncNet {
 		return this.request(URL.SelectSecondHandPublishExchangeList, `name=${name}&publisher=${publisher}`)
 	}
 
+	async secondHandPublishPurchase(orderId) {
+		return this.request(URL.SelectSecondHandPublishPurchase, `id=${orderId}`)
+	}
+
 	async appState() {
 		let res = await this.request(URL.getLoginStatus, '')
 		if (res.code === 200) {
