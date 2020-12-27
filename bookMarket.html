@@ -143,7 +143,7 @@
                                                                    class="badge badge-rounded bg-blue"
                                                                    data-toggle="modal"
                                                                    :data-target="'#modalPublish' + publish.id">
-                    {{ publish.second.person.name }}
+                    <span v-if="publish.exchange === 0">买方:</span><span v-else>交换对方:</span> {{ publish.second.person.name }}
                   </div>
                   </h3>
                   <small>{{ publish.book.isbn }} 原价:\${{ publish.book.price }}</small>
@@ -164,10 +164,15 @@
               <button v-if="publish.status === 0" class="btn btn-outline-danger btn-block" v-on:click="cancel">
                 撤销
               </button>
-
-
-
-              <button v-else-if="publish.status === 1" class="btn btn-primary btn-block" v-on:click="changeStatusOk">
+              \<!--这里是与购买有关的部分--\>
+              <button v-else-if="publish.exchange === 0 && publish.second.status === 1" class="btn btn-default btn-block" disabled>
+                等待确认
+              </button>
+              <button v-else-if="publish.exchange === 0" class="btn btn-primary btn-block" disabled>
+                对方已确认
+              </button>
+              \<!--这里是与交换有关的部分--\>
+              <button v-else-if="publish.exchange === 1 && publish.status === 1" class="btn btn-primary btn-block" v-on:click="changeStatusOk">
                 确认订单
               </button>
               <button v-else class="btn btn-outline-primary btn-block" v-on:click="changeStatusOk">
@@ -241,7 +246,7 @@
                                                                    class="badge badge-rounded bg-blue"
                                                                    data-toggle="modal"
                                                                    :data-target="'#modalFind' + find.id">
-                    {{ find.second.person.name }}
+                    <span v-if="find.exchange === 0">卖方:</span><span v-else>交换对方:</span> {{ find.second.person.name }}
                   </div>
                   </h3>
                   <small>{{ find.book.isbn }} 原价:\${{ find.book.price }}</small>
