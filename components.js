@@ -384,7 +384,7 @@ Vue.component('app', {
                         <div class="row">
                             <div class="col-sm-6">
                                 <p>Copyright &copy; 2019.Company name All rights reserved.<a target="_blank"
-                                                                                             href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                                                                                             href="https://www.otsp.top">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
                                 </p>
                             </div>
                             <div class="col-sm-6 text-right">
