@@ -26,7 +26,7 @@ class URL {
     static ListCollege = this.header + "/college/list"
     static ListCourse = this.header + "/course/list"
     static AllCourse = this.header + "/course/all"
-    static AddCourse=this.header+"/course/add"
+    static AddCourse = this.header + "/course/add"
     static ListCourseByMajor = this.header + "/course/list/by/major"
     static SelectStudent = this.header + "/student/select"
     static InsertOpenCourse = this.header + "/course_open/insert"
@@ -85,6 +85,7 @@ class URL {
     static FuzzyCourseWithMajor = this.header + "/course/fuzzy/by/major"
     static IdDuplicate = this.header + "/account/duplicate"
     static SelectCourse = this.header + "/course/select"
+    static ResetPassword = this.header + "/password/reset"
 
     static getImage(url) {
         return URL.GetImage + "/" + url
