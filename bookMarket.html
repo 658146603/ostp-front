@@ -175,7 +175,7 @@
               <button v-else-if="publish.exchange === 1 && publish.status === 1" class="btn btn-primary btn-block" v-on:click="changeStatusOk">
                 确认订单
               </button>
-              <button v-else class="btn btn-outline-primary btn-block" v-on:click="changeStatusOk">
+              <button v-else class="btn btn-primary btn-block" disabled>
                 已确认
               </button>
             </div>
@@ -270,7 +270,7 @@
               <button v-else-if="find.status === 1" class="btn btn-primary btn-block" v-on:click="changeStatusOk">
                 确认订单
               </button>
-              <button v-else class="btn btn-outline-primary btn-block" v-on:click="changeStatusOk">
+              <button v-else class="btn btn-primary btn-block" disabled>
                 已确认
               </button>
             </div>
