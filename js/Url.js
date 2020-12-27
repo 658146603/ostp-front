@@ -87,8 +87,11 @@ class URL {
     static IdDuplicate = this.header + "/account/duplicate"
     static SelectCourse = this.header + "/course/select"
     static ResetPassword = this.header + "/password/reset"
+    static SelectAdmin = this.header + "/admin/select"
     static GetClass = this.header + "/class/select"
     static SelectStudentByClazz = this.header + "/student/selectByClass"
+    static InsertCollegeThenGetId = this.header + '/college/insert/id'
+    static InsertAdmin = this.header + "/admin/insert"
 
     static getImage(url) {
         return URL.GetImage + "/" + url

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="template/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="template/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="template/css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="template/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="template/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="template/img/favicon.ico">
+</head>
+<script src="js/Url.js"></script>
+<body>
+<app id="app" :info="info" :state="state">
+    <!-- Forms Section-->
+    <section class="forms">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Form Elements -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label for="college_name" class="col-sm-3 form-control-label">学院</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" placeholder="请输入学院名称" id="college_name"
+                                               class="form-control" v-on:input="check_name"
+                                               v-model="college.name">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label for="admin_id" class="col-sm-3 form-control-label">工号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" placeholder="请输入管理员工号" id="admin_id"
+                                               class="form-control" v-on:input="check_id"
+                                               v-model="college.admin.id">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label for="admin_password" class="col-sm-3 form-control-label">密码</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" placeholder="请为它设置密码" id="admin_password"
+                                               class="form-control" v-on:input="check_password"
+                                               v-model="college.admin.password">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label for="admin_password_again" class="col-sm-3 form-control-label">再次输入密码</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" placeholder="请再次输入密码" id="admin_password_again"
+                                               class="form-control" v-on:input="check_password"
+                                               v-model="college.admin.repassword">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 offset-sm-3">
+                                        <button class="btn btn-primary" v-on:click="add_college">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</app>
+<!-- JavaScript files-->
+<script src="template/vendor/jquery/jquery.min.js"></script>
+<script src="template/vendor/popper.js/umd/popper.min.js"></script>
+<script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
+<!-- Main File-->
+<script src="template/js/front.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="components.js"></script>
+<script src="js/convert.js"></script>
+<script src="js/common.js"></script>
+<script src="js/asyncNet.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: {
+                user: {
+                    college: null,
+                    id: null,
+                    su: null
+                },
+                type: {
+                    role: null,
+                    // 显示名称
+                    display: '未登录',
+                    role_display: null
+                },
+                status: false,
+                tip: '正在加载中...'
+            },
+            // 用于存储app的信息
+            info: {
+                title: '添加学院',
+                menu: common.open_course
+            },
+            // 添加其他需要存储的数据
+            college: {
+                name: null,
+                admin: {
+                    id: null,
+                    password: "",
+                    repassword: ""
+                }
+            }
+        },
+        methods: {
+            // 添加初始化代码
+            init: async function () {
+                net.addWatcher(app.stateChanged)
+                app.state = await net.appState()
+                if (!app.state.user.su) {
+                    alert("仅限系统管理员访问")
+                    window.location.assign("index.html")
+                }
+            },
+            stateChanged: function (state) {
+                app.state = state
+            },
+            // 添加其他逻辑
+
+            invalid: function (element) {
+                element.classList.remove("is-valid")
+                element.classList.add("is-invalid")
+            },
+            valid: function (element) {
+                element.classList.add("is-valid")
+                element.classList.remove("is-invalid")
+            },
+            enable: function (element) {
+                element.attr("disabled", false);
+            },
+            disable: function (element) {
+                element.attr("disabled", true)
+            },
+            check_name: function () {
+                if (app.college.name === "") {
+                    this.invalid(document.getElementById("college_name"))
+                } else {
+                    this.valid(document.getElementById("college_name"))
+                }
+            },
+            check_id: function () {
+                if (app.college.admin.id === "") {
+                    this.invalid(document.getElementById("admin_id"))
+                    return
+                }
+                request(URL.IdDuplicate, `id=${app.college.admin.id}`, (res) => {
+                    if (res.data) {
+                        this.invalid(document.getElementById("admin_id"))
+                    } else {
+                        this.valid(document.getElementById("admin_id"))
+                    }
+                })
+            },
+            check_password: function () {
+                if (app.college.admin.password !== app.college.admin.repassword || app.college.admin.password === "" || app.college.admin.repassword === "") {
+                    this.invalid(document.getElementById("admin_password"))
+                    this.invalid(document.getElementById("admin_password_again"))
+                } else {
+                    this.valid(document.getElementById("admin_password"))
+                    this.valid(document.getElementById("admin_password_again"))
+                }
+            },
+            add_college: function () {
+                request(URL.InsertCollegeThenGetId, `name=${app.college.name}`, res => {
+                    let id = res.data.id
+                    request(URL.InsertAdmin, `id=${app.college.admin.id}&password=${app.college.admin.password}&college=${id}`, res => {
+                        if (res.code === 200) {
+                            alert("插入成功")
+                            window.location.assign("")
+                        } else {
+                            alert(res.message)
+                        }
+                    })
+                })
+            }
+        }
+    })
+
+    window.addEventListener('load', () => {
+        app.init();
+    });
+</script>
+</body>
+</html>
