@@ -32,25 +32,24 @@
         <div class="form-horizontal">
 
 
+            <div class="form-group row">
+                <label class="col-sm-3 form-control-label">课程名称</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control book-name" id="inputCourseName" v-model="courseSearch.name"
+                           v-on:input="fuzzyCourse">
+                    <select v-if="courseSearch.course_list !== null && courseSearch.open === true" multiple
+                            class="form-control">
+                        <option v-on:click="courseSelect(index)" v-for="(course,index) in courseSearch.course_list">
+                            {{ course.name
+                            }}
+                        </option>
+                    </select>
+                </div>
 
-                <div class="form-group row">
-                    <label class="col-sm-3 form-control-label">课程名称</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control book-name" id="inputCourseName" v-model="courseSearch.name"
-                               v-on:input="fuzzyCourse">
-                        <select v-if="courseSearch.course_list !== null && courseSearch.open === true" multiple
-                                class="form-control">
-                            <option v-on:click="courseSelect(index)" v-for="(course,index) in courseSearch.course_list">
-                                {{ course.name
-                                }}
-                            </option>
-                        </select>
-                    </div>
-
-<!--                <label class="col-sm-3 form-control-label">课程名称</label>-->
-<!--                <div class="col-sm-9">-->
-<!--                    <input type="text" class="form-control course_name" v-model="course.name">-->
-<!--                </div>-->
+                <!--                <label class="col-sm-3 form-control-label">课程名称</label>-->
+                <!--                <div class="col-sm-9">-->
+                <!--                    <input type="text" class="form-control course_name" v-model="course.name">-->
+                <!--                </div>-->
             </div>
             <div class="line"></div>
             <div class="form-group row">
@@ -110,12 +109,13 @@
                     </select>
                 </div>
             </div>
-<!--        <div class="line"></div>-->
-        <div class="form-group row">
-            <div class="col-sm-4 offset-sm-3">
-                <button class="btn btn-primary" v-on:click="publishCourse()">
-                    提交
-                </button>
+            <!--        <div class="line"></div>-->
+            <div class="form-group row">
+                <div class="col-sm-4 offset-sm-3">
+                    <button class="btn btn-primary" v-on:click="publishCourse()">
+                        提交
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -211,7 +211,7 @@
             fuzzyCourse: function () {
                 app.courseSearch.id = ''
                 app.courseSearch.course_list = null
-                request(URL.FuzzyCourse,`name=${app.courseSearch.name}`,(res)=>{
+                request(URL.FuzzyCourse, `name=${app.courseSearch.name}`, (res) => {
                     console.log(res.data)
                     if (res.code === 200 && res.data.length > 0) {
                         app.courseSearch.open = true
@@ -239,7 +239,7 @@
             getCourseId: function () {
 
             },
-            courseSelect: function (index){
+            courseSelect: function (index) {
                 console.log(`你选择了第${index}项`)
                 app.courseSearch.open = false
                 app.courseSearch.name = app.courseSearch.course_list[index].name

@@ -35,63 +35,49 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-center">
-                            <h3 class="h4">{{ info.title }}</h3>
+                            <h3 class="h4">寻求交换</h3>
                         </div>
                         <div class="card-body">
                             <div class="form-horizontal">
 
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">用户名</label>
+                                    <label for="input-username" class="col-sm-3 form-control-label">用户名</label>
                                     <div class="col-sm-9">
-                                        <input type="text" disabled="" placeholder=""
+                                        <input type="text" disabled id="input-username"
                                                class="form-control display-username" :value="state.user?.id">
                                     </div>
                                 </div>
                                 <div class="line"></div>
+
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">书名</label>
+                                    <label for="inputName" class="col-sm-3 form-control-label">书名</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control book-name" id="inputName" v-model="bookSearch.name" v-on:input="fuzzyBook">
-                                        <select v-if="bookSearch.book_list !== null && bookSearch.open === true" multiple class="form-control">
-                                            <option v-on:click="bookSelect(index)"  v-for="(book,index) in bookSearch.book_list">{{ book.name }}</option>
+                                        <input type="text" class="form-control book-name" id="inputName"
+                                               v-model="bookSearch.name" v-on:input="fuzzyBook">
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select v-if="bookSearch.book_list !== null && bookSearch.open === true"
+                                                multiple class="form-control">
+                                            <option v-on:click="bookSelect(index)"
+                                                    v-for="(book,index) in bookSearch.book_list">{{ book.name }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="line"></div>
+
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">ISBN</label>
+                                    <label for="input-isbn" class="col-sm-3 form-control-label">ISBN</label>
                                     <div class="col-sm-9">
-                                        <input type="text" disabled="" placeholder=""
+                                        <input type="text" disabled="" placeholder="" id="input-isbn"
                                                class="form-control display-ISBN" :value="bookSearch.isbn">
                                     </div>
                                 </div>
                                 <div class="line"></div>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">选择交换/出售</label>
-                                    <div class="col-sm-9 exchange">
-                                        <input id="radioCustom1" type="radio" :checked="bookSearch.exchange === 0? 'checked': ''"
-                                               name="a" class="radio-template" v-on:input="bookSearch.exchange = 0">
-                                        <label for="radioCustom1">交换</label>
-                                        <input id="radioCustom2" type="radio" :checked="bookSearch.exchange === 1? 'checked': ''"
-                                               name="a" class="radio-template" v-on:input="bookSearch.exchange = 1">
-                                        <label for="radioCustom2">出售</label>
 
-                                    </div>
-                                </div>
-                                <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">价格</label>
+                                    <label for="select-fineness" class="col-sm-3 form-control-label">选择状态信息</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control price" v-model="bookSearch.price">
-                                    </div>
-                                </div>
-
-                                <div class="line"></div>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">选择状态信息</label>
-                                    <div class="col-sm-9">
-
-                                        <select name="account" class="form-control mb-3">
+                                        <select name="account" class="form-control mb-3" id="select-fineness">
                                             <option>伊拉克成色</option>
                                             <option>六成新</option>
                                             <option>七成新</option>
@@ -102,15 +88,11 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="line"></div>
+
                                 <div class="form-group row">
                                     <div class="col-sm-4 offset-sm-3">
-                                        <!--                                                <button type="submit" class="btn btn-secondary">Cancel</button>-->
-                                        <button class="btn btn-primary" v-on:click="publishRequest">
-                                            提交
-                                        </button>
-
+                                        <button class="btn btn-primary" v-on:click="publishRequest">提交</button>
                                     </div>
                                 </div>
                             </div>
@@ -126,9 +108,7 @@
 <script src="template/vendor/popper.js/umd/popper.min.js"></script>
 <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="template/vendor/chart.js/Chart.min.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="template/js/charts-home.js"></script>
 <!-- Main File-->
 <script src="template/js/front.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -136,73 +116,71 @@
 <script src="js/convert.js"></script>
 <script src="js/common.js"></script>
 <script>
-	<!-- Create a Vue app -->
-	let app = new Vue({
-		el: '#app',
-		data: {
-			// 用于存储用户的状态
-			state: common.defaultAppState(),
-			// 用于存储app的信息
-			info: {
-				title: '想要二手书',
-				menu: common.publish_request
-			},
-			bookSearch: {
-				name: '',
-				book_list: null,
-				open: false,
-				isbn: '',
-				exchange: 0,
-				price: ''
-			}
-			// 添加其他需要存储的数据
-		},
-		methods: {
-			init: function () {
-				common.getAppState((state) => app.state = state)
-				// 添加初始化代码
-			},
-			// 执行模糊查询
-			fuzzyBook: function() {
-				app.bookSearch.isbn = ''
-				// 处于登录状态
-				if (app.state.status === true) {
-					request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
-						// 成功且有数据
-						if (res.code === 200 && res.data.length > 0) {
-							// 截取前10项
-							app.bookSearch.open = true
-							app.bookSearch.book_list = res.data.slice(0, 10)
-						} else {
-							app.bookSearch.open = false
-							app.bookSearch.book_list = null
-						}
-					})
-				}
-			},
-			// 选择了某个数据
-			bookSelect: function (index) {
-				console.log(`你选择了第${index}项`)
-				app.bookSearch.open = false
-				app.bookSearch.name = app.bookSearch.book_list[index].name
-				app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
-			},
-			publishRequest: function () {
-                request(URL.InsertSecondHandFind,`person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${Math.round(app.bookSearch.price*100)}&exchange=${app.bookSearch.exchange}&status=0`,(res)=>{
-					if (res.code === 200) {
-						alert("发布成功")//TODO 美化
-						window.location.assign("");
-					} else {
-						alert(res.message)
-					}
+    <!-- Create a Vue app -->
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: common.defaultAppState(),
+            // 用于存储app的信息
+            info: {
+                title: '想要二手书',
+                menu: common.publish_request
+            },
+            bookSearch: {
+                name: '',
+                book_list: null,
+                open: false,
+                isbn: ''
+            }
+            // 添加其他需要存储的数据
+        },
+        methods: {
+            init: function () {
+                common.getAppState((state) => app.state = state)
+                // 添加初始化代码
+            },
+            // 执行模糊查询
+            fuzzyBook: function () {
+                app.bookSearch.isbn = ''
+                // 处于登录状态
+                if (app.state.status === true) {
+                    request(URL.FuzzyBook, `name=${app.bookSearch.name}`, (res) => {
+                        // 成功且有数据
+                        if (res.code === 200 && res.data.length > 0) {
+                            // 截取前10项
+                            app.bookSearch.open = true
+                            app.bookSearch.book_list = res.data.slice(0, 10)
+                        } else {
+                            app.bookSearch.open = false
+                            app.bookSearch.book_list = null
+                        }
+                    })
+                }
+            },
+            // 选择了某个数据
+            bookSelect: function (index) {
+                console.log(`你选择了第${index}项`)
+                app.bookSearch.open = false
+                app.bookSearch.name = app.bookSearch.book_list[index].name
+                app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
+            },
+            publishRequest: function () {
+                request(URL.InsertSecondHandFind, `person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=0&exchange=1&status=0`, (res) => {
+                    if (res.code === 200) {
+                        alert("发布成功")//TODO 美化
+                        window.location.assign("");
+                    } else {
+                        alert(res.message)
+                    }
                 })
-			}
-		}
-	})
+            },
+        }
+    })
 
-	window.addEventListener('load', () => {
-		app.init();
-	});
+    window.addEventListener('load', () => {
+        app.init();
+    });
 </script>
 </body>
 </html>

@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
-                    <h3 class="h4">已发布的书籍</h3>
+                    <h3 class="h4">我发布的书籍</h3>
                 </div>
                 <div class="card-body no-padding">
                     <publish-book v-for="publish in publishes" :publish="publish"></publish-book>
@@ -59,10 +59,13 @@
             </div>
             <div class="form-group col-lg-5">
                 <label for="course" class="sr-only"></label>
-                <input id="course" type="text" placeholder="发布者" v-model="searchModel.publisher" class="form-control col-12"/>
+                <input id="course" type="text" placeholder="发布者" v-model="searchModel.publisher"
+                       class="form-control col-12"/>
             </div>
             <div class="form-group col-lg-2">
-                <button type="submit" v-on:click="searchSecondHand" :disabled="searchModel.searching" class="btn btn-primary col-12">{{ searchModel.searching ? '正在搜索...': '搜索' }}</button>
+                <button type="submit" v-on:click="searchSecondHand" :disabled="searchModel.searching"
+                        class="btn btn-primary col-12">{{ searchModel.searching ? '正在搜索...' : '搜索' }}
+                </button>
             </div>
         </div>
     </section>
@@ -70,7 +73,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
-                    <h3 class="h4">购买列表</h3>
+                    <h3 class="h4">二手市场-购买列表</h3>
                 </div>
                 <div class="card-header no-padding">
                     <buy-book v-for="buy in buyList" :buy="buy"></buy-book>
@@ -82,7 +85,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
-                    <h3 class="h4">交换列表</h3>
+                    <h3 class="h4">二手市场-交换列表</h3>
                 </div>
                 <div class="card-header no-padding">
                     <exchange-book v-for="exchange in exchangeList" :exchange="exchange"></exchange-book>
@@ -108,27 +111,27 @@
 <script src="js/asyncNet.js"></script>
 <script>
     // -- inject custom components --
-	/**
-	 * component: publish book
-	 */
-	Vue.component('publish-book', {
-		props: ['publish'],
+    /**
+     * component: publish book
+     */
+    Vue.component('publish-book', {
+        props: ['publish'],
         methods: {
-			// 删除这个
-		    cancel: async function () {
+            // 删除这个
+            cancel: async function () {
                 let res = await net.secondHandPublishCancel(this.publish.id)
-                if (res.code === 200){
-                	window.location.assign('')
+                if (res.code === 200) {
+                    window.location.assign('')
                 }
             },
-			changeStatusOk: async function() {
-				let res = await net.secondPublishChangeStatusOk(this.publish.id)
-				if (res.code === 200) {
-					this.publish.status = res.data.status
-				}
-			}
+            changeStatusOk: async function () {
+                let res = await net.secondPublishChangeStatusOk(this.publish.id)
+                if (res.code === 200) {
+                    this.publish.status = res.data.status
+                }
+            }
         },
-		template: `
+        template: `
           <div class="project">
           <div class="row bg-white has-shadow no-margin">
             <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
@@ -143,7 +146,8 @@
                                                                    class="badge badge-rounded bg-blue"
                                                                    data-toggle="modal"
                                                                    :data-target="'#modalPublish' + publish.id">
-                    <span v-if="publish.exchange === 0">买方:</span><span v-else>交换对方:</span> {{ publish.second.person.name }}
+                    <span v-if="publish.exchange === 0">买方:</span><span v-else>交换对方:</span>
+                    {{ publish.second.person.name }}
                   </div>
                   </h3>
                   <small>{{ publish.book.isbn }} 原价:\${{ publish.book.price }}</small>
@@ -165,14 +169,16 @@
                 撤销
               </button>
               \<!--这里是与购买有关的部分--\>
-              <button v-else-if="publish.exchange === 0 && publish.second.status === 1" class="btn btn-default btn-block" disabled>
+              <button v-else-if="publish.exchange === 0 && publish.second.status === 1"
+                      class="btn btn-default btn-block" disabled>
                 等待确认
               </button>
               <button v-else-if="publish.exchange === 0" class="btn btn-primary btn-block" disabled>
                 对方已确认
               </button>
               \<!--这里是与交换有关的部分--\>
-              <button v-else-if="publish.exchange === 1 && publish.status === 1" class="btn btn-primary btn-block" v-on:click="changeStatusOk">
+              <button v-else-if="publish.exchange === 1 && publish.status === 1" class="btn btn-primary btn-block"
+                      v-on:click="changeStatusOk">
                 确认订单
               </button>
               <button v-else class="btn btn-primary btn-block" disabled>
@@ -181,7 +187,8 @@
             </div>
           </div>
           \<!--使用模态框，并设置id--\>
-          <div v-if="publish.status !== 0" class="modal fade" :id="'modalPublish' + publish.id" tabindex="-1" role="dialog"
+          <div v-if="publish.status !== 0" class="modal fade" :id="'modalPublish' + publish.id" tabindex="-1"
+               role="dialog"
                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
@@ -209,29 +216,29 @@
           </div>
           </div>
         `
-	})
+    })
 
-	/**
-	 * component: find book
-	 */
-	Vue.component('find-book', {
-		props: ['find'],
-		methods: {
-			// 删除这个
-			cancel: async function () {
-				let res = await net.secondHandFindCancel(this.find.id)
-				if (res.code === 200){
-					window.location.assign('')
-				}
-			},
-            changeStatusOk: async function() {
+    /**
+     * component: find book
+     */
+    Vue.component('find-book', {
+        props: ['find'],
+        methods: {
+            // 删除这个
+            cancel: async function () {
+                let res = await net.secondHandFindCancel(this.find.id)
+                if (res.code === 200) {
+                    window.location.assign('')
+                }
+            },
+            changeStatusOk: async function () {
                 let res = await net.secondHandChangeStatusOk(this.find.id)
                 if (res.code === 200) {
-                	this.find.status = res.data.status
+                    this.find.status = res.data.status
                 }
             }
-		},
-		template: `
+        },
+        template: `
           <div class="project">
           <div class="row bg-white has-shadow no-margin">
             <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
@@ -243,9 +250,9 @@
                 <div class="text">
                   \<!--使用模态框，并设置id--\>
                   <h3 class="h4">{{ find.book.name }}&nbsp;<div style="user-select: none" v-if="find.status !== 0"
-                                                                   class="badge badge-rounded bg-blue"
-                                                                   data-toggle="modal"
-                                                                   :data-target="'#modalFind' + find.id">
+                                                                class="badge badge-rounded bg-blue"
+                                                                data-toggle="modal"
+                                                                :data-target="'#modalFind' + find.id">
                     <span v-if="find.exchange === 0">卖方:</span><span v-else>交换对方:</span> {{ find.second.person.name }}
                   </div>
                   </h3>
@@ -290,8 +297,9 @@
                   <div class="text-blue">学号:&nbsp;{{ find.second.person.id }}</div>
                   <div class="text-blue">姓名:&nbsp;{{ find.second.person.name }}</div>
                   <div class="text-blue">所属:&nbsp;{{ find.second.person.clazz.major.college.name }}
-                  &nbsp;{{ find.second.person.clazz.major.name }}
-                  &nbsp;{{ find.second.person.clazz.name }}</div>
+                    &nbsp;{{ find.second.person.clazz.major.name }}
+                    &nbsp;{{ find.second.person.clazz.name }}
+                  </div>
                   <div class="text-blue">邮箱:&nbsp;{{ find.second.person.email }}</div>
                 </div>
                 <div class="modal-footer">
@@ -301,241 +309,272 @@
             </div>
           </div>
           </div>
-        `})
+        `
+    })
 
 
-	/**
-	 * component: buy book
-	 */
-	Vue.component('buy-book', {
-		props: ['buy'],
-		methods: {
-			purchase: async function () {
-				let res = await net.secondHandPublishPurchase(this.buy.id)
-				if (res.code === 200){
-					window.location.assign('')
-				} else {
-					this.buy.tip = res.message
-				}
-				this.$forceUpdate();
-			}
-		},
-		template: `
-<div class="project">
-    <div class="row bg-white has-shadow no-margin">
-        <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-            <div class="project-title d-flex align-items-center">
+    /**
+     * component: buy book
+     */
+    Vue.component('buy-book', {
+        props: ['buy'],
+        methods: {
+            purchase: async function () {
+                let res = await net.secondHandPublishPurchase(this.buy.id)
+                if (res.code === 200) {
+                    window.location.assign('')
+                } else {
+                    this.buy.tip = res.message
+                }
+                this.$forceUpdate();
+            }
+        },
+        template: `
+          <div class="project">
+          <div class="row bg-white has-shadow no-margin">
+            <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+              <div class="project-title d-flex align-items-center">
                 <div class="image has-shadow">
-                    <img v-bind:src="buy.book.cover" alt="..."
-                         class="img-fluid">
+                  <img v-bind:src="buy.book.cover" alt="..."
+                       class="img-fluid">
                 </div>
                 <div class="text">
-                    <h3 class="h4">{{ buy.book.name }}</h3>
-                    <small>{{ buy.book.isbn }} 原价:\${{ buy.book.price }} 发布者:{{ buy.person.name }}</small>
+                  <h3 class="h4">{{ buy.book.name }}</h3>
+                  <small>{{ buy.book.isbn }} 原价:\${{ buy.book.price }} 发布者:{{ buy.person.name }}</small>
                 </div>
+              </div>
             </div>
-        </div>
-        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
-            <div class="text">
-                <h3 class="h4">{{ buy.exchange === 0 ? '出售': '交换' }}</h3>
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
+                <h3 class="h4">{{ buy.exchange === 0 ? '出售' : '交换' }}</h3>
+              </div>
             </div>
-        </div>
-        <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
-            <div class="text">
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
                 <h3 class="h4">\${{ buy.price }}</h3>
+              </div>
             </div>
-        </div>
-        <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
-            <button v-if="buy.status === 0" class="btn btn-primary btn-block" data-toggle="modal" :data-target="'#modalCenter' + buy.id">
+            <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+              <button v-if="buy.status === 0" class="btn btn-primary btn-block" data-toggle="modal"
+                      :data-target="'#modalBuy' + buy.id">
                 购买
-            </button>
-            <button v-else class="btn btn-default" disabled>
+              </button>
+              <button v-else class="btn btn-default" disabled>
                 已购买
-            </button>
-        </div>
-    </div>
-    \<!-- Modal --\>
-		<div class="modal fade" :id="'modalCenter' + buy.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-		<div class="modal-header">
-		<h5 class="modal-title" id="exampleModalCenterTitle">确认购买书籍?</h5>
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-		</button>
-		</div>
-		<div class="modal-body">
-		<h3 class="h3">{{ buy.book.name }}</h3>
-		<small>{{ buy.book.isbn }} 原价:&nbsp;<span class="text-red">\${{ buy.book.price }}</span>&nbsp;发布者:{{ buy.person.name }}</small>
-		<h3 class="h4">您确认花费&nbsp;<span class="text-red">\${{ buy.price }}&nbsp;</span>购买该书籍?</h3>
+              </button>
+            </div>
+          </div>
+          \<!-- Modal --\>
+          <div class="modal fade" :id="'modalBuy' + buy.id" tabindex="-1" role="dialog"
+               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">确认购买书籍?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h3 class="h3">{{ buy.book.name }}</h3>
+                  <small>{{ buy.book.isbn }} 原价:&nbsp;<span class="text-red">\${{ buy.book.price }}</span>&nbsp;发布者:
+                    {{ buy.person.name }}</small>
+                  <h3 class="h4">您确认花费&nbsp;<span class="text-red">\${{ buy.price }}&nbsp;</span>购买该书籍?</h3>
 
-		</div>
-		<div class="modal-footer">
-		<h3><span class="text-red">{{ buy.tip }}</span></h3>
-		<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-		<button type="button" class="btn btn-primary" v-on:click="purchase">确认购买</button>
-		</div>
-		</div>
-		</div>
-		</div>
-		</div>
+                </div>
+                <div class="modal-footer">
+                  <h3><span class="text-red">{{ buy.tip }}</span></h3>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-primary" v-on:click="purchase">确认购买</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
 
-		`
-})
+        `
+    })
 
-/**
- * component: exchange book
- */
-Vue.component('exchange-book', {
-props: ['exchange'],
-template: `
-<div class="project">
-		<div class="row bg-white has-shadow no-margin">
-		<div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
-		<div class="project-title d-flex align-items-center">
-		<div class="image has-shadow">
-		<img v-bind:src="exchange.book.cover" alt="..."
-		class="img-fluid">
-		</div>
-		<div class="text">
-		<h3 class="h4">{{ exchange.book.name }}</h3>
-		<small>{{ exchange.book.isbn }} 原价:\${{ exchange.book.price }} 发布者:{{ exchange.person.name }}</small>
-		</div>
-		</div>
-		</div>
-		<div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
-		<div class="text">
-		<h3 class="h4">{{ exchange.exchange === 0 ? '出售': '交换' }}</h3>
-		</div>
-		</div>
-		<div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
-		<div class="text">
-		<h3 class="h4">\${{ exchange.price }}</h3>
-		</div>
-		</div>
-		<div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
-		</div>
-		</div>
-		</div>
-		`
-})
+    /**
+     * component: exchange book
+     */
+    Vue.component('exchange-book', {
+        props: ['exchange'],
+        template: `
+          <div class="project">
+          <div class="row bg-white has-shadow no-margin">
+            <div class="left-col col-lg-6 d-flex align-items-center justify-content-between">
+              <div class="project-title d-flex align-items-center">
+                <div class="image has-shadow">
+                  <img v-bind:src="exchange.book.cover" alt="..."
+                       class="img-fluid">
+                </div>
+                <div class="text">
+                  <h3 class="h4">{{ exchange.book.name }}</h3>
+                  <small>{{ exchange.book.isbn }} 原价:\${{ exchange.book.price }} 发布者:{{ exchange.person.name }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
+                <h3 class="h4">{{ exchange.exchange === 0 ? '出售' : '交换' }}</h3>
+              </div>
+            </div>
+            <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
+              <div class="text">
+                <h3 class="h4">\${{ exchange.price }}</h3>
+              </div>
+            </div>
+            <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
+              <button v-if="exchange.status === 0" class="btn btn-primary btn-block" data-toggle="modal"
+                      :data-target="'#modalExchange' + exchange.id">
+                交换
+              </button>
+              <button v-else class="btn btn-default" disabled>
+                已交换
+              </button>
+            </div>
+          </div>
+          \<!-- Modal --\>
+          <div class="modal fade" :id="'modalExchange' + exchange.id" tabindex="-1" role="dialog"
+               aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">选择用于交换的书籍</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  {{exchange}}
+                </div>
+                <div class="modal-footer">
+                  <h3><span class="text-red"></span></h3>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-primary" v-on:click="">确认交换</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        `
+    })
 
 
-	<!-- Create a Vue app -->
-	let app = new Vue({
-		el: '#app',
-		data: {
-			// 用于存储用户的状态
-			state: common.defaultAppState(),
-			// 用于存储app的信息
-			info: {
-				title: '二手市场',
-				menu: common.book_market
-			},
-            searchModel:{
-			    name: '',
+    <!-- Create a Vue app -->
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: common.defaultAppState(),
+            // 用于存储app的信息
+            info: {
+                title: '二手市场',
+                menu: common.book_market
+            },
+            searchModel: {
+                name: '',
                 publisher: '',
                 searching: false
             },
-			// 添加其他需要存储的数据
+            // 添加其他需要存储的数据
             publishes: [
-				// {
-				// 	id: '1',
-				// 	book: {
-				// 		isbn: 'isbn',
-				// 		name: 'name',
-				// 		price: 'price',
-				// 		cover: 'cover'
-				// 	},
-				// 	price: 89.4,
-				// 	exchange: 0,
-				// 	status: 0
-				// }
+                // {
+                // 	id: '1',
+                // 	book: {
+                // 		isbn: 'isbn',
+                // 		name: 'name',
+                // 		price: 'price',
+                // 		cover: 'cover'
+                // 	},
+                // 	price: 89.4,
+                // 	exchange: 0,
+                // 	status: 0
+                // }
             ],
             finds: [
-				{
-					id: '1',
-					book: {
-						isbn: 'isbn',
-						name: 'name',
-						price: 'price',
-						cover: 'cover'
-					},
+                {
+                    id: '1',
+                    book: {
+                        isbn: 'isbn',
+                        name: 'name',
+                        price: 'price',
+                        cover: 'cover'
+                    },
                     second: {
-						person: {
-							id: 'id',
+                        person: {
+                            id: 'id',
                             name: 'name',
                         }
                     },
-					price: 89.4,
-					exchange: 0,
-					status: 0
-				}
-			],
+                    price: 89.4,
+                    exchange: 0,
+                    status: 0
+                }
+            ],
             // 指别人发布的购买书籍
             buyList: [
-				// {
-				// 	id: '1',
+                // {
+                // 	id: '1',
                 //     person: {
-				// 	    id: 'id',
+                // 	    id: 'id',
                 //         name: 'name'
                 //     },
-				// 	book: {
-				// 		isbn: 'isbn',
-				// 		name: 'name',
-				// 		price: 'price',
-				// 		cover: 'cover'
-				// 	},
-				// 	price: 89.4,
-				// 	exchange: 0,
-				// 	status: 0
-				// }
+                // 	book: {
+                // 		isbn: 'isbn',
+                // 		name: 'name',
+                // 		price: 'price',
+                // 		cover: 'cover'
+                // 	},
+                // 	price: 89.4,
+                // 	exchange: 0,
+                // 	status: 0
+                // }
             ],
-            exchangeList: [
+            exchangeList: []
+        },
 
-            ]
-		},
-
-		methods: {
-			searchSecondHand: async function() {
-				app.searchModel.searching = true
-			    let resBuyList = await net.searchSecondHandPublishBuyList(app.searchModel.name, app.searchModel.publisher)
-				if (resBuyList.code === 200){
-					app.buyList = resBuyList.data
-					convert.secondHand(app.buyList)
-				}
-				let resExchangeList = await net.searchSecondHandPublishExchangeList(app.searchModel.name, app.searchModel.publisher)
+        methods: {
+            searchSecondHand: async function () {
+                app.searchModel.searching = true
+                let resBuyList = await net.searchSecondHandPublishBuyList(app.searchModel.name, app.searchModel.publisher)
                 if (resBuyList.code === 200) {
-                	app.exchangeList = resExchangeList.data
+                    app.buyList = resBuyList.data
+                    convert.secondHand(app.buyList)
+                }
+                let resExchangeList = await net.searchSecondHandPublishExchangeList(app.searchModel.name, app.searchModel.publisher)
+                if (resBuyList.code === 200) {
+                    app.exchangeList = resExchangeList.data
                     convert.secondHand(app.exchangeList)
                 }
-				app.searchModel.searching = false
+                app.searchModel.searching = false
             },
-			init: async function () {
+            init: async function () {
                 net.addWatcher(app.stateChanged)
-				app.state = await net.appState()
+                app.state = await net.appState()
                 let res = await net.selectSecondHandPublishByStudentId(app.state.user.id)
-                if (res.code === 200){
-					app.publishes = res.data
+                if (res.code === 200) {
+                    app.publishes = res.data
                     convert.secondHand(app.publishes)
                 }
                 let resFind = await net.selectSecondHandFindByStudentId(app.state.user.id)
-                if (resFind.code === 200){
-                	app.finds = resFind.data
+                if (resFind.code === 200) {
+                    app.finds = resFind.data
                     convert.secondHand(app.finds)
                 }
                 app.searchSecondHand().then()
 
-			},
-			stateChanged: function (state) {
-				app.state = state
-			},
-		}
-	})
+            },
+            stateChanged: function (state) {
+                app.state = state
+            },
+        }
+    })
 
-	window.addEventListener('load', () => {
-		app.init();
-	});
+    window.addEventListener('load', () => {
+        app.init();
+    });
 </script>
 </body>
 </html>

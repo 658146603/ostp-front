@@ -24,16 +24,7 @@
 </head>
 <script src="js/Url.js"></script>
 <script type="text/javascript">
-    function check_is_number() {
-        let value = document.getElementById("price").value
-        if (/([1-9]\d*\.?\d*)|(0\.\d*[1-9])/.test(value)) {
-            document.getElementById("price").classList.add("is-valid")
-            document.getElementById("price").classList.remove("is-invalid")
-        } else {
-            document.getElementById("price").classList.add("is-invalid")
-            document.getElementById("price").classList.remove("is-valid")
-        }
-    }
+
 </script>
 <body>
 <app id="app" :info="info" :state="state">
@@ -53,18 +44,19 @@
                             <div class="form-horizontal">
 
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">用户名</label>
+                                    <label for="input_username" class="col-sm-3 form-control-label">用户名</label>
                                     <div class="col-sm-9">
-                                        <input type="text" disabled="" placeholder=""
+                                        <input type="text" disabled="" placeholder="" id="input_username"
                                                class="form-control display-username" :value="state.user?.id">
                                     </div>
                                 </div>
                                 <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">书名</label>
+                                    <label for="inputName" class="col-sm-3 form-control-label">书名</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control book-name" id="inputName"
                                                v-model="bookSearch.name" v-on:input="fuzzyBook">
+                                        <!--suppress HtmlFormInputWithoutLabel -->
                                         <select v-if="bookSearch.book_list !== null && bookSearch.open === true"
                                                 multiple class="form-control">
                                             <option v-on:click="bookSelect(index)"
@@ -75,9 +67,9 @@
                                 </div>
                                 <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">ISBN</label>
+                                    <label for="input_isbn" class="col-sm-3 form-control-label">ISBN</label>
                                     <div class="col-sm-9">
-                                        <input type="text" disabled="" placeholder=""
+                                        <input type="text" disabled="" placeholder="" id="input_isbn"
                                                class="form-control display-ISBN" :value="bookSearch.isbn">
                                     </div>
                                 </div>
@@ -86,32 +78,30 @@
                                     <label class="col-sm-3 form-control-label">选择交换/出售</label>
                                     <div class="col-sm-9 exchange">
                                         <input id="radioCustom1" type="radio"
-                                               :checked="bookSearch.exchange === 0? 'checked': ''"
-                                               name="a" class="radio-template" v-on:input="bookSearch.exchange = 0">
+                                               :checked="bookSearch.exchange === 1? 'checked': ''"
+                                               name="a" class="radio-template" v-on:input="set_exchangeable">
                                         <label for="radioCustom1">交换</label>
                                         <input id="radioCustom2" type="radio"
-                                               :checked="bookSearch.exchange === 1? 'checked': ''"
-                                               name="a" class="radio-template" v-on:input="bookSearch.exchange = 1">
+                                               :checked="bookSearch.exchange === 0? 'checked': ''"
+                                               name="a" class="radio-template" v-on:input="set_sellable">
                                         <label for="radioCustom2">出售</label>
-
                                     </div>
                                 </div>
                                 <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">价格</label>
+                                    <label for="price" class="col-sm-3 form-control-label">价格</label>
                                     <div id="form-price" class="col-sm-9">
                                         <input type="text" id="price" class="form-control price"
-                                               onchange="check_is_number()"
+                                               v-on:input="check_is_number"
                                                v-model="bookSearch.price">
                                     </div>
                                 </div>
 
                                 <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">选择状态信息</label>
+                                    <label for="select_status" class="col-sm-3 form-control-label">选择状态信息</label>
                                     <div class="col-sm-9">
-
-                                        <select name="account" class="form-control mb-3">
+                                        <select name="account" class="form-control mb-3" id="select_status">
                                             <option>伊拉克成色</option>
                                             <option>六成新</option>
                                             <option>七成新</option>
@@ -209,6 +199,9 @@
                 app.bookSearch.isbn = app.bookSearch.book_list[index].isbn
             },
             publishBook: function () {
+                if (app.bookSearch.exchange === 1) {
+                    app.bookSearch.price = 0
+                }
                 let body = `person=${app.state.user.id}&book=${app.bookSearch.isbn}&price=${Math.round(app.bookSearch.price * 100)}&exchange=${app.bookSearch.exchange}`
                 request(URL.InsertSecondHandPublish, body, (res) => {
                     if (res.code === 200) {
@@ -219,7 +212,21 @@
                     }
                 })
             },
-
+            check_is_number: function () {
+                if (/(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))/.test(app.bookSearch.price)) {
+                    $('#price').addClass("is-valid").removeClass('is-invalid')
+                } else {
+                    $('#price').addClass("is-invalid").removeClass('is-valid')
+                }
+            },
+            set_sellable: function () {
+                app.bookSearch.exchange = 0
+                $('#price').attr('disabled', false)
+            },
+            set_exchangeable: function () {
+                app.bookSearch.exchange = 1
+                $('#price').attr('disabled', true)
+            }
         }
     })
 
