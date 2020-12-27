@@ -88,7 +88,7 @@
                     <h3 class="h4">二手市场-交换列表</h3>
                 </div>
                 <div class="card-header no-padding">
-                    <exchange-book v-for="exchange in exchangeList" :exchange="exchange"></exchange-book>
+                    <exchange-book v-for="exchange in exchangeList" :exchange="exchange" :state="state"></exchange-book>
                 </div>
             </div>
         </div>
@@ -399,7 +399,28 @@
      * component: exchange book
      */
     Vue.component('exchange-book', {
-        props: ['exchange'],
+        props: ['exchange','state'],
+        methods: {
+            get_available_exchange_list: async function (otherId) {
+                let resAvailableList = await net.selectSecondHandFindExchangeAvailable(otherId, this.state.user.id)
+                if (resAvailableList.code === 200) {
+                    this.exchange.available_list = resAvailableList.data
+                    convert.secondHand(this.exchange.available_list)
+                    this.$forceUpdate()
+                }
+            },
+            post_exchange_request: async function (other_publish_id) {
+                let self_id = this.state.user.id
+                let other_id = this.exchange.person.id
+                let other_find_id = $('#select_available_books' + this.exchange.id).val()
+                let exchange_result = await net.postExchangeRequest(other_id, self_id, other_find_id, other_publish_id)
+                if (exchange_result.code === 200) {
+                    alert("交换发起成功")
+                } else {
+                    alert(exchange_result.message)
+                }
+            }
+        },
         template: `
           <div class="project">
           <div class="row bg-white has-shadow no-margin">
@@ -427,7 +448,8 @@
             </div>
             <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
               <button v-if="exchange.status === 0" class="btn btn-primary btn-block" data-toggle="modal"
-                      :data-target="'#modalExchange' + exchange.id">
+                      :data-target="'#modalExchange' + exchange.id"
+                      v-on:click="get_available_exchange_list(exchange.person.id)">
                 交换
               </button>
               <button v-else class="btn btn-default" disabled>
@@ -447,12 +469,18 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  {{exchange}}
+                  <div class="col-12">
+                    <select :id="'select_available_books'+exchange.id" class="form-control">
+                      <option v-for="(find, index) in exchange.available_list" :value="find.id">
+                        {{ find.book.name }} ({{ find.book.isbn }})
+                      </option>
+                    </select>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <h3><span class="text-red"></span></h3>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                  <button type="button" class="btn btn-primary" v-on:click="">确认交换</button>
+                  <button type="button" class="btn btn-primary" v-on:click="post_exchange_request(exchange.id)">确认交换</button>
                 </div>
               </div>
             </div>
@@ -534,7 +562,6 @@
             ],
             exchangeList: []
         },
-
         methods: {
             searchSecondHand: async function () {
                 app.searchModel.searching = true

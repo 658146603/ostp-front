@@ -53,6 +53,8 @@ class URL {
     static InsertSecondHandPublish = this.header + "/second/publish/insert"
     static CancelSecondHandPublish = this.header + "/second/publish/cancel"
     static InsertSecondHandFind = this.header + "/second/find/insert"
+    static SelectSecondHandFindOtherExchangeList = this.header + "/second/find/other_exchange/list"
+    static SecondHandPostExchange = this.header + "/second/find/post_exchange"
     static DeleteSecondHandPublish = this.header + "/second/publish/delete"
     static UpdateSecondHandPublish = this.header + "/second/publish/update"
     static ListSecondHandPublish = this.header + "/second/publish/select/all"
