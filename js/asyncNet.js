@@ -40,6 +40,17 @@ class asyncNet {
         this._watchers.push(watcher)
     }
 
+    async appState() {
+        let res = await this.request(URL.getLoginStatus, '')
+        if (res.code === 200) {
+            this._state.user = res.data
+            this._state.status = true
+            this._state.type = common.getUserType(res.data)
+        }
+        return this._copyState()
+    }
+
+
     async request(url, body = '') {
         let formRequest = new Request(url, {
             method: 'post',
@@ -119,16 +130,6 @@ class asyncNet {
         return this.request(URL.ChangeStatusOkSecondHandPublish, `id=${orderId}`)
     }
 
-    async appState() {
-        let res = await this.request(URL.getLoginStatus, '')
-        if (res.code === 200) {
-            this._state.user = res.data
-            this._state.status = true
-            this._state.type = common.getUserType(res.data)
-        }
-        return this._copyState()
-    }
-
 	async listCollege() {
 		return this.request(URL.ListCollege)
 	}
@@ -151,6 +152,18 @@ class asyncNet {
 
     async fetchAllClass(id) {
         return this.request(URL.SelectClassByMajor, `id=${id}`)
+    }
+
+    async selectTeacherByCollege(collegeId) {
+        return this.request(URL.SelectTeacherByCollege, `collegeId=${collegeId}`)
+    }
+
+	async getClazz(id) {
+        return this.request(URL.GetClass, `id=${id}`)
+	}
+
+    async selectStudentByClazz(id) {
+        return this.request(URL.SelectStudentByClazz, `id=${id}`)
     }
 }
 

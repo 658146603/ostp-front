@@ -72,6 +72,7 @@ class URL {
     static SelectTeacherByName = this.header + "/teacher/selectByName"
     static ListTeacher = this.header + "/teacher/list"
     static SelectAllTeacher = this.header + "/teacher/selectAll"
+    static SelectTeacherByCollege = this.header + "/teacher/selectByCollegeId"
     static DeleteTeacher = this.header + "/teacher/deleteById"
     static Login = this.header + "/login"
     static getLoginStatus = this.header + "/account/status"
@@ -86,6 +87,8 @@ class URL {
     static IdDuplicate = this.header + "/account/duplicate"
     static SelectCourse = this.header + "/course/select"
     static ResetPassword = this.header + "/password/reset"
+    static GetClass = this.header + "/class/select"
+    static SelectStudentByClazz = this.header + "/student/selectByClass"
 
     static getImage(url) {
         return URL.GetImage + "/" + url

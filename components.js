@@ -66,81 +66,12 @@ Vue.component('book', {
     </div>`
 })
 
-Vue.component('college', {
-    props: ['college', 'state'],
-    template: `
-<div class="container-fluid">
-<!-- Project -->
-<div class="project">
-    <div class="row bg-white has-shadow">
-        <div class="col-lg-10 col-12 d-flex align-items-center justify-content-between">
-            <div class="project-title d-flex align-items-center">
-                <div class="text">
-                    <h3 class="h4"><a :href="'adminMajor.html#id=' + college.id">{{ college.name }}</a></h3>
-                    <small>{{ college.majorCount }}个专业 {{ college.teacherCount }}个教师 {{ college.studentCount }}个学生</small>
-                </div>
-            </div>
-        </div>
-        <div v-if="state.type.role === 'su'" class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
-            <div class="btn btn-danger btn-block">
-                删除
-            </div>
-        </div>
-    </div>
-</div>
-</div>`
-})
-
-Vue.component('major', {
-    props: ['major', 'state'],
-    template: `
-<div class="container-fluid">
-<!-- Project -->
-<div class="project">
-    <div class="row bg-white has-shadow">
-        <div class="col-lg-10 col-12 d-flex align-items-center justify-content-between">
-            <div class="project-title d-flex align-items-center">
-                <div class="text">
-                    <h3 class="h4"><a :href="'adminClass.html#id=' + major.id">{{ major.name }}({{ major.year }})</a></h3>
-                    <small>{{ major.classCount }}个班级 {{ major.studentCount }}个学生</small>
-                </div>
-            </div>
-        </div>
-        <div v-if="state.type.role === 'su'" class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
-            <div class="btn btn-danger btn-block">
-                删除
-            </div>
-        </div>
-    </div>
-</div>
-</div>`
-})
 
 
-Vue.component('clazz', {
-    props: ['clazz', 'state'],
-    template: `
-<div class="container-fluid">
-<!-- Project -->
-<div class="project">
-    <div class="row bg-white has-shadow">
-        <div class="col-lg-10 col-12 d-flex align-items-center justify-content-between">
-            <div class="project-title d-flex align-items-center">
-                <div class="text">
-                    <h3 class="h4">{{ clazz.name }}</h3>
-                    <small>{{ clazz.studentCount }}个学生</small>
-                </div>
-            </div>
-        </div>
-        <div v-if="state.type.role === 'su'" class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
-            <div class="btn btn-danger btn-block">
-                删除
-            </div>
-        </div>
-    </div>
-</div>
-</div>`
-})
+
+
+
+
 
 /**
  * 整个app框架

@@ -26,27 +26,9 @@
 <script src="js/Url.js"></script>
 <script type="text/javascript">
     function login(username, password) {
-        // let formRequest = new Request(URL.Login, {
-        //     method: 'post',
-        //     mode: 'cors',
-        //     headers: {
-        //         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
-        //     },
-        //     body: `id=${username}&password=${password}`,
-        //     credentials: 'include',
-        // })
-        // fetch(formRequest).then(response => {
-        //     let result = response.json()
-        //     result.then(res => {
-        //         if (res.code === 200) {
-        //             window.location.assign("index.html")//TODO 跳转到主界面
-        //         } else {
-        //             alert(res.message)
-        //         }
-        //         console.log(res)
-        //     })
-        // })
-
+    	let login = $('#login')
+    	login.text('正在登录')
+        login.attr('disabled', true)
         request_su(URL.Login, `id=${username}&password=${password}`, (status, result) => {
             if (status === 200 && result.code === 200) {
                 window.location.assign("index.html")
@@ -55,6 +37,8 @@
             }
             console.log(status)
             console.log(result)
+            login.text('登录')
+            login.attr('disabled', false)
         })
     }
 </script>
@@ -77,7 +61,7 @@
                 <div class="col-lg-6 bg-white">
                     <div class="form d-flex align-items-center">
                         <div class="content">
-                            <div class="form-validate">
+                            <div class="align-items-center">
                                 <div class="form-group">
                                     <input id="login-username" type="text" name="loginUsername" required
                                            data-msg="Please enter your username" class="input-material">
@@ -111,7 +95,6 @@
 <script src="template/vendor/popper.js/umd/popper.min.js"></script>
 <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="template/vendor/chart.js/Chart.min.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
 <!-- Main File-->
 <script src="template/js/front.js"></script>

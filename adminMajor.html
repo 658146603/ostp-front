@@ -28,7 +28,7 @@
     <!-- Content -->
     <div class="breadcrumb-holder container-fluid">
         <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a> </li>
+            <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a></li>
             <li class="breadcrumb-item active">{{ college?.name }}</li>
         </ul>
     </div>
@@ -52,7 +52,34 @@
 <script src="js/common.js"></script>
 <script src="js/asyncNet.js"></script>
 <script>
-	<!-- Create a Vue app -->
+
+	Vue.component('major', {
+		props: ['major', 'state'],
+		template: `
+          <div class="container-fluid">
+          <div class="project">
+            <div class="row bg-white has-shadow">
+              <div class="col-lg-10 col-12 d-flex align-items-center justify-content-between">
+                <div class="project-title d-flex align-items-center">
+                  <div class="text">
+                    <h3 class="h4"><a :href="'adminClass.html#id=' + major.id">{{ major.name }}({{ major.year }})</a>
+                    </h3>
+                    <small>{{ major.classCount }}个班级 {{ major.studentCount }}个学生</small>
+                  </div>
+                </div>
+              </div>
+              <div v-if="state.type.role === 'su' && major.canDelete"
+                   class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
+                <div class="btn btn-danger btn-block">
+                  删除
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>`
+	})
+
+	// create a vue app
 	let app = new Vue({
 		el: '#app',
 		data: {
@@ -63,40 +90,41 @@
 				title: '专业信息',
 				menu: common.admin_college
 			},
-            college: {
+			college: {
 				id: 0,
-                name: '某学院'
-            },
-            majors: [
-                {
-                	id: 1,
-                    name: '软件工程',
-                    year: 2020,
-                    classCount: 0,
-                    studentCount: 0
-                }
-            ]
+				name: '某学院'
+			},
+			majors: [
+				{
+					id: 1,
+					name: '软件工程',
+					year: 2020,
+					classCount: 0,
+					studentCount: 0
+				}
+			]
 
 			// 添加其他需要存储的数据
 		},
 		methods: {
 			init: async function () {
 				net.addWatcher(app.stateChanged)
-                app.state = await net.appState()
+				app.state = await net.appState()
 				// 添加初始化代码
-                app.college.id = common.getHashDic(window).id
-                let resCollege = await net.getCollege(app.college.id)
-                if (resCollege.code === 200){
-                	app.college = resCollege.data
-                }
-                let resAllMajor = await net.fetchAllMajor(app.college.id)
-                if (resAllMajor.code === 200){
-                	app.majors = resAllMajor.data
-                }
+				app.college.id = common.getHashDic(window).id
+				let resCollege = await net.getCollege(app.college.id)
+				if (resCollege.code === 200) {
+					app.college = resCollege.data
+				}
+				let resAllMajor = await net.fetchAllMajor(app.college.id)
+				if (resAllMajor.code === 200) {
+					app.majors = resAllMajor.data
+					convert.majors(app.majors)
+				}
 			},
-            stateChanged: function(state) {
+			stateChanged: function (state) {
 				app.state = state;
-            }
+			}
 		}
 	})
 

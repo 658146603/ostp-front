@@ -52,7 +52,35 @@
 <script src="js/common.js"></script>
 <script src="js/asyncNet.js"></script>
 <script>
-	<!-- Create a Vue app -->
+    // inject custom components
+	Vue.component('college', {
+		props: ['college', 'state'],
+		template: `
+          <div class="container-fluid">
+          \<!-- Project --\>
+          <div class="project">
+            <div class="row bg-white has-shadow">
+              <div class="col-lg-10 col-12 d-flex align-items-center justify-content-between">
+                <div class="project-title d-flex align-items-center">
+                  <div class="text">
+                    <h3 class="h4"><a :href="'adminMajor.html#id=' + college.id">{{ college.name }}</a></h3>
+                    <small>{{ college.majorCount }}个专业 <a :href="'showTeacher.html#id=' + college.id">{{ college.teacherCount }}个教师</a>  {{ college.studentCount }}
+                      个学生</small>
+                  </div>
+                </div>
+              </div>
+              <div v-if="state.type.role === 'su' && college.canDelete"
+                   class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
+                <div class="btn btn-danger btn-block">
+                  删除
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>`
+	})
+
+	// create a vue app
 	let app = new Vue({
 		el: '#app',
 		data: {
@@ -63,29 +91,30 @@
 				title: '学院信息',
 				menu: common.admin_college
 			},
-            colleges: [
-                {
-                	id: 7,
-                    teacherCount: 0,
-                    studentCount: 0,
-                    majorCount: 0,
-                    name: '计算机科学与技术学院',
-                }
-            ]
+			colleges: [
+				{
+					id: 7,
+					teacherCount: 0,
+					studentCount: 0,
+					majorCount: 0,
+					name: '计算机科学与技术学院',
+				}
+			]
 			// 添加其他需要存储的数据
 		},
 		methods: {
 			init: async function () {
 				net.addWatcher(app.stateChanged)
 				app.state = await net.appState()
-                let res = await net.listCollege();
-				if (res.code === 200){
+				let res = await net.listCollege();
+				if (res.code === 200) {
 					app.colleges = res.data
-                }
+                    convert.colleges(app.colleges)
+				}
 			},
-            stateChanged: function(state) {
+			stateChanged: function (state) {
 				app.state = state;
-            }
+			}
 
 		}
 	})

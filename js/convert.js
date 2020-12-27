@@ -15,6 +15,26 @@ class convert {
         return books
     }
 
+    static colleges(colleges) {
+        colleges.forEach((college) => {
+            college.canDelete = college.studentCount + college.teacherCount + college.majorCount === 0
+        })
+        return colleges
+    }
+
+    static majors(majors) {
+        majors.forEach((major) => {
+            major.canDelete = major.studentCount + major.classCount === 0
+        })
+        return majors
+    }
+
+    static classes(classes) {
+        classes.forEach((clazz) => {
+            clazz.canDelete = clazz.studentCount === 0
+        })
+    }
+
     /**
      * 分析book中与用户相关的数据
      * @param books
