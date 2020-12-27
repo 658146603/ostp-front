@@ -40,7 +40,7 @@ class asyncNet {
         this._watchers.push(watcher)
     }
 
-    async request(url, body) {
+    async request(url, body = '') {
         let formRequest = new Request(url, {
             method: 'post',
             credentials: 'include',
@@ -127,6 +127,30 @@ class asyncNet {
             this._state.type = common.getUserType(res.data)
         }
         return this._copyState()
+    }
+
+	async listCollege() {
+		return this.request(URL.ListCollege)
+	}
+
+    async getCollege(id) {
+        return this.request(URL.GetCollege, `id=${id}`)
+    }
+
+    async fetchAllMajor(id) {
+        return this.request(URL.FetchAllMajor, `id=${id}`)
+    }
+
+    async getMajor(id) {
+        return this.request(URL.GetMajor, `id=${id}`)
+    }
+
+    async getCollegeByMajor(id) {
+        return this.request(URL.GetCollegeByMajor, `id=${id}`)
+    }
+
+    async fetchAllClass(id) {
+        return this.request(URL.SelectClassByMajor, `id=${id}`)
     }
 }
 

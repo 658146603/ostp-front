@@ -77,7 +77,7 @@ Vue.component('college', {
             <div class="project-title d-flex align-items-center">
                 <div class="text">
                     <h3 class="h4"><a :href="'adminMajor.html#id=' + college.id">{{ college.name }}</a></h3>
-                    <small>{{ college.major_count }}个专业 {{ college.teacher_count }}个教师 {{ college.student_count }}个学生</small>
+                    <small>{{ college.majorCount }}个专业 {{ college.teacherCount }}个教师 {{ college.studentCount }}个学生</small>
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@ Vue.component('major', {
             <div class="project-title d-flex align-items-center">
                 <div class="text">
                     <h3 class="h4"><a :href="'adminClass.html#id=' + major.id">{{ major.name }}({{ major.year }})</a></h3>
-                    <small>{{ major.class_count }}个班级 {{ major.student_count }}个学生</small>
+                    <small>{{ major.classCount }}个班级 {{ major.studentCount }}个学生</small>
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@ Vue.component('clazz', {
             <div class="project-title d-flex align-items-center">
                 <div class="text">
                     <h3 class="h4">{{ clazz.name }}</h3>
-                    <small>{{ clazz.student_count }}个学生</small>
+                    <small>{{ clazz.studentCount }}个学生</small>
                 </div>
             </div>
         </div>

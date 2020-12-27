@@ -52,8 +52,10 @@
 <script src="components.js"></script>
 <script src="js/convert.js"></script>
 <script src="js/common.js"></script>
+<script src="js/asyncNet.js"></script>
 <script>
 	<!-- Create a Vue app -->
+
 	let app = new Vue({
 		el: '#app',
 		data: {
@@ -83,27 +85,27 @@
 			// 添加其他需要存储的数据
 		},
 		methods: {
-			init: function () {
-				common.getAppState((state) => app.state = state)
+			init: async function () {
+				net.addWatcher(app.stateChanged)
+                app.state = await net.appState()
 				// 添加初始化代码
                 app.major.id = common.getHashDic(window).id
-                request(URL.GetMajor, `id=${app.major.id}`, (res) => {
-                	if (res.code === 200) {
-                		app.major = res.data
-                    }
-                })
-                request(URL.GetCollegeByMajor, `id=${app.major.id}`, (res) => {
-                	if (res.code === 200) {
-                		app.college = res.data
-                    }
-                })
-                request(URL.SelectClassByMajor, `id=${app.major.id}`, (res) => {
-                	if (res.code === 200) {
-                        app.classes = res.data
-                        convert.classes(app.classes)
-                    }
-                })
-			}
+                let resMajor = await net.getMajor(app.major.id);
+				if (resMajor.code === 200){
+					app.major = resMajor.data
+                }
+                let resCollege = await net.getCollegeByMajor(app.major.id);
+				if (resCollege.code === 200) {
+					app.college = resCollege.data
+                }
+                let resClasses = await net.fetchAllClass(app.major.id);
+				if (resClasses.code === 200){
+					app.classes = resClasses.data
+                }
+			},
+            stateChanged: function(state) {
+				app.state = state
+            }
 		}
 	})
 
