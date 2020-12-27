@@ -26,12 +26,21 @@
 <body>
 <app id="app" :info="info" :state="state">
     <!-- Content -->
-    <div class="breadcrumb-holder container-fluid">
-        <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a></li>
-            <li class="breadcrumb-item active">{{ college?.name }}</li>
-        </ul>
+    <div class="breadcrumb-holder container-fluid form-inline">
+        <div class="col-lg-10">
+            <ul class="breadcrumb align-items-center">
+                <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a></li>
+                <li class="breadcrumb-item active">{{ college?.name }}</li>
+            </ul>
+        </div>
+        <div class="col-lg-2">
+            <div class="btn btn-primary btn-sm col">
+                导出订书列表
+            </div>
+        </div>
+
     </div>
+
     <section>
         <teacher v-for="teacher in teachers" :teacher="teacher" :state="state"></teacher>
     </section>

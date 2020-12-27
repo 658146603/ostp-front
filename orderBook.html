@@ -50,7 +50,6 @@
 <script src="template/vendor/popper.js/umd/popper.min.js"></script>
 <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="template/vendor/chart.js/Chart.min.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
 <script src="template/js/charts-home.js"></script>
 <!-- Main File-->
@@ -75,21 +74,25 @@
             searchModel: {
                 name: '',
                 course: '',
+                year: 2020,
+                semester: 1,
                 searching: false,
             },
-            books: [{
-            	book: {
-					cover: 'cover',
-					isbn: 'isbn',
-					price: '9.99',
-					name: 'name'
-                },
-                orders: [],
-                courseOpens: [],
-                courseOpensRelated: [],
-                ordersRelated: [],
-                courses: ['软件工程', 'C++']
-            }]
+            books: [
+            	// {
+            	// book: {
+				// 	cover: 'cover',
+				// 	isbn: 'isbn',
+				// 	price: '9.99',
+				// 	name: 'name'
+                // },
+                // orders: [],
+                // courseOpens: [],
+                // courseOpensRelated: [],
+                // ordersRelated: [],
+                // courses: ['软件工程', 'C++']
+                // }
+            ]
         },
         methods: {
             init: async function () {
