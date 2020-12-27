@@ -2,29 +2,40 @@
  * this contains components which are frequently used.
  */
 
+Vue.component('blank-view', {
+	template: `
+  	<section>
+        <div class="jumbotron bg-transparent">
+            <h1 class="display-4">请登录后再访问该页面</h1>
+            <a href="login.html" class="btn btn-primary">登录</a>
+        </div>
+    </section>
+    `
+})
+
 /**
  * book component
  */
 Vue.component('book', {
-    props: ['book'],
-    methods: {
-        order: async function () {
-            this.searching = true;
-            if (this.book.state === 1 || this.book.state === 2){
-                let res = await net.orderBookStu(this.book.book.isbn)
-                if (res.code === 200) {
-                    if (this.book.state === 1) {
-                        this.book.state = 2
-                    } else {
-                        this.book.state = 1
-                    }
-                }
-            }
-            this.$forceUpdate()
-            this.searching = false
-        }
-    },
-    template: `
+	props: ['book'],
+	methods: {
+		order: async function () {
+			this.searching = true;
+			if (this.book.state === 1 || this.book.state === 2) {
+				let res = await net.orderBookStu(this.book.book.isbn)
+				if (res.code === 200) {
+					if (this.book.state === 1) {
+						this.book.state = 2
+					} else {
+						this.book.state = 1
+					}
+				}
+			}
+			this.$forceUpdate()
+			this.searching = false
+		}
+	},
+	template: `
       <div class="container-fluid">
       <!-- Project -->
       <div class="project">
@@ -67,27 +78,21 @@ Vue.component('book', {
 })
 
 
-
-
-
-
-
-
 /**
  * 整个app框架
  */
 Vue.component('app', {
-    props: ['info', 'state'],
-    methods: {
-        logout: function() {
-            request_su(URL.Logout, "", (status, result) => {
-                if (status === 200) {
-                    window.location.assign("login.html")
-                }
-            })
-        }
-    },
-    template: `
+	props: ['info', 'state'],
+	methods: {
+		logout: function () {
+			request_su(URL.Logout, "", (status, result) => {
+				if (status === 200) {
+					window.location.assign("login.html")
+				}
+			})
+		}
+	},
+	template: `
         <div class="page">
         <!-- Main Navbar-->
         <header class="header">
@@ -105,110 +110,14 @@ Vue.component('app', {
                         <div class="navbar-header">
                             <!-- Navbar Brand --><a href="index.html" class="navbar-brand d-none d-sm-inline-block">
                             <div class="brand-text d-none d-lg-inline-block">
-                                <span>Bootstrap </span><strong>Dashboard</strong></div>
-                            <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>BD</strong></div>
+                                <strong>一站式教材服务平台</strong></div>
+                            <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>教材</strong></div>
                         </a>
                             <!-- Toggle Button--><a id="toggle-btn" href="#"
                                                     class="menu-btn active"><span></span><span></span><span></span></a>
                         </div>
                         <!-- Navbar Menu -->
                         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                            <!-- Search-->
-                            <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i
-                                class="icon-search"></i></a></li>
-                            <!-- Notifications-->
-                            <li class="nav-item dropdown"><a id="notifications" rel="nofollow" data-target="#" href="#"
-                                                             data-toggle="dropdown" aria-haspopup="true"
-                                                             aria-expanded="false" class="nav-link"><i
-                                class="fa fa-bell-o"></i><span class="badge bg-red badge-corner">12</span></a>
-                                <ul aria-labelledby="notifications" class="dropdown-menu">
-                                    <li><a rel="nofollow" href="#" class="dropdown-item">
-                                        <div class="notification">
-                                            <div class="notification-content"><i class="fa fa-envelope bg-green"></i>You
-                                                have 6 new messages
-                                            </div>
-                                            <div class="notification-time"><small>4 minutes ago</small></div>
-                                        </div>
-                                    </a></li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item">
-                                        <div class="notification">
-                                            <div class="notification-content"><i class="fa fa-twitter bg-blue"></i>You
-                                                have
-                                                2 followers
-                                            </div>
-                                            <div class="notification-time"><small>4 minutes ago</small></div>
-                                        </div>
-                                    </a></li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item">
-                                        <div class="notification">
-                                            <div class="notification-content"><i class="fa fa-upload bg-orange"></i>Server
-                                                Rebooted
-                                            </div>
-                                            <div class="notification-time"><small>4 minutes ago</small></div>
-                                        </div>
-                                    </a></li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item">
-                                        <div class="notification">
-                                            <div class="notification-content"><i class="fa fa-twitter bg-blue"></i>You
-                                                have
-                                                2 followers
-                                            </div>
-                                            <div class="notification-time"><small>10 minutes ago</small></div>
-                                        </div>
-                                    </a></li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center">
-                                        <strong>view all notifications </strong></a></li>
-                                </ul>
-                            </li>
-                            <!-- Messages                        -->
-                            <li class="nav-item dropdown"><a id="messages" rel="nofollow" data-target="#" href="#"
-                                                             data-toggle="dropdown" aria-haspopup="true"
-                                                             aria-expanded="false" class="nav-link"><i
-                                class="fa fa-envelope-o"></i><span class="badge bg-orange badge-corner">10</span></a>
-                                <ul aria-labelledby="notifications" class="dropdown-menu">
-                                    <li><a rel="nofollow" href="#" class="dropdown-item d-flex">
-                                        <div class="msg-profile"><img src="template/img/avatar-1.jpg" alt="..."
-                                                                      class="img-fluid rounded-circle"></div>
-                                        <div class="msg-body">
-                                            <h3 class="h5">Jason Doe</h3><span>Sent You Message</span>
-                                        </div>
-                                    </a></li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item d-flex">
-                                        <div class="msg-profile"><img src="template/img/avatar-2.jpg" alt="..."
-                                                                      class="img-fluid rounded-circle"></div>
-                                        <div class="msg-body">
-                                            <h3 class="h5">Frank Williams</h3><span>Sent You Message</span>
-                                        </div>
-                                    </a></li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item d-flex">
-                                        <div class="msg-profile"><img src="template/img/avatar-3.jpg" alt="..."
-                                                                      class="img-fluid rounded-circle"></div>
-                                        <div class="msg-body">
-                                            <h3 class="h5">Ashley Wood</h3><span>Sent You Message</span>
-                                        </div>
-                                    </a></li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center">
-                                        <strong>Read all messages </strong></a></li>
-                                </ul>
-                            </li>
-                            <!-- Languages dropdown    -->
-                            <li class="nav-item dropdown"><a id="languages" rel="nofollow" data-target="#" href="#"
-                                                             data-toggle="dropdown" aria-haspopup="true"
-                                                             aria-expanded="false"
-                                                             class="nav-link language dropdown-toggle"><img
-                                src="template/img/flags/16/GB.png" alt="English"><span
-                                class="d-none d-sm-inline-block">English</span></a>
-                                <ul aria-labelledby="languages" class="dropdown-menu">
-                                    <li><a rel="nofollow" href="#" class="dropdown-item"> <img
-                                        src="template/img/flags/16/DE.png"
-                                        alt="English" class="mr-2">German</a>
-                                    </li>
-                                    <li><a rel="nofollow" href="#" class="dropdown-item"> <img
-                                        src="template/img/flags/16/FR.png"
-                                        alt="English" class="mr-2">French
-                                    </a></li>
-                                </ul>
-                            </li>
                             <!-- Logout    -->
                             <li class="nav-item"><a v-on:click="logout" class="nav-link logout"> <span
                                 class="d-none d-sm-inline">Logout</span><i class="fa fa-sign-out"></i></a></li>
@@ -308,7 +217,8 @@ Vue.component('app', {
                             {{ (state.tip === '') ? info.title : info.title + " - " + state.tip }}</h2>
                     </div>
                 </header>
-                <slot></slot>
+                <blank-view v-if="state.status === false && state.tip !== '正在加载中...'"></blank-view>
+                <slot v-else></slot>
                 <!-- Page Footer-->
                 <footer class="main-footer">
                     <div class="container-fluid">
@@ -334,8 +244,8 @@ Vue.component('app', {
  * Form表单，有属性title
  */
 Vue.component('form-card', {
-    props: ['title'],
-    template: `
+	props: ['title'],
+	template: `
 <div class="card">
     <div class="card-header d-flex align-items-center">
         <h3 class="h4">{{ title }}</h3>
@@ -352,8 +262,8 @@ Vue.component('form-card', {
  * Form表单空间组，有属性label
  */
 Vue.component('form-group', {
-    props: ['label'],
-    template: `
+	props: ['label'],
+	template: `
 <div class="form-group row">
 <label class="col-sm-3 form-control-label">{{ label }}</label>
 <div class="col-sm-9">
