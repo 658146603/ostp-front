@@ -196,18 +196,9 @@
 		},
 		methods: {
 			init: async function () {
-				this.searchModel.searching = true
 				await net.addWatcher(app.stateChanged)
 				app.state = await net.appState()
-				let res = await net.searchBookStu()
-				//console.log(res)
-				if (res.code === 200) {
-					console.log(app.searchModel)
-					app.books = convert.filter_books(res.data, app.searchModel.year, app.searchModel.semester)
-					convert.books(app.books)
-					convert.books2(app.books, app.state.user)
-				}
-				this.searchModel.searching = false;
+				await app.searchBook()
 			},
 			stateChanged: function (state) {
 				app.state = state
