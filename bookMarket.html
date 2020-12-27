@@ -408,6 +408,7 @@
                 let exchange_result = await net.postExchangeRequest(other_id, self_id, other_find_id, other_publish_id)
                 if (exchange_result.code === 200) {
                     alert("交换发起成功")
+                    window.location.assign('')
                 } else {
                     alert(exchange_result.message)
                 }
