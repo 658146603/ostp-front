@@ -15,6 +15,18 @@ class convert {
         return books
     }
 
+    /**
+     * 按照学年和学期过滤书籍
+     * @param books
+     * @param year
+     * @param semester
+     */
+    static filter_books(books, year, semester) {
+        return books.filter((book) => {
+            return book.courseOpens.find((courseOpen) => courseOpen.year.toString() === year.toString() && courseOpen.semester.toString() === semester.toString()) !== undefined
+        })
+    }
+
     static colleges(colleges) {
         colleges.forEach((college) => {
             college.canDelete = college.studentCount + college.teacherCount + college.majorCount === 0

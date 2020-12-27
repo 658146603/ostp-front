@@ -13,69 +13,7 @@ Vue.component('blank-view', {
     `
 })
 
-/**
- * book component
- */
-Vue.component('book', {
-	props: ['book'],
-	methods: {
-		order: async function () {
-			this.searching = true;
-			if (this.book.state === 1 || this.book.state === 2) {
-				let res = await net.orderBookStu(this.book.book.isbn)
-				if (res.code === 200) {
-					if (this.book.state === 1) {
-						this.book.state = 2
-					} else {
-						this.book.state = 1
-					}
-				}
-			}
-			this.$forceUpdate()
-			this.searching = false
-		}
-	},
-	template: `
-      <div class="container-fluid">
-      <!-- Project -->
-      <div class="project">
-        <div class="row bg-white has-shadow">
-          <div class="left-col col-lg-8 d-flex align-items-center justify-content-between">
-            <div class="project-title d-flex align-items-center">
-              <div class="image has-shadow">
-                <img v-bind:src="book.book.cover" alt="..."
-                     class="img-fluid">
-              </div>
-              <div class="text">
-                <h3 class="h4">{{ book.book.name }}</h3>
-                <small>{{ book.book.isbn }}[<span v-if="book.courses !== null" v-for="v in book.courses">&nbsp;{{ v }}&nbsp;</span>]</small>
-              </div>
-            </div>
-          </div>
-          <div class="left-col col-lg-2 d-flex align-items-center justify-content-center">
-            <div class="text">
-              <h3 class="h4">\${{ book.book.price }}</h3>
-            </div>
-          </div>
-          <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
-              <!--无需订阅的情况-->
-              <button v-if="book.state === 0" disabled class="btn btn-default btn-block" >
-                  无法订阅
-              </button>
-              <button v-else-if="book.state === 1" class="btn btn-primary btn-block" v-on:click="order">
-                  订阅
-              </button>
-              <button v-else-if="book.state === 2" class="btn btn-outline-primary btn-block" v-on:click="order">
-                  取消订阅
-              </button>
-              <button v-else class="btn btn-outline-primary btn-block" disabled>
-                  已送达
-              </button>
-          </div>
-        </div>
-      </div>
-    </div>`
-})
+
 
 
 /**
