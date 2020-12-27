@@ -58,7 +58,6 @@
         $().ready(() => {
             // console.log(112)
             $('.uploadFile').change(() => {
-
                 let url = URL.PutImage
                 let formData = new FormData();
                 let files = $('.uploadFile').prop('files')[0]
@@ -86,13 +85,15 @@
             let book_name = $('.book-name').val()
             let isbn = $('.ISBN').val()
             let price = $('.price').val()
-            let url = URL.InsertBook
-            let body = `isbn=${isbn}&price=${price}&name=${book_name}&cover=${uuid}`
-            const callBack = (res) => {
-                console.log(res)
-            }
-            request(url, body,callBack)
-
+            let body = `isbn=${isbn}&price=${Math.round(price * 100)}&name=${book_name}&cover=${uuid}`
+            request_su(URL.InsertBook, body, (status, result) => {
+                if (status === 200 && result.code === 200) {
+                    alert("添加成功")
+                    window.location.assign("")
+                } else {
+                    alert(result.message)
+                }
+            })
         }
     </script>
 
