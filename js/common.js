@@ -17,6 +17,7 @@ class common {
     static admin_class = 'admin_class'
     static admin_teacher = 'admin_teacher'
     static admin_student = 'admin_student'
+    static add_college = 'add_college'
     static su = 'su'
     static su_display = '超级管理员'
     static admin = 'admin'
