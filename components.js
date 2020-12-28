@@ -125,11 +125,9 @@ Vue.component('app', {
                             </li>
                             <li :class="info.menu === 'admin_student' ? 'active' : ''"><a href="adminStudent.html">添加学生</a>
                             </li>
-                            <li :class="info.menu === 'add_book' ? 'active': ''"><a href="adminAddBook.html">添加书籍</a>
+                            <li :class="info.menu === 'admin_class' ? 'active': ''"><a href="admin_add_class.html">添加班级</a>
                             </li>
-                            <li :class="info.menu === 'add_course' ? 'active': ''"><a href="addCourse.html">添加课程</a>
-                            </li>
-                            <li :class="info.menu === 'open_course' ? 'active' : ''"><a href="admin_open_course.html">开设课程</a>
+                            <li :class="info.menu === 'add_college' ? 'active': ''"><a href="admin_add_college.html">添加学院</a>
                             </li>
                         </ul>
                     </li>

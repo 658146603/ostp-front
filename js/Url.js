@@ -94,6 +94,7 @@ class URL {
     static InsertCollegeThenGetId = this.header + '/college/insert/id'
     static InsertAdmin = this.header + "/admin/insert"
     static InsertClass = this.header + "/class/insert"
+    static GetClassListByCollegeId = this.header + "/class/fetch_college"
 
     static getImage(url) {
         return URL.GetImage + "/" + url
@@ -142,3 +143,4 @@ function request_su(url, body, callback, headers = default_headers) {
         })
     })
 }
+

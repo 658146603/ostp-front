@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="template/css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="template/img/favicon.ico">
+    <style>
+
+    </style>
 </head>
 <script src="js/Url.js"></script>
 <script type="text/javascript">
@@ -60,6 +63,9 @@
     function get_college() {
         document.getElementById("college_id").classList.remove("is-valid")
         document.getElementById("college_id").classList.add("is-invalid")
+        if(document.getElementById("college_id").value === ""){
+            document.getElementById("major_id").setAttribute("disabled","")
+        }
         let college_id = document.getElementById("college_id").value
         let select = document.getElementById("college_id_select")
         select.options.length = 0
@@ -67,6 +73,7 @@
             if (college[i].name.indexOf(college_id) >= 0) {
                 select.options[select.options.length] = new Option(`${college[i].name} (${college[i].id})`)
                 select.options[select.options.length - 1].onclick = function () {
+                    document.getElementById("major_id").removeAttribute("disabled")
                     document.getElementById("college_id").value = this.value.split(" ")[0]
                     college_choose = this.value.split("(")[1].split(")")[0]
                     document.getElementById("college_id_select").style.display = "none"
@@ -89,6 +96,8 @@
 
 
     function get_major() {
+        // console.log(document.getElementById("major_id").value)
+
         document.getElementById("major_id").classList.remove("is-valid")
         document.getElementById("major_id").classList.add("is-invalid")
         let major_name = document.getElementById("major_id").value
@@ -164,7 +173,7 @@
                         <div class="card-body">
                             <div class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">课程编号</label>
+                                    <label for="course_id" class="col-sm-3 form-control-label">课程编号</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control course_number" id="course_id"
                                                onkeyup="check()">
@@ -172,7 +181,7 @@
                                 </div>
                                 <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">课程名称</label>
+                                    <label for="course_name" class="col-sm-3 form-control-label">课程名称</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control book-name" id="course_name"
                                                onkeyup="check_course()">
@@ -180,7 +189,7 @@
                                 </div>
                                 <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">所属学院</label>
+                                    <label for="college_id" class="col-sm-3 form-control-label">所属学院</label>
                                     <div class="col-sm-9">
                                         <input name="account" class="form-control display-college" id="college_id"
                                                onkeyup="get_college()">
@@ -194,9 +203,9 @@
 
                                 <div class="line"></div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 form-control-label">专业</label>
+                                    <label for="major_id" class="col-sm-3 form-control-label">专业</label>
                                     <div class="col-sm-9">
-                                        <input name="account" class="form-control display-college" id="major_id"
+                                        <input name="account" class="form-control display-college" id="major_id" disabled=""
                                                onkeyup="get_major()">
                                         <select multiple="multiple" class="form-control" id="major_id_select"
                                                 style="display: none" onfocusout="this.style.display='none'">
@@ -266,8 +275,8 @@
             init: async function () {
                 net.addWatcher(app.stateChanged)
                 app.state = await net.appState()
-                if (!app.state.user.su) {
-                    alert("仅限系统管理员访问")
+                if (app.state.type.role !== "admin" || app.state.user.su !== 0) {
+                    alert("仅限学院管理员访问")
                     window.location.assign("index.html")
                 }
 

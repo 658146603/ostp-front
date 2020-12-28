@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="all,follow">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="template/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="template/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Fontastic Custom icon font-->
+    <link rel="stylesheet" href="template/css/fontastic.css">
+    <!-- Google fonts - Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="template/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="template/css/custom.css">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="template/img/favicon.ico">
+</head>
+<script src="js/Url.js"></script>
+<body>
+<app id="app" :info="info" :state="state">
+    <!-- Forms Section-->
+    <section class="forms">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Form Elements -->
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <h3 class="h4">添加学生</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                <div class="form-group row">
+                                    <label for="input_college" class="col-sm-3 form-control-label">学院</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" placeholder="请输入学院" id="input_college"
+                                               class="form-control display-college" v-on:input="fuzzy_college"
+                                               v-model="teacher.collage_name">
+
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select v-if="college_list.list !== null && college_list.open === true"
+                                                multiple class="form-control">
+                                            <option v-on:click="select_college(index)"
+                                                    v-for="(college, index) in college_list.list">
+                                                {{ college.name}} ({{college.id}})
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+                                <div class="form-group row">
+                                    <label for="input_college" class="col-sm-3 form-control-label">班级</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" placeholder="请输入班级" id="input_class"
+                                               class="form-control display-college" v-on:input="fuzzy_clazz"
+                                               v-model="teacher.clazz_name">
+
+                                        <!--suppress HtmlFormInputWithoutLabel -->
+                                        <select multiple class="form-control" id="input_clazz_fuzzy"
+                                                style="display:none;">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <label for="input_username" class="col-sm-3 form-control-label">学号</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control display-username" id="input_username"
+                                               v-model="teacher.username" v-on:input="check_duplicate"
+                                               placeholder="请输入学号">
+                                        <div class="invalid-feedback" id="input_username_feedback">学号重复或为空，请更换学号</div>
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <label for="input_password" class="col-sm-3 form-control-label">密码</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control display-password" id="input_password"
+                                               v-model="teacher.password" placeholder="请输入密码"
+                                               v-on:input="check_password">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <label for="input_name" class="col-sm-3 form-control-label">姓名</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" placeholder="请输入姓名" id="input_name" v-on:input="check_name"
+                                               class="form-control display-name" v-model="teacher.name">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <label for="input_email" class="col-sm-3 form-control-label">邮箱</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" placeholder="请输入邮箱" id="input_email"
+                                               v-on:input="check_email"
+                                               class="form-control display-email" v-model="teacher.email">
+                                    </div>
+                                </div>
+                                <div class="line"></div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-4 offset-sm-3">
+                                        <button class="btn btn-primary" v-on:click="add_student">提交</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</app>
+<!-- JavaScript files-->
+<script src="template/vendor/jquery/jquery.min.js"></script>
+<script src="template/vendor/popper.js/umd/popper.min.js"></script>
+<script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
+<script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
+<!-- Main File-->
+<script src="template/js/front.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="components.js"></script>
+<script src="js/convert.js"></script>
+<script src="js/common.js"></script>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: {
+                user: {
+                    college: null,
+                    id: null,
+                    su: null
+                },
+                type: {
+                    role: null,
+                    // 显示名称
+                    display: '未登录',
+                    role_display: null
+                },
+                status: false,
+                tip: '正在加载中...'
+            },
+            // 用于存储app的信息
+            info: {
+                title: '添加学生',
+                menu: common.admin_student
+            },
+            // 添加其他需要存储的数据
+            teacher: {
+                college: -1,
+                collage_name: "",
+                username: "",
+                username_valid: false,
+                name: "",
+                password: "",
+                email: "",
+                clazz: -1,
+                clazz_name: ""
+            },
+            college_list: {
+                list: [],
+                open: false,
+                index: -1
+            },
+            clazz_List: []
+        },
+        methods: {
+            // 添加初始化代码
+            init: function () {
+                common.getAppState((state) => {
+                    app.state = state
+                    console.log(app.state)
+                })
+            },
+            check_duplicate: function () {
+                console.log(app.teacher.username)
+                if (app.state.status === true) {
+                    if (app.teacher.username.length === 0) {
+                        $("#input_username").removeClass("is-valid").addClass("is-invalid")
+                        $("input_username_feedback").hidden = true
+                        app.teacher.username_valid = false
+                        return
+                    }
+                    request_su(URL.IdDuplicate, `id=${app.teacher.username}`, (status, result) => {
+                        if (status === 200 && result.code === 200) {
+                            console.log(result.data)
+                            if (result.data === true) {
+                                $("#input_username").removeClass("is-valid").addClass("is-invalid")
+                                $("input_username_feedback").hidden = false
+                                app.teacher.username_valid = false
+                            } else {
+                                $("#input_username").removeClass("is-invalid").addClass("is-valid")
+                                $("input_username_feedback").hidden = true
+                                app.teacher.username_valid = true
+                            }
+                        }
+                    })
+                }
+            },
+            check_email: function () {
+                if (/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(app.teacher.email)) {
+                    $("#input_email").addClass("is-valid").removeClass("is-invalid")
+                } else {
+                    $("#input_email").addClass("is-invalid").removeClass("is-valid")
+                }
+            },
+            check_name: function () {
+                if (app.teacher.name.length === 0) {
+                    $("#input_name").removeClass("is-valid").addClass("is-invalid")
+                } else {
+                    $("#input_name").addClass("is-valid").removeClass("is-invalid")
+                }
+            },
+            check_password: function () {
+                if (app.teacher.password.length === 0) {
+                    $('#input_password').removeClass('is-valid').addClass('is-invalid')
+                } else {
+                    $("#input_password").addClass("is-valid").removeClass("is-invalid")
+                }
+            },
+            add_student: function () {
+                console.log(app.teacher)
+                let valid = true
+                if (!app.teacher.username_valid || app.teacher.username.length === 0) {
+                    $('#input_username').removeClass('is-valid').addClass('is-invalid')
+                    valid = false
+                } else {
+                    $("#input_username").addClass("is-valid").removeClass("is-invalid")
+                }
+
+                if (app.teacher.password.length === 0) {
+                    $('#input_password').removeClass('is-valid').addClass('is-invalid')
+                    valid = false
+                } else {
+                    $("#input_password").addClass("is-valid").removeClass("is-invalid")
+                }
+
+                if (!/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(app.teacher.email)) {
+                    $("#input_email").removeClass("is-valid").addClass("is-invalid")
+                    valid = false
+                } else {
+                    $("#input_email").addClass("is-valid").removeClass("is-invalid")
+                }
+
+                if (app.teacher.college < 1) {
+                    $("#input_college").removeClass("is-valid").addClass("is-invalid")
+                    valid = false
+                } else {
+                    $("#input_college").addClass("is-valid").removeClass("is-invalid")
+                }
+
+                if (app.teacher.name.length === 0) {
+                    $("#input_name").removeClass("is-valid").addClass("is-invalid")
+                    valid = false
+                } else {
+                    $("#input_name").addClass("is-valid").removeClass("is-invalid")
+                }
+                if (document.getElementById("input_class").classList.contains("is-invalid")) {
+                    valid = false
+                }
+                if (valid) {
+                    request(URL.InsertStudent, `id=${app.teacher.username}&password=${app.teacher.password}&name=${app.teacher.name}&clazz=${app.teacher.clazz}&email=${app.teacher.email}`, res => {
+                        if (res.code === 200) {
+                            alert("成功")
+                            document.location.assign("")
+                        } else {
+                            alert(res.message)
+                        }
+                    })
+                } else {
+                    console.log("请按要求填写表单")
+                }
+            },
+            fuzzy_college: function () {
+                console.log(app.teacher.collage_name)
+                document.getElementById("input_class").classList.remove("is-valid")
+                document.getElementById("input_class").classList.add("is-invalid")
+                app.teacher.clazz_name = ""
+                app.teacher.college = -1
+                $('#input_college').removeClass("is-valid").addClass("is-invalid")
+                if (app.state.status === true) {
+                    request_su(URL.FuzzyCollege, `name=${app.teacher.collage_name}`, (status, result) => {
+                        // 成功且有数据
+                        if (status === 200 && result.code === 200 && result.data.length > 0) {
+                            app.college_list.open = true
+                            app.college_list.list = result.data.slice(0, 10)
+                        } else {
+                            app.college_list.open = false
+                            app.college_list.list = null
+                            app.college_list.index = -1
+                        }
+                    })
+                }
+            },
+            select_college: function (index) {
+                app.teacher.college = app.college_list.list[index].id
+                app.teacher.collage_name = `${app.college_list.list[index].name} (${app.teacher.college})`
+                app.college_list.open = false
+                request(URL.GetClassListByCollegeId, `id=${app.teacher.college}`, res => {
+                    app.clazz_List = res.data
+                })
+                console.log(`selected: ${app.teacher.college}->${app.teacher.collage_name}`)
+                $('#input_college').removeClass('is-invalid').addClass("is-valid")
+            },
+            fuzzy_clazz: function () {
+                document.getElementById("input_class").classList.remove("is-valid")
+                document.getElementById("input_class").classList.add("is-invalid")
+                let clazz_name = document.getElementById("input_class").value
+                document.getElementById("input_clazz_fuzzy").options.length = 0
+                let flag = 0
+                app.clazz_List.forEach(clazz => {
+                    if (clazz.name.indexOf(clazz_name) >= 0) {
+                        document.getElementById("input_clazz_fuzzy").options.add(new Option(`${clazz.name} (${clazz.id})`))
+                        document.getElementById("input_clazz_fuzzy").options[document.getElementById("input_clazz_fuzzy").options.length - 1].onclick = function () {
+                            app.teacher.clazz_name = this.value
+                            app.teacher.clazz = this.value.split("(")[1].split(")")[0]
+                            document.getElementById("input_clazz_fuzzy").style.display = "none"
+                            document.getElementById("input_class").classList.add("is-valid")
+                            document.getElementById("input_class").classList.remove("is-invalid")
+                        }
+                        flag = 1
+                    }
+                    if (flag === 1) {
+                        document.getElementById("input_clazz_fuzzy").style.display = ""
+                    } else {
+                        document.getElementById("input_clazz_fuzzy").style.display = "none"
+                    }
+                })
+            }
+        }
+    })
+
+    window.addEventListener('load', () => {
+        app.init();
+    });
+</script>
+</body>
+</html>
