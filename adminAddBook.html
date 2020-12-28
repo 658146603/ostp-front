@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
+    <title>添加书籍</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -107,7 +107,7 @@
                                             <div class="form-horizontal">
                                                 <div class="line"></div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-3 form-control-label">书名</label>
+                                                    <label for="inputName" class="col-sm-3 form-control-label">书名</label>
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control book-name"
                                                                id="inputName">
@@ -206,8 +206,8 @@
             init: async function () {
                 net.addWatcher(app.stateChanged)
                 app.state = await net.appState()
-                if (!app.state.user.su) {
-                    alert("仅限系统管理员访问")
+                if (app.state.type.role !== "admin" || app.state.user.su !== 0) {
+                    alert("仅限学院管理员访问")
                     window.location.assign("index.html")
                 }
 
