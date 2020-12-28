@@ -123,7 +123,7 @@ Vue.component('app', {
                         <ul id="dropDown3" class="collapse list-unstyled">
                             <li :class="info.menu === 'admin_teacher' ? 'active': ''"><a href="admin_add_teacher.html">添加教师</a>
                             </li>
-                            <li :class="info.menu === 'admin_student' ? 'active' : ''"><a href="adminStudent.html">添加学生</a>
+                            <li :class="info.menu === 'admin_student' ? 'active' : ''"><a href="admin_add_student.html">添加学生</a>
                             </li>
                             <li :class="info.menu === 'admin_class' ? 'active': ''"><a href="admin_add_class.html">添加班级</a>
                             </li>
