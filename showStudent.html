@@ -26,13 +26,20 @@
 <body>
 <app id="app" :info="info" :state="state">
     <!-- Content -->
-    <div class="breadcrumb-holder container-fluid">
-        <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a> </li>
-            <li class="breadcrumb-item"><a :href="'adminMajor.html#id=' + clazz.major.college.id">{{ clazz.major.college.name }}</a> </li>
-            <li class="breadcrumb-item"><a :href="'adminClass.html#id=' + clazz.major.id">{{ clazz.major.name }}({{ clazz.major.year }})</a></li>
-            <li class="breadcrumb-item">{{ clazz.name }}</li>
-        </ul>
+    <div class="breadcrumb-holder container-fluid form-inline">
+        <div class="col-lg-10">
+            <ul class="breadcrumb align-items-center">
+                <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a> </li>
+                <li class="breadcrumb-item"><a :href="'adminMajor.html#id=' + clazz.major.college.id">{{ clazz.major.college.name }}</a> </li>
+                <li class="breadcrumb-item"><a :href="'adminClass.html#id=' + clazz.major.id">{{ clazz.major.name }}({{ clazz.major.year }})</a></li>
+                <li class="breadcrumb-item">{{ clazz.name }}</li>
+            </ul>
+        </div>
+        <div class="col-lg-2" v-if="state.type.role === 'admin'">
+            <div class="btn btn-primary btn-sm col">
+                导出订书列表
+            </div>
+        </div>
     </div>
     <section>
         <student v-for="student in students" :student="student" :state="state"></student>
@@ -43,9 +50,7 @@
 <script src="template/vendor/popper.js/umd/popper.min.js"></script>
 <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="template/vendor/chart.js/Chart.min.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="template/js/charts-home.js"></script>
 <!-- Main File-->
 <script src="template/js/front.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -68,7 +73,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="state.type.role === 'su'"
+              <div v-if="state.type.role === 'su' && false"
                    class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
                 <div class="btn btn-danger btn-block">
                   删除

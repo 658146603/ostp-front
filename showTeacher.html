@@ -33,12 +33,11 @@
                 <li class="breadcrumb-item active">{{ college?.name }}</li>
             </ul>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2" v-if="state.type.role === 'admin'">
             <div class="btn btn-primary btn-sm col">
                 导出订书列表
             </div>
         </div>
-
     </div>
 
     <section>
@@ -75,7 +74,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="state.type.role === 'su'"
+              <div v-if="state.type.role === 'su' && false"
                    class="right-col col-lg-2 col-6 d-flex align-items-center justify-content-center">
                 <div class="btn btn-danger btn-block">
                   删除
