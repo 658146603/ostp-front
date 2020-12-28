@@ -130,7 +130,7 @@
                     <small>{{ book.book.isbn }}</small>
                     <div>
                       <span v-for="courseOpen in book.courseOpens" style="padding: 4px 8px; margin: 2px 8px;" class="badge badge-rounded bg-blue">
-                        {{ courseOpen.year }}-{{ courseOpen.semester }}-{{ courseOpen.course.name }},{{ courseOpen.teacher.name }}
+                        {{ courseOpen.year }}-{{ courseOpen.semester }}-{{ courseOpen.course.name }}({{ courseOpen.course.id }}),{{ courseOpen.teacher.name }}
                       </span>
                     </div>
                   </div>

@@ -266,8 +266,8 @@
             init: async function () {
                 net.addWatcher(app.stateChanged)
                 app.state = await net.appState()
-                if (!app.state.user.su) {
-                    alert("仅限系统管理员访问")
+                if (app.state.type.role !== "admin" || app.state.user.su !== 0) {
+                    alert("仅限学院管理员访问")
                     window.location.assign("index.html")
                 }
 
