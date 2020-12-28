@@ -94,7 +94,7 @@ class URL {
     static InsertCollegeThenGetId = this.header + '/college/insert/id'
     static InsertAdmin = this.header + "/admin/insert"
     static InsertClass = this.header + "/class/insert"
-
+    static selectClassByMajor = this.header+"/class/selectByMajor"
     static getImage(url) {
         return URL.GetImage + "/" + url
     }
