@@ -13,6 +13,7 @@ class URL {
     static SelectBook = this.header + "/book/select"
     static SearchBook = this.header + "/book/search"
     static SearchBookStu = this.header + "/book/search_stu"
+    static SearchBookTeacher = this.header + "/book/search_teacher"
     static OrderBookStu = this.header + "/book/order_stu"
     static DeleteBook = this.header + "/book/delete"
     static UpdateBook = this.header + "/book/update"
@@ -92,6 +93,7 @@ class URL {
     static SelectStudentByClazz = this.header + "/student/selectByClass"
     static InsertCollegeThenGetId = this.header + '/college/insert/id'
     static InsertAdmin = this.header + "/admin/insert"
+    static InsertClass = this.header + "/class/insert"
 
     static getImage(url) {
         return URL.GetImage + "/" + url
@@ -139,4 +141,8 @@ function request_su(url, body, callback, headers = default_headers) {
             callback(status, result)
         })
     })
+}
+
+function alert(content) {
+    console.log(content)
 }
