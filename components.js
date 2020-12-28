@@ -121,10 +121,9 @@ Vue.component('app', {
                     <li v-if="state.type.role === 'su'"><a href="#dropDown3" aria-expanded="false" data-toggle="collapse">
                         <i class="icon-interface-windows"></i>超级管理</a>
                         <ul id="dropDown3" class="collapse list-unstyled">
-                            <!-- 管理专业和班级由管理学院进入 -->
-                            <li :class="info.menu === 'admin_teacher' ? 'active': ''"><a href="admin_add_teacher.html">管理教师</a>
+                            <li :class="info.menu === 'admin_teacher' ? 'active': ''"><a href="admin_add_teacher.html">添加教师</a>
                             </li>
-                            <li :class="info.menu === 'admin_student' ? 'active' : ''"><a href="adminStudent.html">管理学生</a>
+                            <li :class="info.menu === 'admin_student' ? 'active' : ''"><a href="adminStudent.html">添加学生</a>
                             </li>
                             <li :class="info.menu === 'admin_class' ? 'active': ''"><a href="admin_add_class.html">添加班级</a>
                             </li>
