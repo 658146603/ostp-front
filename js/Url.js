@@ -143,6 +143,3 @@ function request_su(url, body, callback, headers = default_headers) {
     })
 }
 
-function alert(content) {
-    console.log(content)
-}

@@ -30,7 +30,7 @@
 <script src="template/vendor/chart.js/Chart.min.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
 <script type="text/javascript">
-
+    window.uuid = null
     function upload() {
         let url = URL.PutImage
         let formData = new FormData();
@@ -59,7 +59,10 @@
         let book_name = $('.book-name').val()
         let isbn = $('.ISBN').val()
         let price = $('.price').val()
+        if(window.uuid===null) {alert("请选择书籍");return }
+
         let body = `isbn=${isbn}&price=${Math.round(price * 100)}&name=${book_name}&cover=${uuid}`
+
         request_su(URL.InsertBook, body, (status, result) => {
             if (status === 200 && result.code === 200) {
                 alert("添加成功")
@@ -196,8 +199,8 @@
             },
             // 用于存储app的信息
             info: {
-                title: '添加课程',
-                menu: common.add_course
+                title: '添加书籍',
+                menu: common.add_book
             },
             // 添加其他需要存储的数据
         },
