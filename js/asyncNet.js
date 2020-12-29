@@ -41,7 +41,7 @@ class asyncNet {
     }
 
     async appState() {
-        let res = await this.request(URL.getLoginStatus, '')
+        let res = await this.request(URL.getLoginStatus, '', true)
         if (res.code === 200) {
             this._state.user = res.data
             this._state.status = true
@@ -51,7 +51,7 @@ class asyncNet {
     }
 
 
-    async request(url, body = '') {
+    async request(url, body = '', exceptUpdate = false) {
         let formRequest = new Request(url, {
             method: 'post',
             credentials: 'include',
@@ -62,7 +62,9 @@ class asyncNet {
         })
         let res = await fetch(formRequest)
         let result = await res.json()
-        this._update(result)
+        if (!exceptUpdate) {
+            this._update(result)
+        }
         return result
     }
 

@@ -74,7 +74,7 @@ Vue.component('app', {
                     <!--如果-->
                     <div v-if="state.status" class="title">
                         <h1 class="h4">{{ state.type.display }}</h1>
-                        <p>{{ state.type.role_display }} <span v-if="state.type.role === 'student'">\${{ state.user.balance / 100 }}</span></p>
+                        <p>{{ state.type.role_display }}<span v-if="state.type.role === 'student'">\${{ state.user.balance / 100 }}</span></p>
                     </div>
                     <div v-else class="title">
                         <h1 class="h4">未登录</h1>

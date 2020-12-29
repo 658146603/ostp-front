@@ -75,6 +75,24 @@
     <section class="projects no-padding-top">
         <student-book v-for="book in books" :model="searchModel" :book="book"></student-book>
     </section>
+    <div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">订单异常</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ searchModel.errorMsg }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </app>
 <!-- JavaScript files-->
 <script src="template/vendor/jquery/jquery.min.js"></script>
@@ -106,7 +124,10 @@
 						} else {
 							this.book.orderState = 0
 						}
-					}
+					} else {
+						this.model.errorMsg = res.message
+                        $('#bookModal').modal()
+                    }
 				}
 				this.book.searching = false
 				this.$forceUpdate()
@@ -172,6 +193,7 @@
 				year: 2020,
 				semester: 1,
 				searching: false,
+                errorMsg: ''
 			},
 			books: [
 				// {
@@ -195,8 +217,11 @@
 				app.state = await net.appState()
 				await app.searchBook()
 			},
-			stateChanged: function (state) {
-				app.state = state
+			stateChanged: async function (state) {
+				// update the balance by internet
+                app.state = state
+				let st = await net.appState()
+                app.state.user.balance = st.user.balance
 			},
 			searchBook: async function () {
 				this.searchModel.searching = true;

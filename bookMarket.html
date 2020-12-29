@@ -586,8 +586,11 @@
                 app.searchSecondHand().then()
 
             },
-            stateChanged: function (state) {
+            stateChanged: async function (state) {
+				// update the balance by internet
                 app.state = state
+				let st = await net.appState()
+				app.state.user.balance = st.user.balance
             },
         }
     })
