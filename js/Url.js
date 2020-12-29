@@ -99,6 +99,7 @@ class URL {
     static GetClassListByCollegeId = this.header + "/class/fetch_college"
 
     static ExportBookAndSetReceived = this.header + "/book/order/export"
+    static ExportBookFromTeacherRequest = this.header + "/book/request/export"
 
     static getImage(url) {
         return URL.GetImage + "/" + url
