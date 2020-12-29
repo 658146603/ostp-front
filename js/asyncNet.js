@@ -50,6 +50,10 @@ class asyncNet {
         return this._copyState()
     }
 
+    loadFinish() {
+        this._state.tip = ''
+        return this._state
+    }
 
     async request(url, body = '', exceptUpdate = false) {
         let formRequest = new Request(url, {

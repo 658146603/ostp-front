@@ -114,7 +114,7 @@
             // 用于存储app的信息
             info: {
                 title: '添加专业',
-                menu: common.admin_major
+                menu: common.admin_add_major
             },
             // 添加其他需要存储的数据
             college: {
@@ -143,6 +143,7 @@
                 request(URL.ListCollege, "", res => {
                     app.college_list = res.data
                 })
+                app.state = net.loadFinish()
             },
             stateChanged: function (state) {
                 app.state = state

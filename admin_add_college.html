@@ -118,7 +118,7 @@
             // 用于存储app的信息
             info: {
                 title: '添加学院',
-                menu: common.add_college
+                menu: common.admin_add_college
             },
             // 添加其他需要存储的数据
             college: {
@@ -139,6 +139,7 @@
                     alert("仅限系统管理员访问")
                     window.location.assign("index.html")
                 }
+                app.state = net.loadFinish()
             },
             stateChanged: function (state) {
                 app.state = state

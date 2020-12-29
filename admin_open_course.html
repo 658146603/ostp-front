@@ -181,7 +181,7 @@
             // 用于存储app的信息
             info: {
                 title: '开设课程',
-                menu: common.open_course
+                menu: common.admin_open_course
             },
             // 添加其他需要存储的数据
             course_open: {
@@ -228,6 +228,7 @@
                     alert("仅限学院管理员访问")
                     window.location.assign("index.html")
                 }
+                net.loadFinish()
             },
             stateChanged: function (state) {
                 app.state = state

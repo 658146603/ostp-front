@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8">
@@ -266,7 +267,7 @@
             // 用于存储app的信息
             info: {
                 title: '添加课程',
-                menu: common.add_course
+                menu: common.admin_add_course
             },
             // 添加其他需要存储的数据
         },
@@ -279,7 +280,7 @@
                     alert("仅限学院管理员访问")
                     window.location.assign("index.html")
                 }
-
+                net.loadFinish()
             },
             stateChanged: function (state) {
                 app.state = state
