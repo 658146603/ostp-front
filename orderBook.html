@@ -73,7 +73,7 @@
     </section>
     <!-- Content -->
     <section class="projects no-padding-top">
-        <book v-for="book in books" :book="book"></book>
+        <student-book v-for="book in books" :model="searchModel" :book="book"></student-book>
     </section>
 </app>
 <!-- JavaScript files-->
@@ -82,8 +82,6 @@
 <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="template/js/charts-home.js"></script>
-<!-- Main File-->
 <script src="template/js/front.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="components.js"></script>
@@ -94,13 +92,13 @@
 	/**
 	 * book component
 	 */
-	Vue.component('book', {
-		props: ['book'],
+	Vue.component('student-book', {
+		props: ['book', 'model'],
 		methods: {
 			order: async function () {
 				this.searching = true;
 				if (this.book.state === 1 || this.book.state === 2) {
-					let res = await net.orderBookStu(this.book.book.isbn)
+					let res = await net.orderBookStu(this.book.book.isbn, this.model.year, this.model.semester)
 					if (res.code === 200) {
 						if (this.book.state === 1) {
 							this.book.state = 2
@@ -205,10 +203,15 @@
 			},
 			searchBook: async function () {
 				this.searchModel.searching = true;
-				let res = await net.searchBookStu(app.searchModel.name, app.searchModel.course)
+				let res = await net.searchBookStu(
+					app.searchModel.name,
+                    app.searchModel.course,
+                    app.searchModel.year,
+                    app.searchModel.semester
+                )
 				if (res.code === 200) {
 					console.log(app.searchModel)
-					app.books = convert.filter_books(res.data, app.searchModel.year, app.searchModel.semester)
+					app.books = res.data
 					convert.books(app.books)
 					convert.books2(app.books, app.state.user)
                     console.log(app.books)

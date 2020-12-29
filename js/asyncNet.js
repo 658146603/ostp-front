@@ -66,16 +66,16 @@ class asyncNet {
         return result
     }
 
-    async searchBookStu(name = '', course = '') {
-        return this.request(URL.SearchBookStu, `name=${name}&course=${course}`)
+    async searchBookStu(name = '', course = '', year = 2020, semester = 1) {
+        return this.request(URL.SearchBookStu, `name=${name}&course=${course}&year=${year}&semester=${semester}`)
     }
 
     async searchBookTeacher(name = '', course = '') {
         return this.request(URL.SearchBookTeacher, `name=${name}&course=${course}`)
     }
 
-    async orderBookStu(isbn) {
-        return this.request(URL.OrderBookStu, `isbn=${isbn}`)
+    async orderBookStu(isbn, year, semester) {
+        return this.request(URL.OrderBookStu, `isbn=${isbn}&year=${year}&semester=${semester}`)
     }
 
     // Obsoleted
