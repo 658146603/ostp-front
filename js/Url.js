@@ -5,8 +5,7 @@ class URL {
     static port = "8082"
     static path = ""
     static header = this.protocol + this.host + ":" + this.port + this.path
-
-
+    // static header = "https://api.otsp.top:8082"
     static StudentHeader = this.header + "/student"
 
     static InsertBook = this.header + "/book/insert"
@@ -96,7 +95,7 @@ class URL {
     static InsertCollegeThenGetId = this.header + '/college/insert/id'
     static InsertAdmin = this.header + "/admin/insert"
     static InsertClass = this.header + "/class/insert"
-    static selectClassByMajor = this.header+"/class/selectByMajor"
+    static selectClassByMajor = this.header + "/class/selectByMajor"
     static GetClassListByCollegeId = this.header + "/class/fetch_college"
 
     static ExportBookAndSetReceived = this.header + "/book/order/export"
@@ -149,4 +148,3 @@ function request_su(url, body, callback, headers = default_headers) {
         })
     })
 }
-
