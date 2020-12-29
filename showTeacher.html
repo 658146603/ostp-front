@@ -33,7 +33,7 @@
                 <li class="breadcrumb-item active">{{ college?.name }}</li>
             </ul>
         </div>
-        <div class="col-lg-2" v-if="state.type.role === 'admin'">
+        <div class="col-lg-2" v-if="state.type.role === 'admin'" v-on:click="export_request_list">
             <div class="btn btn-primary btn-sm col">
                 导出订书列表
             </div>
@@ -49,9 +49,7 @@
 <script src="template/vendor/popper.js/umd/popper.min.js"></script>
 <script src="template/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="template/vendor/jquery.cookie/jquery.cookie.js"></script>
-<script src="template/vendor/chart.js/Chart.min.js"></script>
 <script src="template/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="template/js/charts-home.js"></script>
 <!-- Main File-->
 <script src="template/js/front.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -128,6 +126,9 @@
 			stateChanged: function (state) {
 				app.state = state
 			},
+            export_request_list: function () {
+                window.location = `${URL.ExportBookFromTeacherRequest}/${app.college.id}?received=true`
+            }
 		}
 	})
 
