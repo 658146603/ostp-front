@@ -80,6 +80,11 @@ class asyncNet {
         return this.request(URL.SearchBookTeacher, `name=${name}&course=${course}&year=${year}&semester=${semester}`)
     }
 
+    async searchBookAdmin(name = '', course = '', year = 2020, semester = 1) {
+        return this.request(URL.SearchBookAdmin, `name=${name}&course=${course}&year=${year}&semester=${semester}`)
+    }
+
+
     async orderBookStu(isbn, year, semester) {
         return this.request(URL.OrderBookStu, `isbn=${isbn}&year=${year}&semester=${semester}`)
     }

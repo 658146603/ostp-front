@@ -14,6 +14,7 @@ class URL {
     static SearchBook = this.header + "/book/search"
     static SearchBookStu = this.header + "/book/search_stu"
     static SearchBookTeacher = this.header + "/book/search_teacher"
+    static SearchBookAdmin = this.header + "/book/search_admin"
     static OrderBookStu = this.header + "/book/order_stu"
     static OrderBookTeacher = this.header + "/book/order_teacher"
     static DeleteBook = this.header + "/book/delete"
