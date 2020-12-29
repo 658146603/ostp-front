@@ -29,14 +29,14 @@
     <div class="breadcrumb-holder container-fluid form-inline">
         <div class="col-lg-10">
             <ul class="breadcrumb align-items-center">
-                <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a> </li>
-                <li class="breadcrumb-item"><a :href="'adminMajor.html#id=' + clazz.major.college.id">{{ clazz.major.college.name }}</a> </li>
-                <li class="breadcrumb-item"><a :href="'adminClass.html#id=' + clazz.major.id">{{ clazz.major.name }}({{ clazz.major.year }})</a></li>
+                <li class="breadcrumb-item"><a href="adminCollege.html">浙江工业大学</a></li>
+                <li class="breadcrumb-item"><a :href="'adminMajor.html#id=' + clazz.major.college.id">{{ clazz.major.college.name }}</a></li>
+                <li class="breadcrumb-item"><a :href="'adminClass.html#id=' + clazz.major.id">{{ clazz.major.name}}({{ clazz.major.year }})</a></li>
                 <li class="breadcrumb-item">{{ clazz.name }}</li>
             </ul>
         </div>
         <div class="col-lg-2" v-if="state.type.role === 'admin'">
-            <div class="btn btn-primary btn-sm col">
+            <div class="btn btn-primary btn-sm col" v-on:click="export_and_set_received">
                 导出订书列表
             </div>
         </div>
@@ -59,9 +59,9 @@
 <script src="js/common.js"></script>
 <script src="js/asyncNet.js"></script>
 <script>
-	Vue.component('student', {
-		props: ['student', 'state'],
-		template: `
+    Vue.component('student', {
+        props: ['student', 'state'],
+        template: `
           <div class="container-fluid">
           <div class="project">
             <div class="row bg-white has-shadow">
@@ -82,28 +82,28 @@
             </div>
           </div>
           </div>`
-	})
+    })
 
-	let app = new Vue({
-		el: '#app',
-		data: {
-			// 用于存储用户的状态
-			state: common.defaultAppState(),
-			// 用于存储app的信息
-			info: {
-				title: '学生信息',
-				menu: common.admin_college
-			},
-			// 添加其他需要存储的数据
+    let app = new Vue({
+        el: '#app',
+        data: {
+            // 用于存储用户的状态
+            state: common.defaultAppState(),
+            // 用于存储app的信息
+            info: {
+                title: '学生信息',
+                menu: common.admin_college
+            },
+            // 添加其他需要存储的数据
             clazz: {
-				id: 0,
+                id: 0,
                 name: '某班级',
                 major: {
-					id: 0,
+                    id: 0,
                     name: '某专业',
                     year: 2020,
                     college: {
-						id: 0,
+                        id: 0,
                         name: '某学院'
                     }
                 }
@@ -114,34 +114,36 @@
                     name: '一东大师',
                     email: 'yidong@zjut.edu.cn'
                 }
-			]
-		},
+            ]
+        },
 
-		methods: {
-			init: async function () {
-				net.addWatcher(app.stateChanged)
-				app.state = await net.appState()
-				// 添加初始化代码
-				app.clazz.id = common.getHashDic(window).id
+        methods: {
+            init: async function () {
+                net.addWatcher(app.stateChanged)
+                app.state = await net.appState()
+                // 添加初始化代码
+                app.clazz.id = common.getHashDic(window).id
                 let resClazz = await net.getClazz(app.clazz.id)
-                if (resClazz.code === 200){
-                	app.clazz = resClazz.data
+                if (resClazz.code === 200) {
+                    app.clazz = resClazz.data
                 }
                 let resStudents = await net.selectStudentByClazz(app.clazz.id);
                 if (resStudents.code === 200) {
-                	app.students = resStudents.data
+                    app.students = resStudents.data
                 }
-			},
-			stateChanged: function (state) {
-				app.state = state
-			},
+            },
+            stateChanged: function (state) {
+                app.state = state
+            },
+            export_and_set_received: function () {
+                window.location = `${URL.ExportBookAndSetReceived}/${app.clazz.id}?received=true`
+            }
+        }
+    })
 
-		}
-	})
-
-	window.addEventListener('load', () => {
-		app.init();
-	});
+    window.addEventListener('load', () => {
+        app.init();
+    });
 </script>
 </body>
 </html>

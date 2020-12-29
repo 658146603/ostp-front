@@ -342,6 +342,12 @@
                 console.log(`${app.course_open.teacher.name}(${app.course_open.teacher.id})`)
                 this.invalid($('#input_teacher'))
                 if (app.state.status === true) {
+                    if (app.course_open.teacher.name === '') {
+                        app.fuzzy_list.teacher_open = false
+                        app.fuzzy_list.teacher = null
+                        app.course_open.teacher.id = ''
+                        return
+                    }
                     request_su(URL.FuzzyTeacher, `name=${app.course_open.teacher.name}`, (status, result) => {
                         if (status === 200 && result.code === 200 && result.data.length > 0) {
                             app.fuzzy_list.teacher_open = true

@@ -97,6 +97,8 @@ class URL {
     static selectClassByMajor = this.header+"/class/selectByMajor"
     static GetClassListByCollegeId = this.header + "/class/fetch_college"
 
+    static ExportBookAndSetReceived = this.header + "/book/order/export"
+
     static getImage(url) {
         return URL.GetImage + "/" + url
     }
