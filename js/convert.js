@@ -9,6 +9,7 @@ class convert {
      */
     static books(books) {
         books.forEach((book) => {
+            book.searching = false
             book.book.cover = URL.getImage(book.book.cover)
             book.book.price = book.book.price / 100
         })
@@ -44,39 +45,6 @@ class convert {
     static classes(classes) {
         classes.forEach((clazz) => {
             clazz.canDelete = clazz.studentCount === 0
-        })
-    }
-
-    /**
-     * 分析book中与用户相关的数据
-     * @param books
-     * @param student
-     */
-    static books2(books, student) {
-        books.forEach((book) => {
-            book.courseOpensRelated = book.courseOpens.filter((co) =>
-                student.clazz.major.id === co.course.major.id
-            )
-            book.canOrdered = book.courseOpensRelated.length !== 0
-            book.received = false
-            book.ordersRelated = book.orders.filter((order) => {
-                if (student.id === order.student.id && order.received) {
-                    book.received = true
-                }
-                return student.id === order.student.id
-            })
-
-
-            book.isOrdered = book.ordersRelated.length !== 0
-            if (book.received){
-                book.state = 3
-            } else if (book.canOrdered && book.isOrdered) {
-                book.state = 2
-            } else if (book.canOrdered) {
-                book.state = 1
-            } else {
-                book.state = 0
-            }
         })
     }
 

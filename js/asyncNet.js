@@ -70,12 +70,16 @@ class asyncNet {
         return this.request(URL.SearchBookStu, `name=${name}&course=${course}&year=${year}&semester=${semester}`)
     }
 
-    async searchBookTeacher(name = '', course = '') {
-        return this.request(URL.SearchBookTeacher, `name=${name}&course=${course}`)
+    async searchBookTeacher(name = '', course = '', year = 2020, semester = 1) {
+        return this.request(URL.SearchBookTeacher, `name=${name}&course=${course}&year=${year}&semester=${semester}`)
     }
 
     async orderBookStu(isbn, year, semester) {
         return this.request(URL.OrderBookStu, `isbn=${isbn}&year=${year}&semester=${semester}`)
+    }
+
+    async orderBookTeacher(isbn, year, semester) {
+        return this.request(URL.OrderBookTeacher, `isbn=${isbn}&year=${year}&semester=${semester}`)
     }
 
     // Obsoleted

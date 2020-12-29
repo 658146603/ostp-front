@@ -74,7 +74,7 @@
         </div>
     </section>
     <section class="books no-padding-top">
-        <book v-for="book in books" :book="book"></book>
+        <teacher-book v-for="book in books" :book="book" :model="searchModel"></teacher-book>
     </section>
 </app>
 <!-- JavaScript files-->
@@ -96,23 +96,20 @@
 	/**
 	 * book component
 	 */
-	Vue.component('book', {
-		props: ['book'],
+	Vue.component('teacher-book', {
+		props: ['book', 'model'],
 		methods: {
 			order: async function () {
-				this.searching = true;
-				if (this.book.state === 1 || this.book.state === 2) {
-					let res = await net.orderBookStu(this.book.book.isbn)
-					if (res.code === 200) {
-						if (this.book.state === 1) {
-							this.book.state = 2
-						} else {
-							this.book.state = 1
-						}
-					}
-				}
+				this.book.searching = true;
 				this.$forceUpdate()
-				this.searching = false
+				if (this.book.orderState === 0){
+                    let res = await net.orderBookTeacher(this.book.book.isbn, this.model.year, this.model.semester)
+                    if (res.code === 200) {
+                    	this.book.orderState = 1
+                    }
+                }
+				this.book.searching = false
+				this.$forceUpdate()
 			}
 		},
 		template: `
@@ -142,7 +139,12 @@
                 </div>
               </div>
               <div class="right-col col-lg-2 d-flex align-items-center justify-content-center">
-
+                <button v-if="book.orderState === 0" class="btn btn-primary btn-block" v-on:click="order" :disabled="book.searching">
+                  领取
+                </button>
+                <button v-else-if="book.orderState === 1" class="btn btn-outline-primary btn-block" disabled>
+                  已领取
+                </button>
               </div>
             </div>
           </div>
@@ -188,10 +190,15 @@
 		methods: {
 			searchBook: async function() {
 				this.searchModel.searching = true;
-				let res = await net.searchBookTeacher(app.searchModel.name, app.searchModel.course)
+				let res = await net.searchBookTeacher(
+					app.searchModel.name,
+                    app.searchModel.course,
+                    app.searchModel.year,
+                    app.searchModel.semester
+                )
 				if (res.code === 200) {
 					console.log(app.searchModel)
-					app.books = convert.filter_books(res.data, app.searchModel.year, app.searchModel.semester)
+                    app.books = res.data
 					convert.books(app.books)
 					console.log(app.books)
 				}
