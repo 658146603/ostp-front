@@ -266,10 +266,10 @@
                 this.invalid($('#input_course'))
                 if (app.state.status === true) {
                     request_su(URL.FuzzyCourseWithMajor, `major=${app.course_open.major.id}&name=${app.course_open.course.name}`, (status, result) => {
-                        if (status === 200 && result.code === 200 && result.data.length > 0) {
+                        if (status === 200 && result.code === 200 && result.data.length > 0 && result.data[0].name.includes(app.course_open.course.name)) {
                             app.fuzzy_list.course_open = true
                             app.fuzzy_list.course = result.data.slice(0, 10)
-                        } else {
+                        } else if (status === 200 && result.code === 200 && result.data.length > 0) {} else {
                             app.fuzzy_list.course_open = false
                             app.fuzzy_list.course = null
                             app.course_open.course.id = ''
@@ -320,9 +320,10 @@
                 console.log(`${app.course_open.book.name}(${app.course_open.book.isbn})`)
                 if (app.state.status === true) {
                     request_su(URL.FuzzyBook, `name=${app.course_open.book.name}`, (status, result) => {
-                        if (status === 200 && result.code === 200 && result.data.length > 0) {
+                        if (status === 200 && result.code === 200 && result.data.length > 0 && result.data[0].name.includes(app.course_open.book.name)) {
                             app.fuzzy_list.book_open = true
                             app.fuzzy_list.book = result.data.slice(0, 10)
+                        } else if (status === 200 && result.code === 200 && result.data.length > 0) {
                         } else {
                             app.fuzzy_list.book_open = false
                             app.fuzzy_list.book = null
